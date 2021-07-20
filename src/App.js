@@ -1,5 +1,12 @@
+import MyCalendar from "../src/Components/Calendar/CalendarInfo";
+
 function App() {
-    return <h1>WALK MY DOG</h1>;
+    return (
+        <>
+            <MyCalendar />
+            <h1>WALK MY DOG</h1>;
+        </>
+    );
 }
 
 export default App;

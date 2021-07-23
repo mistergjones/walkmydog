@@ -7,7 +7,7 @@ const HeaderNavigation = (props) => {
     return (
         <div className="navigation">
             <ul>
-                {props.isLoggedIn && (
+                {/* {props.isLoggedIn && (
                     <li>
                         <a href="/">Walkers</a>
                     </li>
@@ -16,10 +16,17 @@ const HeaderNavigation = (props) => {
                     <li>
                         <a href="/Owners">Owners</a>
                     </li>
-                )}
+                )} */}
                 <li>
                     <a href="/">Home</a>
                 </li>
+                <li>
+                    <a href="/">Walkers</a>
+                </li>
+                <li>
+                    <a href="/Owners">Owners</a>
+                </li>
+
                 <li>
                     <a href="/FAQ">FAQ</a>
                 </li>

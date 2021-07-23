@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
-import Header from "../Components/MainHeader/MainHeader";
 import "./NewListings.css";
 import JobScroll from "../Components/Jobs/JobScroll";
 import axios from "axios";
+import Chart from "../Components/History/Chart";
 
 const NewListings = () => {
     const [bookings, setBookings] = useState([]);
@@ -25,11 +25,12 @@ const NewListings = () => {
     }, []);
 
     return (
-        <>
-            <Header />
-            <h1>New Listings</h1>
-            <JobScroll data={bookings} />
-        </>
+        <div className="new-listing-container">
+            <div className="flex-container">
+                <JobScroll data={bookings} />
+                <Chart />
+            </div>
+        </div>
     );
 };
 

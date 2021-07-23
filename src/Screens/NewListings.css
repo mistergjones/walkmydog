@@ -1,0 +1,9 @@
+.flex-container {
+    display: flex;
+    border: 3px solid blue;
+    height: 100%;
+}
+
+.new-listing-container {
+    height: 100%;
+}

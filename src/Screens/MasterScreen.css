@@ -1,0 +1,23 @@
+.master-screen-container {
+    height: 100vh;
+}
+
+.header-container {
+    height: 10vh;
+    width: 100%;
+}
+
+.master-screen-heading {
+    text-align: center;
+    height: 5vh;
+}
+
+.content-container {
+    height: 75vh;
+    width: 100%;
+}
+
+.footer-container {
+    height: 10vh;
+    width: 100%;
+}

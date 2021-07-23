@@ -1,13 +1,18 @@
 .job-scroll-container {
-    height: 50vh;
+    height: 100%;
     width: 50vw;
     border: 3px solid red;
     overflow: scroll;
 }
 
 .job-scroll-list-container {
-    background-color: red;
+    height: 100%;
+    /* background-color: lightblue; */
     display: flex;
     flex-direction: row;
     justify-content: space-around;
+}
+
+.job-scroll-list-container p {
+    border: 3px solid black;
 }

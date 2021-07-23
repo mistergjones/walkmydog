@@ -1,15 +1,21 @@
-import MyCalendar from "../src/Components/Calendar/CalendarInfo";
-import MainHeader from "../src/Components/MainHeader/MainHeader";
-import NewListings from "../src/Screens/NewListings";
+import NewListingScreen from "../src/Screens/NewListingScreen";
+import HomeScreen from "./Screens/HomeScreen";
+
+import {
+    Route,
+    NavLink,
+    Switch,
+    BrowserRouter as Router,
+} from "react-router-dom";
 
 function App() {
     return (
-        <>
-            <NewListings />
-            {/* <MainHeader /> */}
-            {/* <MyCalendar /> */}
-            {/* <h1>WALK MY DOG</h1> */}
-        </>
+        <Router>
+            <Switch>
+                <Route path="/newlisting" component={NewListingScreen} />
+                <Route exact path="/" component={HomeScreen} />
+            </Switch>
+        </Router>
     );
 }
 

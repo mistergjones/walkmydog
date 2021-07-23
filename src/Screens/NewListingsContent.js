@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
-import "./NewListings.css";
+import "./NewListingsContent.css";
 import JobScroll from "../Components/Jobs/JobScroll";
 import axios from "axios";
 import Chart from "../Components/History/Chart";
 
-const NewListings = () => {
+const NewListingsContent = () => {
     const [bookings, setBookings] = useState([]);
 
     const requestData = async () => {
@@ -34,4 +34,4 @@ const NewListings = () => {
     );
 };
 
-export default NewListings;
+export default NewListingsContent;

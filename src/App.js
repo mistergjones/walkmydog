@@ -1,5 +1,5 @@
-import NewListingScreen from "../src/Screens/NewListingScreen";
-import HomeScreen from "./Screens/HomeScreen";
+import NewListingScreen from "./Screens/NewListingsScreen";
+import HomeScreen from "./Screens/HeaderPages/HomeScreen";
 
 import {
     Route,
@@ -12,7 +12,7 @@ function App() {
     return (
         <Router>
             <Switch>
-                <Route path="/newlisting" component={NewListingScreen} />
+                <Route path="/newlistings" component={NewListingScreen} />
                 <Route exact path="/" component={HomeScreen} />
             </Switch>
         </Router>

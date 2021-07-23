@@ -1,5 +1,5 @@
 import React from "react";
-import MasterScreen from "./MasterScreen";
+import MasterScreen from "../Master/MasterScreen";
 import HomeContent from "./HomeContent";
 
 function HomeScreen(props) {

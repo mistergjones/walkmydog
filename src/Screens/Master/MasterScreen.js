@@ -1,6 +1,6 @@
 import React from "react";
-import Header from "../Components/MainHeader/MainHeader";
-import Footer from "../Components/MainFooter/MainFooter";
+import Header from "../../Components/MainHeader/MainHeader";
+import Footer from "../../Components/MainFooter/MainFooter";
 import "./MasterScreen.css";
 
 function MasterScreen({ ScreenComponent, heading }) {

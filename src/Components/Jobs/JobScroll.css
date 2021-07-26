@@ -8,11 +8,24 @@
 .job-scroll-list-container {
     height: 100%;
     /* background-color: lightblue; */
-    display: flex;
+    /* display: flex;
     flex-direction: row;
-    justify-content: space-around;
+    justify-content: space-around; */
+
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+    grid-column-gap: 10px;
+    grid-row-gap: 20px;
+    justify-items: centre;
+    align-items: center;
+}
+
+.job-scroll-list-container h4 {
+    text-align: center;
+    border: 1px solid lightgrey;
 }
 
 .job-scroll-list-container p {
-    border: 3px solid black;
+    border: 1px solid lightgrey;
+    text-align: center;
 }

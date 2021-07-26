@@ -12,6 +12,14 @@ const JobScroll = ({ data }) => {
     return (
         <div className="job-scroll-container">
             <ul>
+                <div className="job-scroll-list-container">
+                    <h4>Date</h4>
+                    <h4>Start time</h4>
+                    <h4>Suburb</h4>
+                    <h4>Service</h4>
+                    <h4>Dog name</h4>
+                    <h4>Payment</h4>
+                </div>
                 {finalisedData.map((booking, idx) => (
                     <div className="job-scroll-list-container" key={idx}>
                         <p>{booking.date}</p>

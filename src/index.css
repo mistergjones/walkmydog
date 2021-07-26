@@ -18,3 +18,15 @@ code {
     font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
         monospace;
 }
+
+/* CSS FOR SUBMIT FORMS / OTHER FORMS */
+.input.form-control,
+input.form-control:focus {
+    background: #f0f0ff;
+}
+
+.error {
+    position: absolute;
+    color: red;
+    font-size: 0.7rem;
+}

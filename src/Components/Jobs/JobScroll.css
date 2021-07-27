@@ -1,31 +1,72 @@
 .job-scroll-container {
+    display: flex;
     height: 100%;
-    width: 50vw;
+    width: 70vw;
     border: 3px solid red;
     overflow: scroll;
+    padding: 1vw;
 }
 
 .job-scroll-list-container {
     height: 100%;
-    /* background-color: lightblue; */
-    /* display: flex;
+    width: 100%;
+    display: flex;
     flex-direction: row;
-    justify-content: space-around; */
 
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
-    grid-column-gap: 10px;
-    grid-row-gap: 20px;
-    justify-items: centre;
-    align-items: center;
 }
 
-.job-scroll-list-container h4 {
-    text-align: center;
-    border: 1px solid lightgrey;
+.job-scroll-list-container  {
+    border: 3px solid black;
 }
 
-.job-scroll-list-container p {
-    border: 1px solid lightgrey;
-    text-align: center;
+th {
+  text-align: center;
+  padding: 0.5rem;
+}
+td {
+  /* background: grey; */
+  /* width: 100%; */
+  text-align: center;
+}
+
+.tbl--block {
+  background-color: #741188;
+  /* opacity: 0.8; */
+  margin: 0 auto;
+  padding: 1rem;
+  border: 2px solid #7b228d;
+  border-radius: .5rem;
+  width: 100%;
+  margin: 5vh auto;
+  color: white;
+}
+.tbl {
+  /* border-radius: 2rem; */
+  border-collapse: collapse;
+  font-size: 1.1rem;
+  line-height: 2rem;
+  width: 100%;
+ 
+}
+
+.tbl tr {
+  transition: background 0.3s;
+  border-bottom: 2px solid #7b228d;
+  width: 100%;
+}
+
+.listings-table-data tr:hover {
+  background: #7b228d;;
+}
+
+.listings-table-data td a {
+  display: flex;
+  text-decoration: none;
+  padding: 0.3rem;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+  color: #fff;
+  overflow: hidden;
+  justify-content: center;
 }

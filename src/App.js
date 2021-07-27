@@ -7,7 +7,6 @@ import SignUpScreen from "./Screens/HeaderPages/SignUpScreen";
 
 import {
     Route,
-    NavLink,
     Switch,
     BrowserRouter as Router,
 } from "react-router-dom";

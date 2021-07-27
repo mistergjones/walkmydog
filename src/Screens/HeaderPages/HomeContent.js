@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 
 import "./HomeContent.css";
-import useApi from '../hooks/useApi';
-import bookingsApi from "../api/bookings";
+import useApi from '../../hooks/useApi';
+import bookingsApi from "../../api/bookings";
 
 function HomeContent(props) {
     const [bookingId, setBookingId] = useState(useLocation().pathname.substr(1, 3));

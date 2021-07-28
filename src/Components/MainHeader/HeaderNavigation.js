@@ -21,7 +21,7 @@ const HeaderNavigation = (props) => {
                     <a href="/">Home</a>
                 </li>
                 <li>
-                    <a href="/">Walkers</a>
+                    <a href="/Walkers">Walkers</a>
                 </li>
                 <li>
                     <a href="/Owners">Owners</a>

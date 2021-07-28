@@ -7,7 +7,7 @@ function TextField({ label, ...props }) {
     // meta contains the values and in-build function calls
     const [field, meta] = useField(props);
     // console.log("Field is: ", field);
-    console.log("Meta is: ", meta);
+    // console.log("Meta is: ", meta);
     // console.log("Props are: ", props);
     return (
         <div className="mb-2">

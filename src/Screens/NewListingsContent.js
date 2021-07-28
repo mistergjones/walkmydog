@@ -2,11 +2,13 @@ import React, { useEffect, useState } from "react";
 import "./NewListingsContent.css";
 import JobScroll from "../Components/Jobs/JobScroll";
 import Chart from "../Components/History/Chart";
-import useApi from '../hooks/useApi';
-import bookingsApi from "../api/bookings";
+import useApi from "../../src/Hooks/useApi";
+import bookingsApi from "../../src/api/bookings";
 
 const NewListingsContent = () => {
-    const { data: bookings, error, loading, request: getBookings } = useApi(bookingsApi.getBookings);
+    const { data: bookings, error, loading, request: getBookings } = useApi(
+        bookingsApi.getBookings
+    );
 
     useEffect(() => {
         getBookings();
@@ -17,11 +19,15 @@ const NewListingsContent = () => {
 
     return (
         <div className="new-listing-container">
-            {error ? <h1>"error"</h1> : loading ? <h1>Loading</h1> :
+            {error ? (
+                <h1>"error"</h1>
+            ) : loading ? (
+                <h1>Loading</h1>
+            ) : (
                 <div className="flex-container">
-                    {bookings && <JobScroll data={bookings} />}
+                    {<JobScroll data={bookings} />}
                     {/* <Chart /> */}
-                </div>}
+                </div>)}
         </div>
     );
 };

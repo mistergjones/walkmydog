@@ -9,6 +9,7 @@
         "apisauce": "^2.1.1",
         "axios": "^0.21.1",
         "beauty-stars": "^1.1.0",
+        "bcryptjs": "^2.4.3",
         "bootstrap": "^5.0.2",
         "formik": "^2.2.9",
         "moment": "^2.29.1",

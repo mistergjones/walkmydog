@@ -8,9 +8,16 @@ const getBooking = (bookingId) => {
     const bookingEndpoint = endpoint + bookingId;
     return client.get(bookingEndpoint);
 }
+
+const getBookingDetails = (bookingId, userType) => {
+    const bookingDetailEndpoint = `${endpoint}${bookingId}/${userType}`
+    return client.get(bookingDetailEndpoint);
+}
+
 export default {
     getBookings,
-    getBooking
+    getBooking,
+    getBookingDetails
 };
 
 

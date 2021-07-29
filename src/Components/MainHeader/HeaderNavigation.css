@@ -1,5 +1,8 @@
 .navigation {
-    /* width: 75%; */
+    width: fit-content;
+    margin-right: 1rem;
+    /* height: 100%;
+        background-color: #741188; */
 }
 
 .navigation ul {
@@ -8,11 +11,12 @@
     list-style: none;
     margin: 0;
     padding: 0;
+    margin-right: 1rem;
 }
 
 .navigation li {
     margin: 0;
-    margin-left: 2rem;
+    margin-left: .5rem;
 }
 
 .navigation a {
@@ -25,7 +29,21 @@
     color: #f3cafb;
 }
 
-.navigation button {
+
+@media screen and (min-width:768px) {
+.navigation li {
+    margin: 0;
+    margin-left: 1rem;
+}
+ 
+}
+
+@media screen and (min-width:1024px) {
+.navigation li {
+    margin-left: 2rem;
+}
+}
+/* .navigation button {
     font: inherit;
     background: #dd0db0;
     border: 1px solid #dd0db0;
@@ -34,8 +52,8 @@
     cursor: pointer;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.26);
     border-radius: 20px;
-}
-
+} */
+/* 
 .navigation button:focus {
     outline: none;
 }
@@ -44,4 +62,4 @@
 .navigation button:active {
     color: #f3cafb;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.26);
-}
+} */

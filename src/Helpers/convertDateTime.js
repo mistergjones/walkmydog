@@ -12,12 +12,12 @@ const convertDateTime = (data) => {
     return formattedData;
 }
 
-// Date stored in US formate reverse the date to be AUS format
-const formatAusDate = (date) => {
-    return date.substr(0, 10).split("-").reverse().join("-");
+// Date stored in US format reverse the date to be AUS format
+export const formatAusDate = (date) => {
+    return date ? date.slice(0, 10).split("-").reverse().join("-") : "NA";
 }
 
-const formatTime12Hour = (time) => {
+export const formatTime12Hour = (time) => {
     return new Date(time * 1000).
         toLocaleString("en-AU", {
             hour: "numeric",

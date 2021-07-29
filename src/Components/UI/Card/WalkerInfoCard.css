@@ -1,0 +1,58 @@
+.suburb {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: .7rem;
+    font-style: italic;
+}
+
+.rating {
+    height: 100%;
+    /* width: 30%; */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: .7rem;
+    font-style: italic; 
+    padding: .5rem;
+}
+.rating li {
+    margin-left: -.85rem;
+}
+
+@media screen and (min-width:500px) {
+    .suburb, .rating {
+        font-size: 1rem;
+    }
+    .avatar-container h4 {
+        font-size: 1.2rem;
+    }
+    .avatar-container h1 {
+    font-size: 2rem;
+}
+}
+
+@media screen and (min-width:768px) {
+   .avatar-container {
+        font-size: 2rem;
+        height: 100%;
+        width: 100%;
+
+    }
+    .image {
+        /* height: 130px;
+        width: 130px; */
+    }
+    .suburb,.rating {
+        font-size: 1.5rem;
+    }
+    .avatar-container h4 {
+        font-size: 1.4rem;
+    }
+    .avatar-container h1 {
+    font-size: 2.5rem;
+}
+}

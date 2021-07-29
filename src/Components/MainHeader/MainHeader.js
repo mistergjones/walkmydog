@@ -4,7 +4,7 @@ import HeaderNavigation from "../MainHeader/HeaderNavigation";
 
 const MainHeader = () => {
     return (
-        <header className="mainHeader">
+        <header className="main-header">
             <h1>Walk My Dog</h1>
             <HeaderNavigation />
         </header>

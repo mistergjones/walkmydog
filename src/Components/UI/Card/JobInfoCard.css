@@ -1,0 +1,128 @@
+.jobinfo-container {
+    display: flex;
+    justify-Content: center;
+    align-Items: center;
+    background-color: #741188;
+    color:white;
+    border-radius: 2.5rem;
+    height: 75%;
+    background-color: #741188;
+    width: 90%;
+    max-width: 600px;
+}
+.jobinfo-container .left-side {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.title {
+    height: 5rem;
+    width: 5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: .7rem;
+    font-style: italic;
+    border: white solid 10px;
+    border-radius: 2.5rem;
+    text-align: center;
+    background-color: white;
+    color: #741188
+
+    
+}
+
+.field {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    font-size: .7rem;
+    font-style: italic;
+    width: 100%;
+
+}
+
+.field h4,.field p {
+    margin: 0;
+    padding: 0;
+}
+
+.field-heading {
+    font-size: .7rem;
+    font-weight: bold;
+}
+
+.jobinfo-button-container {
+    width: 100%;
+    height: 75%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* padding: 2rem; */
+    font-size: .7rem;
+}
+
+.jobinfo-button-container button {
+    width: 80%;
+    height: 20%;
+    border-radius: 15px;
+    color: #741188;
+    font-size: .7rem;
+    /* background-color: white; */
+}
+
+@media screen and (min-width:500px) {
+    .jobinfo-container {
+        height: 90%;
+    }
+
+    .field {
+        font-size: .85rem;
+    }
+    .field-heading {
+        font-size: 1rem;
+    }
+    .jobinfo-button-container button {
+        font-size: 1rem;
+    }
+    .title {
+        height: 7.5rem;
+        width: 7.5rem;
+        border-radius: 3.75rem;
+        font-size: 1rem;
+    }
+}
+
+@media screen and (min-width:768px) {
+    
+    .jobinfo-container {
+        height: 100%;
+        width: 100%;
+    }
+
+    .field {
+        font-size: 1.2rem;
+
+    }
+    .field-heading {
+        font-size: 1.2rem;
+    }
+    .jobinfo-button-container button {
+    font-size: 1.2rem;
+}
+    .title {
+        height: 10rem;
+        width: 10rem;
+        border-radius: 5rem;
+        font-size: 1.2rem;
+    }
+
+}
+@media screen and (min-width:1024px) {
+    .field {
+
+        flex-direction: row;
+        justify-content: space-between;
+    }
+}

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./NewListingsContent.css";
 import JobScroll from "../Components/Jobs/JobScroll";
 import Chart from "../Components/History/Chart";
-import useApi from "../../src/Hooks/useApi";
+import useApi from "../hooks/useApi";
 import bookingsApi from "../../src/api/bookings";
 
 const NewListingsContent = () => {
@@ -27,7 +27,8 @@ const NewListingsContent = () => {
                 <div className="flex-container">
                     {<JobScroll data={bookings} />}
                     {/* <Chart /> */}
-                </div>)}
+                </div>
+            )}
         </div>
     );
 };

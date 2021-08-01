@@ -6,7 +6,7 @@ import TextField from "../UI/TextField/TextField";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
 
-import useApi from "../../Hooks/useApi";
+import useApi from "../../hooks/useApi";
 import usersApi from "../../api/glenusers";
 
 const bcrypt = require("bcryptjs");

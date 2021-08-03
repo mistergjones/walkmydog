@@ -17,6 +17,7 @@
 .navigation li {
     margin: 0;
     margin-left: .5rem;
+    color: white;
 }
 
 .navigation a {

@@ -87,13 +87,13 @@ function LoginForm(props) {
                                     type="password"
                                 />
                                 <button
-                                    className="btn btn-dark btn-mt-3"
+                                    className="btn btn-dark mt-3"
                                     type="submit"
                                 >
                                     Login
                                 </button>
                                 <button
-                                    className="btn btn-danger btn-mt-3"
+                                    className="btn btn-danger mt-3 ms-3"
                                     type="reset"
                                 >
                                     Reset

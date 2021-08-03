@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Redirect } from "react-router-dom";
 import TextField from "../UI/TextField/TextField";
 import "./SignUpForm.css";
@@ -9,8 +9,14 @@ import * as Yup from "yup";
 import useApi from "../../hooks/useApi";
 import usersApi from "../../api/glenusers";
 
+import jwtDecode from "jwt-decode";
+import AuthContext from "../../context/authContext";
+import storageService from "../../storage/localStorage";
+
+
 // This function captures the new user input fields, validates them, hashes the password and inserts in to the database.
 function SignUpForm(props) {
+    const { user, setUser } = useContext(AuthContext);
     const { request: insertUser } = useApi(usersApi.insertUser);
     const [signupSuccess, setSignUpSuccess] = useState(false);
 
@@ -29,10 +35,25 @@ function SignUpForm(props) {
             // hashedPassword: hashedPassword,
             password: formData.password,
             type: formData.type,
-        });
 
-        // if there is an error (i.e. return FALSE and don't ROUTE to another screen. ELSE a success and route elsewhere...)
+            //****JWT TOKEN STUFF */
+            // 5. Insert the data as an object
+            // const response = await insertUser({
+            //     firstname: formData.firstName,
+            //     lastname: formData.lastName,
+            //     email: formData.email,
+            //     hashedPassword: hashedPassword,
+            //     type: 'O'
+        });
+        // const token = response.headers["x-auth-token"];
+        // const userToken = jwtDecode(token);
+        // storageService.setToken(token);
+        // setUser(userToken);
+
         return didInsertWork.error ? false : true;
+        // return userToken ? true : false;
+        // if there is an error (i.e. return FALSE and don't ROUTE to another screen. ELSE a success and route elsewhere...)
+        // return response.data.error ? false : true;
     };
 
     // establish the error checking rules and messages with YUP
@@ -60,9 +81,9 @@ function SignUpForm(props) {
 
     return (
         <>
-            {signupSuccess ? (
-                <Redirect to="/newlistings" />
-            ) : (
+            {user ? user.hasProfile ?
+                <Redirect to="/newlistings" /> : <Redirect to="/profile" /> :
+
                 <Formik
                     initialValues={{
                         firstName: "",
@@ -141,7 +162,7 @@ function SignUpForm(props) {
                                     Register
                                 </button>
                                 <button
-                                    className="btn btn-danger mt-3 ml-3 "
+                                    className="btn btn-danger mt-3 ms-3 "
                                     type="reset"
                                 >
                                     Reset
@@ -150,7 +171,7 @@ function SignUpForm(props) {
                         </div>
                     )}
                 </Formik>
-            )}
+            }
         </>
     );
 }

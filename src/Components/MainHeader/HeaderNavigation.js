@@ -1,44 +1,39 @@
-import React from "react";
+import React, { useContext } from "react";
+import { NavLink } from "react-router-dom";
+import AuthContext from "../../context/authContext";
+import storageService from "../../storage/localStorage";
 
 import "./HeaderNavigation.css";
 
 // take the props from MAINHEADER and conditionally render the items if based on LOGGED IN.
 const HeaderNavigation = (props) => {
+    const { user, setUser } = useContext(AuthContext);
+    const type = !user ? null : user.type;
     return (
         <div className="navigation">
             <ul>
-                {/* {props.isLoggedIn && (
-                    <li>
-                        <a href="/">Walkers</a>
-                    </li>
-                )}
-                {props.isLoggedIn && (
-                    <li>
-                        <a href="/Owners">Owners</a>
-                    </li>
-                )} */}
                 <li>
-                    <a href="/">Home</a>
+                    <NavLink to="/"> Home</NavLink>
                 </li>
                 <li>
-                    <a href="/Walkers">Walkers</a>
+                    <NavLink to="/newlistings"> Listings</NavLink>
                 </li>
-                <li>
-                    <a href="/Owners">Owners</a>
-                </li>
+                {type === "W" && <li>
+                    <NavLink to="/walkers"> Walkers</NavLink>
+                </li>}
+                {type === "O" && <li>
+                    <NavLink to="/owners">Owners</NavLink>
+                </li>}
 
-                {/* <li>
-                    <a href="/FAQ">FAQ</a>
-                </li> */}
-                <li>
-                    <a href="/SignUp">SignUp</a>
-                </li>
-                <li>
-                    <a href="/Login">Login</a>
-                </li>
-                {props.isLoggedIn && (
+                {!user && (<li>
+                    <NavLink to="/signup">SignUp</NavLink>
+                </li>)}
+                {!user ? <li>
+                    <NavLink to="/login"> Login</NavLink>
+                </li> : <li>{user.email}</li>}
+                {user && (
                     <li>
-                        <button onClick={props.onLogout}>Logout</button>
+                        <NavLink to="/" onClick={() => { storageService.removeToken(); setUser(null) }}>Logout</NavLink>
                     </li>
                 )}
             </ul>

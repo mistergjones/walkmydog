@@ -13,7 +13,6 @@ import jwtDecode from "jwt-decode";
 import AuthContext from "../../context/authContext";
 import storageService from "../../storage/localStorage";
 
-
 // This function captures the new user input fields, validates them, hashes the password and inserts in to the database.
 function SignUpForm(props) {
     const { user, setUser } = useContext(AuthContext);
@@ -27,7 +26,7 @@ function SignUpForm(props) {
         delete formData.confirmPassword;
 
         // 2. Insert the data as an object
-        const { data: didInsertWork } = await insertUser({
+        const response = await insertUser({
             // NOTE firstname and lastname not required for CREDENTIAL INSERT but required to kickstart either the population of WALKERS or OWNERS table
             firstname: formData.firstName,
             lastname: formData.lastName,
@@ -35,25 +34,14 @@ function SignUpForm(props) {
             // hashedPassword: hashedPassword,
             password: formData.password,
             type: formData.type,
-
-            //****JWT TOKEN STUFF */
-            // 5. Insert the data as an object
-            // const response = await insertUser({
-            //     firstname: formData.firstName,
-            //     lastname: formData.lastName,
-            //     email: formData.email,
-            //     hashedPassword: hashedPassword,
-            //     type: 'O'
         });
-        // const token = response.headers["x-auth-token"];
-        // const userToken = jwtDecode(token);
-        // storageService.setToken(token);
-        // setUser(userToken);
 
-        return didInsertWork.error ? false : true;
-        // return userToken ? true : false;
-        // if there is an error (i.e. return FALSE and don't ROUTE to another screen. ELSE a success and route elsewhere...)
-        // return response.data.error ? false : true;
+        console.log("SIGN UP - resonse data: ", response);
+
+        const token = response.headers["x-auth-token"];
+        const userToken = jwtDecode(token);
+        storageService.setToken(token);
+        setUser(userToken);
     };
 
     // establish the error checking rules and messages with YUP
@@ -81,9 +69,13 @@ function SignUpForm(props) {
 
     return (
         <>
-            {user ? user.hasProfile ?
-                <Redirect to="/newlistings" /> : <Redirect to="/profile" /> :
-
+            {user ? (
+                user.hasProfile ? (
+                    <Redirect to="/newlistings" />
+                ) : (
+                    <Redirect to="/profile" />
+                )
+            ) : (
                 <Formik
                     initialValues={{
                         firstName: "",
@@ -98,8 +90,8 @@ function SignUpForm(props) {
                     // call the below function to insert the user inputted data
                     onSubmit={async (fields) => {
                         console.log("Fields are:", fields);
-                        let result = await insertNewUser(fields);
-                        setSignUpSuccess(result);
+                        await insertNewUser(fields);
+                        // setSignUpSuccess(result);
                     }}
                 >
                     {(formik) => (
@@ -171,7 +163,7 @@ function SignUpForm(props) {
                         </div>
                     )}
                 </Formik>
-            }
+            )}
         </>
     );
 }

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 //The useLocation hook returns the location object that represents the current URL.
 import { Redirect } from "react-router-dom";
 import TextField from "../UI/TextField/TextField";
@@ -9,9 +9,14 @@ import * as Yup from "yup";
 import useApi from "../../hooks/useApi";
 import usersApi from "../../api/glenusers";
 
+import jwtDecode from "jwt-decode";
+import AuthContext from "../../context/authContext";
+import storageService from "../../storage/localStorage";
+
 const bcrypt = require("bcryptjs");
 
 function LoginForm(props) {
+    const { user, setUser } = useContext(AuthContext);
     const { request: getUserByEmail } = useApi(usersApi.getUserByEmail);
     // establish a state to determine if login successful or not
     const [loginSuccess, setLoginSuccess] = useState(false);
@@ -23,15 +28,20 @@ function LoginForm(props) {
 
         // 2. get the user information based on the email address and get the password
         // NOTE: NEED TO CHECK FOR NULL/UNDEFINED EMAIL addresses if no match
-        const { data: specificUser } = await getUserByEmail(inputtedEmail);
+        // const { data: specificUser } = await getUserByEmail(inputtedEmail);
+        const response = await getUserByEmail(inputtedEmail);
 
         // 3. Compare the hashed pasword to with the inputted pasword. SET to TRUE if good.
-        return bcrypt.compareSync(
-            inputtedPassword,
-            specificUser.user["password"]
-        )
-            ? true
-            : false;
+        if (
+            bcrypt.compareSync(inputtedPassword, response.data["password"]) ===
+            true
+        ) {
+            const token = response.headers["x-auth-token"];
+            storageService.setToken(token);
+
+            const decodedToken = jwtDecode(token);
+            setUser(decodedToken);
+        }
     };
 
     useEffect(() => {
@@ -54,8 +64,12 @@ function LoginForm(props) {
 
     return (
         <>
-            {loginSuccess ? (
-                <Redirect to="/newListings" />
+            {user ? (
+                user.hasProfile ? (
+                    <Redirect to="/newlistings" />
+                ) : (
+                    <Redirect to="/profile" />
+                )
             ) : (
                 <Formik
                     initialValues={{
@@ -66,8 +80,8 @@ function LoginForm(props) {
                     validationSchema={validate}
                     // need to do something e.g. check the info from the database
                     onSubmit={async (fields) => {
-                        let result = await getSpecificUser(fields);
-                        setLoginSuccess(result);
+                        await getSpecificUser(fields);
+                        // setLoginSuccess(result);
                     }}
                 >
                     {(formik) => (

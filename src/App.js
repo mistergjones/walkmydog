@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import "./App.css";
 
 import AboutUsContent from "./Screens/FooterPages/AboutUsContent";
@@ -9,29 +10,40 @@ import SignUpScreen from "./Screens/HeaderPages/SignUpScreen";
 import ListingsDetailScreen from "./Screens/ListingsDetailScreen";
 import routes from "./routes/routes";
 import WalkersScreen from "./Screens/HeaderPages/WalkersScreen";
-
-import { Route, Switch, BrowserRouter as Router } from "react-router-dom";
+import AuthContext from "./context/authContext";
+import { Route, Switch, BrowserRouter as Router, Redirect } from "react-router-dom";
 
 // import bootstap the non-cenventional way
 import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
+import Upload from "./Components/Upload/Upload";
+import ProtectedRoute from './Components/protectedRoute';
+import ProfileScreen from './Screens/ProfileScreen';
+
 
 function App() {
+    const [user, setUser] = useState();
     return (
-        <Router>
-            <Switch>
-                <Route path="/about" component={AboutUsContent} />
-                <Route path="/walkers" component={WalkersScreen} />
-                <Route path="/owners" component={OwnersScreen} />
-                <Route path="/login" component={LoginScreen} />
-                <Route path="/signup" component={SignUpScreen} />
-                <Route path="/newlistings" component={NewListingScreen} />
-                <Route
-                    path={routes.LISTING_DETAIL_BY_ID}
-                    component={ListingsDetailScreen}
-                />
-                <Route exact path="/" component={HomeScreen} />
-            </Switch>
-        </Router>
+        <AuthContext.Provider value={{ user, setUser }}>
+            <Router>
+                <Switch>
+
+                    <Route path="/about" component={AboutUsContent} />
+                    <ProtectedRoute path="/profile" component={ProfileScreen} />
+                    <ProtectedRoute path="/walkers" component={WalkersScreen} />
+                    <ProtectedRoute path="/owners" component={OwnersScreen} />
+                    <Route path="/login" component={LoginScreen} />
+                    <Route path="/signup" component={SignUpScreen} />
+                    <ProtectedRoute path="/newlistings" component={NewListingScreen} />
+                    <ProtectedRoute path="/upload" component={Upload} />
+                    <ProtectedRoute
+                        path={routes.LISTING_DETAIL_BY_ID}
+                        component={ListingsDetailScreen}
+                    />
+                    <Route exact path="/" component={HomeScreen} />
+
+                </Switch>
+            </Router>
+        </AuthContext.Provider>
     );
 }
 

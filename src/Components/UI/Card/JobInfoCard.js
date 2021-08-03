@@ -4,7 +4,7 @@ import { formatTime12Hour, formatAusDate } from '../../../Helpers/convertDateTim
 
 
 
-function JobInfoCard({ job, isWalker }) {
+function JobInfoCard({ job, type }) {
     return (
         <>
             <div data-aos="flip-right" className="jobinfo-container">
@@ -18,7 +18,7 @@ function JobInfoCard({ job, isWalker }) {
 
                     <div className="field">
                         <div className="field-heading">Time</div>
-                        <p>{formatTime12Hour(job.start_time)}</p>
+                        <p>{formatTime12Hour(job.startTime)}</p>
                     </div>
                     <div className="field">
                         <div className="field-heading">Suburb</div>
@@ -26,17 +26,17 @@ function JobInfoCard({ job, isWalker }) {
                     </div>
                     <div className="field">
                         <div className="field-heading">Service</div>
-                        <p>{job.service_type}</p>
+                        <p>{job.serviceType}</p>
                     </div>
                     <div className="field">
                         <div className="field-heading">Cost</div>
-                        <p>${job.service_fee}</p>
+                        <p>${job.serviceFee}</p>
                     </div>
                 </div>
                 <div className="right-side jobinfo-button-container">
                     <button
                         className={"btn btn-mt-3 btn-light"}
-                        type="submit" >{isWalker ? "BOOK" : "CANCEL"}</button>
+                        type="submit" >{type === "O" ? "CANCEL" : "BOOK"}</button>
                 </div>
             </div>
         </>

@@ -3,7 +3,7 @@ import "./NewListingsContent.css";
 import JobScroll from "../Components/Jobs/JobScroll";
 import Chart from "../Components/History/Chart";
 import useApi from "../hooks/useApi";
-import bookingsApi from "../../src/api/bookings";
+import bookingsApi from "../api/bookings";
 
 const NewListingsContent = () => {
     const { data: bookings, error, loading, request: getBookings } = useApi(

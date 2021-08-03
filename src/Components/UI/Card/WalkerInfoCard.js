@@ -9,7 +9,7 @@ function WalkerInfoCard({ walker }) {
             <div className="left-side">
                 <div className="suburb">
                     <h4>Suburb</h4>
-                    <p>{walker.town}</p>
+                    <p>{walker.suburb}</p>
                 </div>
             </div>
             <div className="avatar text-center center-side">
@@ -18,9 +18,9 @@ function WalkerInfoCard({ walker }) {
             </div>
             <div className="right-side">
                 <div className="rating">
-                    <h1>{walker.overall_rating}</h1>
+                    <h1>{walker.rating}</h1>
                     <BeautyStars
-                        value={walker.overall_rating}
+                        value={walker.rating}
                         size={".75rem"}
                         inactiveColor="white"
                     />

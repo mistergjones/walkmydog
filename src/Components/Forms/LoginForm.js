@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 //The useLocation hook returns the location object that represents the current URL.
-import { useLocation, Redirect } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 import TextField from "../UI/TextField/TextField";
 
 import { Formik, Form } from "formik";

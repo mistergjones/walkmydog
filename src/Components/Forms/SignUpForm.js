@@ -1,14 +1,13 @@
-import React, { useState, useEffect } from "react";
-import { Redirect, useLocation } from "react-router-dom";
+import React, { useState } from "react";
+import { Redirect } from "react-router-dom";
 import TextField from "../UI/TextField/TextField";
+import "./SignUpForm.css";
 
-import { Formik, Form } from "formik";
+import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
 
 import useApi from "../../hooks/useApi";
 import usersApi from "../../api/glenusers";
-
-const bcrypt = require("bcryptjs");
 
 // This function captures the new user input fields, validates them, hashes the password and inserts in to the database.
 function SignUpForm(props) {
@@ -18,22 +17,14 @@ function SignUpForm(props) {
     // take the form data, hash the clear text password and insert into DB.
     // return TRUE if success and route elsewhere....
     const insertNewUser = async (formData) => {
-        // 1. generate a salt/rounding calculation
-        // var salt = bcrypt.genSaltSync(10);
-
-        // 2. hash the password with the salt
-        // var hashedPassword = bcrypt.hashSync(formData.password, salt);
-
-        //3. replace the existing clear text password with hashed password
-        // formData.password = hashedPassword;
-
-        //4. Remove the confirmPassword...it is not needed for the insert
+        //1. Remove the confirmPassword...it is not needed for the insert
         delete formData.confirmPassword;
 
-        // 5. Insert the data as an object
+        // 2. Insert the data as an object
         const { data: didInsertWork } = await insertUser({
-            // firstname: formData.firstName,
-            // lastname: formData.lastName,
+            // NOTE firstname and lastname not required for CREDENTIAL INSERT but required to kickstart either the population of WALKERS or OWNERS table
+            firstname: formData.firstName,
+            lastname: formData.lastName,
             email: formData.email,
             // hashedPassword: hashedPassword,
             password: formData.password,
@@ -64,7 +55,7 @@ function SignUpForm(props) {
             // use oneOf Yup.ref to check if hte above password is the same
             .oneOf([Yup.ref("password"), null], "Password must match")
             .required("Confirm password is required"),
-        type: Yup.string().min(1, "You must select either Walker or Owner"),
+        type: Yup.string().min(1, "asdfdadasdfafa").required("ASDFAFAD"),
     });
 
     return (
@@ -85,6 +76,7 @@ function SignUpForm(props) {
                     validationSchema={validate}
                     // call the below function to insert the user inputted data
                     onSubmit={async (fields) => {
+                        console.log("Fields are:", fields);
                         let result = await insertNewUser(fields);
                         setSignUpSuccess(result);
                     }}
@@ -94,8 +86,6 @@ function SignUpForm(props) {
                             <h1 className="my-4 font-weight-bold-display-4">
                                 Sign Up
                             </h1>
-                            {/* print out hte values of the inputted info */}
-                            {/* {console.log("The form values are: ", formik.values)} */}
                             <Form>
                                 <TextField
                                     label="First Name"
@@ -112,25 +102,28 @@ function SignUpForm(props) {
                                     name="email"
                                     type="email"
                                 />
-                                <label htmlFor="">Walker</label>
-                                <input
-                                    type="radio"
-                                    name="type"
-                                    id="walker"
-                                    value="W"
-                                    defaultChecked={formik.values.type === "W"}
-                                    onChange={formik.handleChange}
-                                />
-                                OR
-                                <label htmlFor="">Dog Owner</label>
-                                <input
-                                    type="radio"
-                                    name="type"
-                                    id="owner"
-                                    value="O"
-                                    defaultChecked={formik.values.type === "O"}
-                                    onChange={formik.handleChange}
-                                />
+                                Dog Walker or Owner?
+                                <div className="sign-up-form-radio-buttons">
+                                    <label htmlFor="type">
+                                        Walker:
+                                        <Field
+                                            name="type"
+                                            value="W"
+                                            type="radio"
+                                            onClick={formik.handleChange}
+                                        />
+                                    </label>
+
+                                    <label htmlFor="type">
+                                        Dog Owner:
+                                        <Field
+                                            name="type"
+                                            value="O"
+                                            type="radio"
+                                            onClick={formik.handleChange}
+                                        />
+                                    </label>
+                                </div>
                                 <TextField
                                     label="Password"
                                     name="password"

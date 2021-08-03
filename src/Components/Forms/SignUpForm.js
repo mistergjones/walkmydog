@@ -19,23 +19,25 @@ function SignUpForm(props) {
     // return TRUE if success and route elsewhere....
     const insertNewUser = async (formData) => {
         // 1. generate a salt/rounding calculation
-        var salt = bcrypt.genSaltSync(10);
+        // var salt = bcrypt.genSaltSync(10);
 
         // 2. hash the password with the salt
-        var hashedPassword = bcrypt.hashSync(formData.password, salt);
+        // var hashedPassword = bcrypt.hashSync(formData.password, salt);
 
         //3. replace the existing clear text password with hashed password
-        formData.password = hashedPassword;
+        // formData.password = hashedPassword;
 
         //4. Remove the confirmPassword...it is not needed for the insert
         delete formData.confirmPassword;
 
         // 5. Insert the data as an object
         const { data: didInsertWork } = await insertUser({
-            firstname: formData.firstName,
-            lastname: formData.lastName,
+            // firstname: formData.firstName,
+            // lastname: formData.lastName,
             email: formData.email,
-            hashedPassword: hashedPassword,
+            // hashedPassword: hashedPassword,
+            password: formData.password,
+            type: formData.type,
         });
 
         // if there is an error (i.e. return FALSE and don't ROUTE to another screen. ELSE a success and route elsewhere...)
@@ -62,6 +64,7 @@ function SignUpForm(props) {
             // use oneOf Yup.ref to check if hte above password is the same
             .oneOf([Yup.ref("password"), null], "Password must match")
             .required("Confirm password is required"),
+        type: Yup.string().min(1, "You must select either Walker or Owner"),
     });
 
     return (
@@ -76,6 +79,7 @@ function SignUpForm(props) {
                         email: "",
                         password: "",
                         confirmPassword: "",
+                        type: "",
                     }}
                     // call the function to validate the inputed values
                     validationSchema={validate}
@@ -108,6 +112,25 @@ function SignUpForm(props) {
                                     name="email"
                                     type="email"
                                 />
+                                <label htmlFor="">Walker</label>
+                                <input
+                                    type="radio"
+                                    name="type"
+                                    id="walker"
+                                    value="W"
+                                    defaultChecked={formik.values.type === "W"}
+                                    onChange={formik.handleChange}
+                                />
+                                OR
+                                <label htmlFor="">Dog Owner</label>
+                                <input
+                                    type="radio"
+                                    name="type"
+                                    id="owner"
+                                    value="O"
+                                    defaultChecked={formik.values.type === "O"}
+                                    onChange={formik.handleChange}
+                                />
                                 <TextField
                                     label="Password"
                                     name="password"
@@ -124,7 +147,6 @@ function SignUpForm(props) {
                                 >
                                     Register
                                 </button>
-
                                 <button
                                     className="btn btn-danger mt-3 ml-3 "
                                     type="reset"

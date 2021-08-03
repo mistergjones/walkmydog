@@ -22,7 +22,6 @@ const getUserByEmail = (emailId) => {
     return client.get(userEndpoint);
 };
 
-// 27/07: GJ: the below is wrong
 const insertUser = (userInfo) => {
     const userEndpoint = endpoint;
     console.log("INSERT USER: user end point is", userEndpoint);

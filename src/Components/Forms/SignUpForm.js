@@ -1,25 +1,23 @@
 import React, { useContext } from "react";
-
-import TextField from "../UI/TextField/TextField";
+import { Redirect } from "react-router-dom";
 import "./SignUpForm.css";
 
-import { Formik, Form, Field } from "formik";
+import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 
 import useApi from "../../hooks/useApi";
 import usersApi from "../../api/glenusers";
 
-
 import AuthContext from "../../context/authContext";
 import jwtService from "../../storage/jwt";
 import ProfileRedirect from "./ProfileRedirect";
 
+import RadioButton from "../UI/RadioButtons/RadioButton";
 
 // This function captures the new user input fields, validates them, hashes the password and inserts in to the database.
 function SignUpForm(props) {
     const { setUser } = useContext(AuthContext);
     const { request: insertUser } = useApi(usersApi.insertUser);
-
 
     // take the form data, hash the clear text password and insert into DB.
     // return TRUE if success and route elsewhere....
@@ -27,7 +25,6 @@ function SignUpForm(props) {
         //1. Remove the confirmPassword...it is not needed for the insert
         delete formData.confirmPassword;
         try {
-
             // 2. Insert the data as an object
             const response = await insertUser({
                 // NOTE firstname and lastname not required for CREDENTIAL INSERT but required to kickstart either the population of WALKERS or OWNERS table
@@ -42,11 +39,10 @@ function SignUpForm(props) {
             console.log("SIGN UP - resonse data: ", response);
             // GET JWT TOKEN FROM RESPONSE AND DECODE TO USER OBJECT IF NO TOKEN RETURNS NULL;
             setUser(jwtService.getUserFromResponseToken(response));
-
         } catch (error) {
             console.log("error in submit form", error);
-        };
-    }
+        }
+    };
 
     // establish the error checking rules and messages with YUP
     const validate = Yup.object({
@@ -68,7 +64,7 @@ function SignUpForm(props) {
             // use oneOf Yup.ref to check if hte above password is the same
             .oneOf([Yup.ref("password"), null], "Password must match")
             .required("Confirm password is required"),
-        type: Yup.string().min(1, "asdfdadasdfafa").required("ASDFAFAD"),
+        type: Yup.string().required("You must select 1 option"),
     });
 
     return (
@@ -96,72 +92,120 @@ function SignUpForm(props) {
                         <h1 className="my-4 font-weight-bold-display-4">
                             Sign Up
                         </h1>
-                        <Form>
-                            <TextField
-                                label="First Name"
+                        <Form className="sign-up-form-layout">
+                            <div>
+                                <label htmlFor="firstName">Firstname</label>
+                            </div>
+
+                            <Field
+                                className="sign-up-form-field-width"
                                 name="firstName"
                                 type="text"
                             />
-                            <TextField
-                                label="Last Name"
+                            <ErrorMessage
+                                name="firstName"
+                                className="error"
+                                component="p"
+                            />
+                            <div>
+                                <label htmlFor="lastName">Lastname</label>
+                            </div>
+
+                            <Field
+                                className="sign-up-form-field-width"
                                 name="lastName"
                                 type="text"
                             />
-                            <TextField
-                                label="Email"
+                            <ErrorMessage
+                                name="lastName"
+                                className="error"
+                                component="p"
+                            />
+                            <div>
+                                <label htmlFor="email">Email</label>
+                            </div>
+                            <Field
+                                className="sign-up-form-field-width"
                                 name="email"
                                 type="email"
                             />
-                            Dog Walker or Owner?
-                            <div className="sign-up-form-radio-buttons">
-                                <label htmlFor="type">
-                                    Walker:
-                                    <Field
-                                        name="type"
-                                        value="W"
-                                        type="radio"
-                                        onClick={formik.handleChange}
-                                    />
-                                </label>
-
-                                <label htmlFor="type">
-                                    Dog Owner:
-                                    <Field
-                                        name="type"
-                                        value="O"
-                                        type="radio"
-                                        onClick={formik.handleChange}
-                                    />
-                                </label>
+                            <ErrorMessage
+                                name="email"
+                                className="error"
+                                component="p"
+                            />
+                            <div>
+                                <label htmlFor="">Dog Walker or Owner?</label>
                             </div>
-                            <TextField
-                                label="Password"
+
+                            <div className="sign-up-form-radio-buttons">
+                                <RadioButton
+                                    id="walker"
+                                    name="type"
+                                    label="Walker"
+                                    value="W"
+                                    onClick={formik.handleChange}
+                                />
+                                <RadioButton
+                                    id="owner"
+                                    name="type"
+                                    label="Owner"
+                                    value="O"
+                                    onClick={formik.handleChange}
+                                />
+                            </div>
+                            <ErrorMessage
+                                name="type"
+                                className="error"
+                                component="p"
+                            />
+
+                            <div>
+                                <label htmlFor="password">Password</label>
+                            </div>
+                            <Field
+                                className="sign-up-form-field-width"
                                 name="password"
                                 type="password"
                             />
-                            <TextField
-                                label="Confirm Password"
+                            <ErrorMessage
+                                name="password"
+                                className="error"
+                                component="p"
+                            />
+                            <div>
+                                <label htmlFor="password">
+                                    Confirm Password
+                                </label>
+                            </div>
+                            <Field
+                                className="sign-up-form-field-width"
                                 name="confirmPassword"
                                 type="password"
                             />
-                            <button
-                                className="btn btn-dark mt-3"
-                                type="submit"
-                            >
-                                Register
-                            </button>
-                            <button
-                                className="btn btn-danger mt-3 ms-3 "
-                                type="reset"
-                                onClick={() => { }}
-                            >
-                                Reset
-                            </button>
+                            <ErrorMessage
+                                name="confirmPassword"
+                                className="error"
+                                component="p"
+                            />
+                            <div>
+                                <button
+                                    className="btn btn-dark mt-3"
+                                    type="submit"
+                                >
+                                    Register
+                                </button>
+                                <button
+                                    className="btn btn-danger mt-3 ms-3 "
+                                    type="reset"
+                                >
+                                    Reset
+                                </button>
+                            </div>
                         </Form>
                     </div>
                 )}
             </Formik>
-
         </>
     );
 }

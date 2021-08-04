@@ -1,25 +1,21 @@
 import React from "react";
+// import { ErrorMessage, useField } from "formik";
 
-const RadioButton = ({
-    field: { name, value, onChange, onBlur },
-    id,
-    label,
-    className,
-    ...props
-}) => {
+const RadioButton = (props) => {
     return (
         <div>
+            <label htmlFor={props.id}>{props.label}:</label>
             <input
-                name={name}
-                id={id}
+                name={props.name}
+                id={props.id}
                 type="radio"
-                value={id} // could be something else for output?
-                checked={id === value}
-                onChange={onChange}
-                onBlur={onBlur}
-                {...props}
+                value={props.value}
+                // checked={props.value}
+                onChange={props.onClick}
+                // {...props}
             />
-            <label htmlFor={id}>{label}</label>
+
+            {/* <ErrorMessage component="div" name={props.name} className="error" /> */}
         </div>
     );
 };

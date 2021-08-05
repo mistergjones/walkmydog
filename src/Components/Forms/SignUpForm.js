@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useContext } from "react";
-import { Redirect } from "react-router-dom";
+import React, { useContext } from "react";
+
 import TextField from "../UI/TextField/TextField";
 import "./SignUpForm.css";
 
@@ -9,40 +9,44 @@ import * as Yup from "yup";
 import useApi from "../../hooks/useApi";
 import usersApi from "../../api/glenusers";
 
-import jwtDecode from "jwt-decode";
+
 import AuthContext from "../../context/authContext";
-import storageService from "../../storage/localStorage";
+import jwtService from "../../storage/jwt";
+import ProfileRedirect from "./ProfileRedirect";
+
 
 // This function captures the new user input fields, validates them, hashes the password and inserts in to the database.
 function SignUpForm(props) {
-    const { user, setUser } = useContext(AuthContext);
+    const { setUser } = useContext(AuthContext);
     const { request: insertUser } = useApi(usersApi.insertUser);
-    const [signupSuccess, setSignUpSuccess] = useState(false);
+
 
     // take the form data, hash the clear text password and insert into DB.
     // return TRUE if success and route elsewhere....
     const insertNewUser = async (formData) => {
         //1. Remove the confirmPassword...it is not needed for the insert
         delete formData.confirmPassword;
+        try {
 
-        // 2. Insert the data as an object
-        const response = await insertUser({
-            // NOTE firstname and lastname not required for CREDENTIAL INSERT but required to kickstart either the population of WALKERS or OWNERS table
-            firstname: formData.firstName,
-            lastname: formData.lastName,
-            email: formData.email,
-            // hashedPassword: hashedPassword,
-            password: formData.password,
-            type: formData.type,
-        });
+            // 2. Insert the data as an object
+            const response = await insertUser({
+                // NOTE firstname and lastname not required for CREDENTIAL INSERT but required to kickstart either the population of WALKERS or OWNERS table
+                firstname: formData.firstName,
+                lastname: formData.lastName,
+                email: formData.email,
+                // hashedPassword: hashedPassword,
+                password: formData.password,
+                type: formData.type,
+            });
 
-        console.log("SIGN UP - resonse data: ", response);
+            console.log("SIGN UP - resonse data: ", response);
+            // GET JWT TOKEN FROM RESPONSE AND DECODE TO USER OBJECT IF NO TOKEN RETURNS NULL;
+            setUser(jwtService.getUserFromResponseToken(response));
 
-        const token = response.headers["x-auth-token"];
-        const userToken = jwtDecode(token);
-        storageService.setToken(token);
-        setUser(userToken);
-    };
+        } catch (error) {
+            console.log("error in submit form", error);
+        };
+    }
 
     // establish the error checking rules and messages with YUP
     const validate = Yup.object({
@@ -69,101 +73,95 @@ function SignUpForm(props) {
 
     return (
         <>
-            {user ? (
-                user.hasProfile ? (
-                    <Redirect to="/newlistings" />
-                ) : (
-                    <Redirect to="/profile" />
-                )
-            ) : (
-                <Formik
-                    initialValues={{
-                        firstName: "",
-                        lastName: "",
-                        email: "",
-                        password: "",
-                        confirmPassword: "",
-                        type: "",
-                    }}
-                    // call the function to validate the inputed values
-                    validationSchema={validate}
-                    // call the below function to insert the user inputted data
-                    onSubmit={async (fields) => {
-                        console.log("Fields are:", fields);
-                        await insertNewUser(fields);
-                        // setSignUpSuccess(result);
-                    }}
-                >
-                    {(formik) => (
-                        <div>
-                            <h1 className="my-4 font-weight-bold-display-4">
-                                Sign Up
-                            </h1>
-                            <Form>
-                                <TextField
-                                    label="First Name"
-                                    name="firstName"
-                                    type="text"
-                                />
-                                <TextField
-                                    label="Last Name"
-                                    name="lastName"
-                                    type="text"
-                                />
-                                <TextField
-                                    label="Email"
-                                    name="email"
-                                    type="email"
-                                />
-                                Dog Walker or Owner?
-                                <div className="sign-up-form-radio-buttons">
-                                    <label htmlFor="type">
-                                        Walker:
-                                        <Field
-                                            name="type"
-                                            value="W"
-                                            type="radio"
-                                            onClick={formik.handleChange}
-                                        />
-                                    </label>
+            <ProfileRedirect />
+            <Formik
+                initialValues={{
+                    firstName: "",
+                    lastName: "",
+                    email: "",
+                    password: "",
+                    confirmPassword: "",
+                    type: "",
+                }}
+                // call the function to validate the inputed values
+                validationSchema={validate}
+                // call the below function to insert the user inputted data
+                onSubmit={async (fields) => {
+                    console.log("Fields are:", fields);
+                    await insertNewUser(fields);
+                }}
+            >
+                {(formik) => (
+                    <div>
+                        <h1 className="my-4 font-weight-bold-display-4">
+                            Sign Up
+                        </h1>
+                        <Form>
+                            <TextField
+                                label="First Name"
+                                name="firstName"
+                                type="text"
+                            />
+                            <TextField
+                                label="Last Name"
+                                name="lastName"
+                                type="text"
+                            />
+                            <TextField
+                                label="Email"
+                                name="email"
+                                type="email"
+                            />
+                            Dog Walker or Owner?
+                            <div className="sign-up-form-radio-buttons">
+                                <label htmlFor="type">
+                                    Walker:
+                                    <Field
+                                        name="type"
+                                        value="W"
+                                        type="radio"
+                                        onClick={formik.handleChange}
+                                    />
+                                </label>
 
-                                    <label htmlFor="type">
-                                        Dog Owner:
-                                        <Field
-                                            name="type"
-                                            value="O"
-                                            type="radio"
-                                            onClick={formik.handleChange}
-                                        />
-                                    </label>
-                                </div>
-                                <TextField
-                                    label="Password"
-                                    name="password"
-                                    type="password"
-                                />
-                                <TextField
-                                    label="Confirm Password"
-                                    name="confirmPassword"
-                                    type="password"
-                                />
-                                <button
-                                    className="btn btn-dark mt-3"
-                                    type="submit"
-                                >
-                                    Register
-                                </button>
-                                <button
-                                    className="btn btn-danger mt-3 ms-3 "
-                                    type="reset"
-                                >
-                                    Reset
-                                </button>
-                            </Form>
-                        </div>
-                    )}
-                </Formik>
-            )}
+                                <label htmlFor="type">
+                                    Dog Owner:
+                                    <Field
+                                        name="type"
+                                        value="O"
+                                        type="radio"
+                                        onClick={formik.handleChange}
+                                    />
+                                </label>
+                            </div>
+                            <TextField
+                                label="Password"
+                                name="password"
+                                type="password"
+                            />
+                            <TextField
+                                label="Confirm Password"
+                                name="confirmPassword"
+                                type="password"
+                            />
+                            <button
+                                className="btn btn-dark mt-3"
+                                type="submit"
+                            >
+                                Register
+                            </button>
+                            <button
+                                className="btn btn-danger mt-3 ms-3 "
+                                type="reset"
+                                onClick={() => { }}
+                            >
+                                Reset
+                            </button>
+                        </Form>
+                    </div>
+                )}
+            </Formik>
+
         </>
     );
 }

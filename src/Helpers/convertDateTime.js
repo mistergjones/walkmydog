@@ -18,12 +18,11 @@ export const formatAusDate = (date) => {
 }
 
 export const formatTime12Hour = (time) => {
-    return new Date(time * 1000).
-        toLocaleString("en-AU", {
-            hour: "numeric",
-            minute: "numeric",
-            hour12: true,
-        });
+    return new Date(time * 1000).toLocaleString("en-AU", {
+        hour: "numeric",
+        minute: "numeric",
+        hour12: true,
+    });
 }
 
 

@@ -1,6 +1,7 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useContext } from "react";
 //The useLocation hook returns the location object that represents the current URL.
-import { Redirect } from "react-router-dom";
+
+
 import TextField from "../UI/TextField/TextField";
 
 import { Formik, Form } from "formik";
@@ -9,17 +10,19 @@ import * as Yup from "yup";
 import useApi from "../../hooks/useApi";
 import usersApi from "../../api/glenusers";
 
-import jwtDecode from "jwt-decode";
+
 import AuthContext from "../../context/authContext";
-import storageService from "../../storage/localStorage";
+import jwtService from "../../storage/jwt";
+import ProfileRedirect from "./ProfileRedirect";
+
+
 
 const bcrypt = require("bcryptjs");
 
-function LoginForm(props) {
-    const { user, setUser } = useContext(AuthContext);
+const LoginForm = () => {
+    const { setUser, setErrorMessage } = useContext(AuthContext);
     const { request: getUserByEmail } = useApi(usersApi.getUserByEmail);
-    // establish a state to determine if login successful or not
-    const [loginSuccess, setLoginSuccess] = useState(false);
+
 
     const getSpecificUser = async (formData) => {
         // 1. Obtain email and password field form fields
@@ -30,27 +33,22 @@ function LoginForm(props) {
         // NOTE: NEED TO CHECK FOR NULL/UNDEFINED EMAIL addresses if no match
         // const { data: specificUser } = await getUserByEmail(inputtedEmail);
         const response = await getUserByEmail(inputtedEmail);
-
+        console.log("Login Form response = ", response)
         // 3. Compare the hashed pasword to with the inputted pasword. SET to TRUE if good.
+        // NEED TO DO THIS ON BACKEND
         if (
             bcrypt.compareSync(inputtedPassword, response.data["password"]) ===
             true
         ) {
-            const token = response.headers["x-auth-token"];
-            storageService.setToken(token);
-
-            const decodedToken = jwtDecode(token);
-            setUser(decodedToken);
+            // GET JWT TOKEN FROM RESPONSE AND DECODE TO USER OBJECT IF NO TOKEN RETURNS NULL;
+            setUser(jwtService.getUserFromResponseToken(response));
+        } else {
+            //Failed loging
+            setErrorMessage("username password error")
         }
     };
 
-    useEffect(() => {
-        // getUser(userId);
 
-        return () => {
-            console.log("What is this");
-        };
-    }, []);
 
     // establish Yup to error check the submitted values in the form fields
     const validate = Yup.object({
@@ -64,59 +62,53 @@ function LoginForm(props) {
 
     return (
         <>
-            {user ? (
-                user.hasProfile ? (
-                    <Redirect to="/newlistings" />
-                ) : (
-                    <Redirect to="/profile" />
-                )
-            ) : (
-                <Formik
-                    initialValues={{
-                        email: "",
-                        password: "",
-                    }}
-                    // call the function to validate the inputed values
-                    validationSchema={validate}
-                    // need to do something e.g. check the info from the database
-                    onSubmit={async (fields) => {
-                        await getSpecificUser(fields);
-                        // setLoginSuccess(result);
-                    }}
-                >
-                    {(formik) => (
-                        <div>
-                            <h1 className="my-4 font-weight-bold-display-4">
-                                Log-in{" "}
-                            </h1>
-                            <Form>
-                                <TextField
-                                    label="Email address"
-                                    name="email"
-                                    type="text"
-                                />
-                                <TextField
-                                    label="Your Password"
-                                    name="password"
-                                    type="password"
-                                />
-                                <button
-                                    className="btn btn-dark mt-3"
-                                    type="submit"
-                                >
-                                    Login
-                                </button>
-                                <button
-                                    className="btn btn-danger mt-3 ms-3"
-                                    type="reset"
-                                >
-                                    Reset
-                                </button>
-                            </Form>
-                        </div>
-                    )}
-                </Formik>
-            )}
+            <ProfileRedirect />
+
+            <Formik
+                initialValues={{
+                    email: "",
+                    password: "",
+                }}
+                // call the function to validate the inputed values
+                validationSchema={validate}
+                // need to do something e.g. check the info from the database
+                onSubmit={async (fields) => {
+                    await getSpecificUser(fields);
+                }}
+            >
+                {(formik) => (
+                    <div>
+                        <h1 className="my-4 font-weight-bold-display-4">
+                            Log-in{" "}
+                        </h1>
+                        <Form>
+                            <TextField
+                                label="Email address"
+                                name="email"
+                                type="text"
+                            />
+                            <TextField
+                                label="Your Password"
+                                name="password"
+                                type="password"
+                            />
+                            <button
+                                className="btn btn-dark mt-3"
+                                type="submit"
+                            >
+                                Login
+                            </button>
+                            <button
+                                className="btn btn-danger mt-3 ms-3"
+                                type="reset"
+                            >
+                                Reset
+                            </button>
+                        </Form>
+                    </div>
+                )}
+            </Formik>
+
         </>
     );
 }

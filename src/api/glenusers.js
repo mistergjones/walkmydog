@@ -1,6 +1,6 @@
 // 1. this actually queries the database via the url, params and axiosConfig and eventually returns the result
 import client from "./client";
-import storageService from "../storage/localStorage";
+
 
 // 2. what is this? Does this refer to the backend/routes/users.js eventually
 const endpoint = "/users/";
@@ -30,7 +30,7 @@ const insertUser = (userInfo) => {
 };
 
 const updateProfile = (profile) => {
-    client.setHeaders({ "x-auth-token": storageService.getToken() })
+    // client.setHeaders({ "x-auth-token": storageService.getToken() })
     const profileEndpoint = "/users/profile";
     return client.post(profileEndpoint, profile);
 }

@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import { NavLink } from "react-router-dom";
 import AuthContext from "../../context/authContext";
+import routes from "../../routes/routes";
 import storageService from "../../storage/localStorage";
 
 import "./HeaderNavigation.css";
@@ -13,27 +14,27 @@ const HeaderNavigation = (props) => {
         <div className="navigation">
             <ul>
                 <li>
-                    <NavLink to="/"> Home</NavLink>
+                    <NavLink to={routes.HOME}> Home</NavLink>
                 </li>
                 <li>
-                    <NavLink to="/newlistings"> Listings</NavLink>
+                    <NavLink to={routes.NEW_LISTINGS}> Listings</NavLink>
                 </li>
                 {type === "W" && <li>
-                    <NavLink to="/walkers"> Walkers</NavLink>
+                    <NavLink to={routes.WALKERS}> Walkers</NavLink>
                 </li>}
                 {type === "O" && <li>
-                    <NavLink to="/owners">Owners</NavLink>
+                    <NavLink to={routes.OWNERS}>Owners</NavLink>
                 </li>}
 
                 {!user && (<li>
-                    <NavLink to="/signup">SignUp</NavLink>
+                    <NavLink to={routes.SIGN_UP}>SignUp</NavLink>
                 </li>)}
                 {!user ? <li>
-                    <NavLink to="/login"> Login</NavLink>
+                    <NavLink to={routes.LOGIN}> Login</NavLink>
                 </li> : <li>{user.email}</li>}
                 {user && (
                     <li>
-                        <NavLink to="/" onClick={() => { storageService.removeToken(); setUser(null) }}>Logout</NavLink>
+                        <NavLink to={routes.HOME} onClick={() => { storageService.removeToken(); setUser(null) }}>Logout</NavLink>
                     </li>
                 )}
             </ul>

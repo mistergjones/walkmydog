@@ -1,6 +1,6 @@
 import React from 'react';
 import "./JobInfoCard.css"
-import { formatTime12Hour, formatAusDate } from '../../../Helpers/convertDateTime';
+import { formatTime12Hour } from '../../../Helpers/convertDateTime';
 
 
 

@@ -1,5 +1,4 @@
 import React, { useContext } from "react";
-import { Redirect } from "react-router-dom";
 import "./SignUpForm.css";
 
 import { Formik, Form, Field, ErrorMessage } from "formik";
@@ -15,7 +14,7 @@ import ProfileRedirect from "./ProfileRedirect";
 import RadioButton from "../UI/RadioButtons/RadioButton";
 
 // This function captures the new user input fields, validates them, hashes the password and inserts in to the database.
-function SignUpForm(props) {
+const SignUpForm = (props) => {
     const { setUser } = useContext(AuthContext);
     const { request: insertUser } = useApi(usersApi.insertUser);
 
@@ -23,7 +22,7 @@ function SignUpForm(props) {
     // return TRUE if success and route elsewhere....
     const insertNewUser = async (formData) => {
         //1. Remove the confirmPassword...it is not needed for the insert
-        delete formData.confirmPassword;
+        // delete formData.confirmPassword;
         try {
             // 2. Insert the data as an object
             const response = await insertUser({
@@ -92,7 +91,10 @@ function SignUpForm(props) {
                         <h1 className="my-4 font-weight-bold-display-4">
                             Sign Up
                         </h1>
-                        <Form className="sign-up-form-layout">
+                        <Form
+                            onSubmit={formik.handleSubmit}
+                            className="sign-up-form-layout"
+                        >
                             <div>
                                 <label htmlFor="firstName">Firstname</label>
                             </div>
@@ -107,6 +109,7 @@ function SignUpForm(props) {
                                 className="error"
                                 component="p"
                             />
+
                             <div>
                                 <label htmlFor="lastName">Lastname</label>
                             </div>
@@ -135,10 +138,23 @@ function SignUpForm(props) {
                                 component="p"
                             />
                             <div>
-                                <label htmlFor="">Dog Walker or Owner?</label>
+                                <label htmlFor="type">
+                                    Dog Walker or Owner?
+                                </label>
+                            </div>
+                            <div className="sign-up-form-radio-buttons">
+                                <label htmlFor="">
+                                    Walker:
+                                    <Field type="radio" name="type" value="W" />
+                                </label>
+
+                                <label htmlFor="">
+                                    Owner:
+                                    <Field type="radio" name="type" value="O" />
+                                </label>
                             </div>
 
-                            <div className="sign-up-form-radio-buttons">
+                            {/* <div className="sign-up-form-radio-buttons">
                                 <RadioButton
                                     id="walker"
                                     name="type"
@@ -153,7 +169,7 @@ function SignUpForm(props) {
                                     value="O"
                                     onClick={formik.handleChange}
                                 />
-                            </div>
+                            </div> */}
                             <ErrorMessage
                                 name="type"
                                 className="error"
@@ -208,6 +224,6 @@ function SignUpForm(props) {
             </Formik>
         </>
     );
-}
+};
 
 export default SignUpForm;

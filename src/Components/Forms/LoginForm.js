@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 //The useLocation hook returns the location object that represents the current URL.
 
 import TextField from "../UI/TextField/TextField";
@@ -13,21 +13,13 @@ import AuthContext from "../../context/authContext";
 import jwtService from "../../storage/jwt";
 import ProfileRedirect from "./ProfileRedirect";
 
-const bcrypt = require("bcryptjs");
-
 const LoginForm = () => {
     const { setUser, setErrorMessage } = useContext(AuthContext);
-    const { request: getUserByEmail } = useApi(usersApi.getUserByEmail);
 
     const { request: loginUser } = useApi(usersApi.loginUser);
     // establish a state to determine if login successful or not
-    const [loginSuccess, setLoginSuccess] = useState(false);
 
     const getSpecificUser = async (formData) => {
-        // 1. Obtain email and password field form fields
-        var inputtedEmail = formData.email;
-        var inputtedPassword = formData.password;
-
         // 2. get the user information based on the email address and get the password
         // NOTE: NEED TO CHECK FOR NULL/UNDEFINED EMAIL addresses if no match
         // const { data: specificUser } = await getUserByEmail(inputtedEmail);

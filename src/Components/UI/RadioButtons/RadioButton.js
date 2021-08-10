@@ -10,9 +10,8 @@ const RadioButton = (props) => {
                 id={props.id}
                 type="radio"
                 value={props.value}
-                // checked={props.value}
-                onChange={props.onClick}
-                // {...props}
+                onChange={props.onChange}
+                {...props}
             />
 
             {/* <ErrorMessage component="div" name={props.name} className="error" /> */}

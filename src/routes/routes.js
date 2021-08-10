@@ -1,4 +1,5 @@
 export default {
+    OWNER_PROFILE: "/ownerprofile",
     LISTINGS_DETAIL: "/listings/detail/",
     LISTING_DETAIL_BY_ID: "/listings/detail/:bookingId",
     ABOUT: "/about",
@@ -10,5 +11,5 @@ export default {
     SIGN_UP: "/signup",
     NEW_LISTINGS: "/newlistings",
     HOME: "/",
-    NOT_FOUND: "/notfound"
-}
+    NOT_FOUND: "/notfound",
+};

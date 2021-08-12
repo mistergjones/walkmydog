@@ -1,0 +1,34 @@
+1. In OwnerProfileForm.js:
+    a) remove redundant comments
+        STATUS: in progress - wont be finalised until code is okay
+
+    b) Need to obtain credential_id/user_id from the context as a basis to update information. i.e pass it through
+
+    c) need to have a look as to when we set is_active_membership to TRUE
+        FIXED: default setting is 5 in the UPDATE_OWNER SQL statement
+
+    d) need to determine who/what is the rating. Requires parameter and SQL updates
+        FIXED: default setting is 5 in the UPDATE_OWNER SQL statement
+
+    e) recheck Yup validation rules
+        STATUS: need to re-wire the LEASH radio buttons
+
+    f) need to convert FORM AUD date to US Date format for DB insert.
+        FIXED: added a new helper function to do this.
+
+    g) perhaps put the labels back on
+        STATUS: might need this date field might be confusing
+
+
+FOR DOG: 
+    a) based on teh credential/owner_ud, need to pass this through as a paramater and update the table accordingly.
+    
+    b) dog_photo needs to be incorporated into the parameters and query?
+        STATUS: currently hard-coded to "notfilled" in the INSERT_DOG SQL query
+
+
+REQUIREMENT: What about an onwer adding / removing a dog?
+
+DISCUSSION: Shouldn't we remove email & password from the JWT token? Keep only CREDENTIAL_ID and TYPE?
+
+How do we obtain the owner_id / walker_id from the JWT?

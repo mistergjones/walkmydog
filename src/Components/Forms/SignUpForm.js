@@ -37,6 +37,10 @@ const SignUpForm = (props) => {
 
             console.log("SIGN UP - resonse data: ", response);
             // GET JWT TOKEN FROM RESPONSE AND DECODE TO USER OBJECT IF NO TOKEN RETURNS NULL;
+            console.log(
+                "ASDASFDSADF",
+                jwtService.getUserFromResponseToken(response)
+            );
             setUser(jwtService.getUserFromResponseToken(response));
         } catch (error) {
             console.log("error in submit form", error);

@@ -1,4 +1,5 @@
 export default {
+    DOGS: "/dogs",
     OWNER_PROFILE: "/ownerprofile",
     LISTINGS_DETAIL: "/listings/detail/",
     LISTING_DETAIL_BY_ID: "/listings/detail/:bookingId",

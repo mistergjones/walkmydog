@@ -10,12 +10,12 @@ const convertDateTime = (data) => {
     });
 
     return formattedData;
-}
+};
 
 // Date stored in US format reverse the date to be AUS format
 export const formatAusDate = (date) => {
     return date ? date.slice(0, 10).split("-").reverse().join("-") : "NA";
-}
+};
 
 export const formatTime12Hour = (time) => {
     return new Date(time * 1000).toLocaleString("en-AU", {
@@ -23,7 +23,14 @@ export const formatTime12Hour = (time) => {
         minute: "numeric",
         hour12: true,
     });
-}
+};
 
+// GJ: The fronted form caters for DD/MM/YYYY format but the database requires YYYY-MM-DD format. This routine changes the Form DOB Date to the required format
+export const formatAusDateToUSDate = (dateInfo) => {
+    return (dateInfo = dateInfo.split("/").reverse().join("-"));
+};
 
-export default convertDateTime;
+export default {
+    convertDateTime,
+    formatAusDateToUSDate,
+};

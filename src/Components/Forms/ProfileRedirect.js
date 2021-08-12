@@ -14,16 +14,14 @@ import routes from "../../routes/routes";
 
 function ProfileRedirect(props) {
     const { user } = useContext(AuthContext);
-
-    if (user) {
-        return user.hasProfile ? (
-            <Redirect to={routes.DASHBOARD} />
-        ) : (
-            // GLEN 11/08: commented out teh below as wanted to route the NEW USER to ownerprofile straight away.
-            // NOTE: Logic required to determine if WALKER PROFILE OR OWNER PROFILE
-            // <Redirect to={routes.PROFILE} />
-            <Redirect to={routes.OWNER_PROFILE} />
-        );
+    // console.log("user profile rediderct = ", user);
+    if (user && user.type === "O") {
+        return user.hasProfile ? <Redirect to={routes.DASHBOARD_OWNER} /> :
+            <Redirect to={routes.PROFILE_OWNER} />
+    }
+    if (user && user.type === "W") {
+        return user.hasProfile ? <Redirect to={routes.DASHBOARD_WALKER} /> :
+            <Redirect to={routes.PROFILE_WALKER} />
     }
 
     return null;

@@ -16,9 +16,9 @@ const HeaderNavigation = (props) => {
                 <li>
                     <NavLink to={routes.HOME}> Home</NavLink>
                 </li>
-                <li>
+                {type && <li>
                     <NavLink to={routes.NEW_LISTINGS}> Listings</NavLink>
-                </li>
+                </li>}
                 {type === "W" && <li>
                     <NavLink to={routes.WALKERS}> Walkers</NavLink>
                 </li>}

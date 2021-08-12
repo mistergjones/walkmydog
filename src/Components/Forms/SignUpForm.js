@@ -1,4 +1,5 @@
-import React, { useContext } from "react";
+import React, { useContext, useState, useEffect } from "react";
+import { Redirect } from "react-router-dom";
 import "./SignUpForm.css";
 
 import { Formik, Form, Field, ErrorMessage } from "formik";
@@ -13,11 +14,13 @@ import ProfileRedirect from "./ProfileRedirect";
 
 import RadioButton from "../UI/RadioButtons/RadioButton";
 
+
 // This function captures the new user input fields, validates them, hashes the password and inserts in to the database.
 const SignUpForm = (props) => {
     const { setUser } = useContext(AuthContext);
     const { request: insertUser } = useApi(usersApi.insertUser);
 
+    console.log("sign up component");
     // take the form data, hash the clear text password and insert into DB.
     // return TRUE if success and route elsewhere....
     const insertNewUser = async (formData) => {
@@ -35,7 +38,7 @@ const SignUpForm = (props) => {
                 type: formData.type,
             });
 
-            console.log("SIGN UP - resonse data: ", response);
+            // console.log("SIGN UP - resonse data: ", response);
             // GET JWT TOKEN FROM RESPONSE AND DECODE TO USER OBJECT IF NO TOKEN RETURNS NULL;
             console.log(
                 "ASDASFDSADF",
@@ -67,13 +70,16 @@ const SignUpForm = (props) => {
             // use oneOf Yup.ref to check if hte above password is the same
             .oneOf([Yup.ref("password"), null], "Password must match")
             .required("Confirm password is required"),
-        type: Yup.string().required("You must select 1 option"),
+        type: Yup.string().required("You must select Owner or Walker option"),
     });
 
     return (
+
         <>
+            {console.log("return load")}
             <ProfileRedirect />
             <Formik
+
                 initialValues={{
                     firstName: "",
                     lastName: "",
@@ -88,10 +94,14 @@ const SignUpForm = (props) => {
                 onSubmit={async (fields) => {
                     console.log("Fields are:", fields);
                     await insertNewUser(fields);
+
                 }}
+                onReset={() => { console.log("reset") }}
             >
                 {(formik) => (
+
                     <div>
+                        {console.log("Formik fields = ", formik.values, formik.status)}
                         <h1 className="my-4 font-weight-bold-display-4">
                             Sign Up
                         </h1>
@@ -107,7 +117,11 @@ const SignUpForm = (props) => {
                                 className="sign-up-form-field-width"
                                 name="firstName"
                                 type="text"
+                                value={formik.values.firstName}
+                                onChange={formik.handleChange}
+
                             />
+
                             <ErrorMessage
                                 name="firstName"
                                 className="error"
@@ -122,6 +136,8 @@ const SignUpForm = (props) => {
                                 className="sign-up-form-field-width"
                                 name="lastName"
                                 type="text"
+                                value={formik.values.lastName}
+                                onChange={formik.handleChange}
                             />
                             <ErrorMessage
                                 name="lastName"
@@ -135,50 +151,47 @@ const SignUpForm = (props) => {
                                 className="sign-up-form-field-width"
                                 name="email"
                                 type="email"
+                                value={formik.values.email}
+                                onChange={formik.handleChange}
+
                             />
                             <ErrorMessage
                                 name="email"
                                 className="error"
                                 component="p"
                             />
-                            <div>
-                                <label htmlFor="type">
-                                    Dog Walker or Owner?
-                                </label>
-                            </div>
-                            <div className="sign-up-form-radio-buttons">
-                                <label htmlFor="">
-                                    Walker:
-                                    <Field type="radio" name="type" value="W" />
-                                </label>
-
-                                <label htmlFor="">
-                                    Owner:
-                                    <Field type="radio" name="type" value="O" />
-                                </label>
-                            </div>
-
-                            {/* <div className="sign-up-form-radio-buttons">
-                                <RadioButton
-                                    id="walker"
-                                    name="type"
-                                    label="Walker"
-                                    value="W"
-                                    onClick={formik.handleChange}
-                                />
-                                <RadioButton
-                                    id="owner"
-                                    name="type"
-                                    label="Owner"
-                                    value="O"
-                                    onClick={formik.handleChange}
-                                />
+                            {/* <div>
+                                <label htmlFor="">Dog Walker or Owner?</label>
                             </div> */}
-                            <ErrorMessage
-                                name="type"
-                                className="error"
-                                component="p"
-                            />
+                            <div id="my-radio-group">Are you a dog walker or dog owner?</div>
+                            <div className="sign-up-form-radio-buttons" role="group" aria-labelledby="my-radio-group">
+
+                                <Field
+                                    type="radio"
+                                    name="type"
+                                    value="W"
+                                    label="Walker"
+                                    onChange={formik.handleChange}
+                                    selected={formik.values.type === "W" ? true : false}
+                                />
+                                <label>Walker</label>
+
+                                <Field
+                                    type="radio"
+                                    name="type"
+                                    value="O"
+                                    label="Owner"
+                                    onChange={formik.handleChange}
+                                    selected={formik.values.type === "O" ? true : false}
+                                />
+                                <label>Owner</label>
+
+                                <ErrorMessage
+                                    name="type"
+                                    className="error"
+                                    component="p"
+                                />
+                            </div>
 
                             <div>
                                 <label htmlFor="password">Password</label>
@@ -187,6 +200,9 @@ const SignUpForm = (props) => {
                                 className="sign-up-form-field-width"
                                 name="password"
                                 type="password"
+                                value={formik.values.password}
+                                onChange={formik.handleChange}
+
                             />
                             <ErrorMessage
                                 name="password"
@@ -194,7 +210,7 @@ const SignUpForm = (props) => {
                                 component="p"
                             />
                             <div>
-                                <label htmlFor="password">
+                                <label htmlFor="confirmPassword">
                                     Confirm Password
                                 </label>
                             </div>
@@ -202,26 +218,30 @@ const SignUpForm = (props) => {
                                 className="sign-up-form-field-width"
                                 name="confirmPassword"
                                 type="password"
+                                value={formik.values.confirmPassword}
+                                onChange={formik.handleChange}
+
                             />
                             <ErrorMessage
                                 name="confirmPassword"
                                 className="error"
                                 component="p"
                             />
-                            <div>
-                                <button
-                                    className="btn btn-dark mt-3"
-                                    type="submit"
-                                >
-                                    Register
-                                </button>
-                                <button
-                                    className="btn btn-danger mt-3 ms-3 "
-                                    type="reset"
-                                >
-                                    Reset
-                                </button>
-                            </div>
+
+                            <button
+                                className="btn btn-dark mt-3"
+                                type="submit"
+                                disabled={formik.isSubmitting}
+                            >
+                                Register
+                            </button>
+                            <button
+                                className="btn btn-danger mt-3 ms-3 "
+                                type="reset"
+                            >
+                                Reset
+                            </button>
+
                         </Form>
                     </div>
                 )}

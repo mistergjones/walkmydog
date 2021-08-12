@@ -1,15 +1,15 @@
 import React, { useContext } from 'react';
-import "./ProfileContent.css"
+import "./WalkerProfileContent.css"
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
-import TextField from '../Components/UI/TextField/TextField';
-import useApi from '../hooks/useApi';
-import glenusersApi from '../api/glenusers';
-import AuthContext from '../context/authContext';
+import TextField from '../UI/TextField/TextField';
+import useApi from '../../hooks/useApi';
+import glenusersApi from '../../api/glenusers';
+import AuthContext from '../../context/authContext';
 
 
-import jwtService from '../storage/jwt';
-import ProfileRedirect from '../Components/Forms/ProfileRedirect';
+import jwtService from '../../storage/jwt';
+import ProfileRedirect from '../Forms/ProfileRedirect';
 
 
 
@@ -21,7 +21,7 @@ const validate = Yup.object({
         .length(10)
 
 });
-function ProfileContent(props) {
+function WalkerProfileContent(props) {
 
     const { user, setUser } = useContext(AuthContext);
     const { request: updateProfile } = useApi(glenusersApi.updateProfile);
@@ -36,6 +36,7 @@ function ProfileContent(props) {
                 validationSchema={validate}
                 // need to do something e.g. check the info from the database
                 onSubmit={async (fields) => {
+                    console.log("user profile =", user)
                     // send request.
                     try {
                         const response = await updateProfile({ profile: { ...user, ...fields } });
@@ -84,4 +85,4 @@ function ProfileContent(props) {
 
 }
 
-export default ProfileContent;
+export default WalkerProfileContent;

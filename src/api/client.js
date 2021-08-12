@@ -19,7 +19,7 @@ const get = apiClient.get;
 // GJ: .get accepts 3 parameters - url, params, axiosConfig. WHAT ABOUT .POST???
 apiClient.get = async (url, params, axiosConfig) => {
   // Set the headers to pass auth token for protected routes on server.
-  // console.log("client headers token = ********************************", storageService.getToken())
+  console.log("client headers token get = ********************************", storageService.getToken());
   apiClient.setHeaders({ "x-auth-token": storageService.getToken() })
   const response = await get(url, params, axiosConfig);
 
@@ -32,6 +32,21 @@ apiClient.get = async (url, params, axiosConfig) => {
   // return data ? { ok: true, data } : response;
   return response;
 };
+
+const post = apiClient.post;
+
+apiClient.post = async (url, data, axiosConfig) => {
+  console.log("client headers token post = ********************************", storageService.getToken());
+  apiClient.setHeaders({ "x-auth-token": storageService.getToken() });
+
+  const response = await post(url, data, axiosConfig);
+
+  if (response.ok) {
+    return response;
+  }
+
+  return response;
+}
 
 
 

@@ -28,33 +28,22 @@ import NotFoundScreen from "./Screens/NotFoundScreen";
 
 // GJ: 06/08: added the below screen
 import OwnerProfileScreen from "./Screens/OwnerProfileScreen";
+import WalkerProfileScreen from './Components/Profiles/WalkerProfileScreen';
 
 function App() {
     const [user, setUser] = useState(null);
     const [errorMessage, setErrorMessage] = useState(null);
     return (
-        <AuthContext.Provider
-            value={{ user, setUser, errorMessage, setErrorMessage }}
-        >
+        <AuthContext.Provider value={{ user, setUser, errorMessage, setErrorMessage }}>
+
             <Router>
                 <Switch>
+                    {console.log("app.js")}
                     <Route path={routes.ABOUT} component={AboutUsContent} />
-                    <ProtectedRoute
-                        path={routes.PROFILE}
-                        component={ProfileScreen}
-                    />
-                    <ProtectedRoute
-                        path={routes.WALKERS}
-                        component={WalkersScreen}
-                    />
-                    <ProtectedRoute
-                        path={routes.OWNERS}
-                        component={OwnersScreen}
-                    />
-                    <ProtectedRoute
-                        path={routes.DASHBOARD}
-                        component={DashboardScreen}
-                    />
+                    <ProtectedRoute path={routes.PROFILE_WALKER} component={WalkerProfileScreen} />
+                    <ProtectedRoute path={routes.WALKERS} component={WalkersScreen} />
+                    <ProtectedRoute path={routes.OWNERS} component={OwnersScreen} />
+                    <ProtectedRoute path={routes.DASHBOARD_WALKER} component={DashboardScreen} />
                     <Route path={routes.LOGIN} component={LoginScreen} />
                     <Route path={routes.SIGN_UP} component={SignUpScreen} />
 

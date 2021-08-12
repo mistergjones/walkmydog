@@ -24,7 +24,7 @@ const LoginForm = () => {
         // NOTE: NEED TO CHECK FOR NULL/UNDEFINED EMAIL addresses if no match
         // const { data: specificUser } = await getUserByEmail(inputtedEmail);
         // const response = await getUserByEmail(inputtedEmail);
-
+        console.log("form data = ", formData);
         const response = await loginUser(formData);
 
         // 3. Compare the hashed pasword to with the inputted pasword. SET to TRUE if good.
@@ -74,7 +74,11 @@ const LoginForm = () => {
                                 name="password"
                                 type="password"
                             />
-                            <button className="btn btn-dark mt-3" type="submit">
+                            <button
+                                className="btn btn-dark mt-3"
+                                type="submit"
+                                disabled={formik.isSubmitting}
+                            >
                                 Login
                             </button>
                             <button

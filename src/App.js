@@ -22,7 +22,7 @@ import {
 import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import Upload from "./Components/Upload/Upload";
 import ProtectedRoute from "./Components/protectedRoute";
-import ProfileScreen from "./Screens/ProfileScreen";
+// import ProfileScreen from "./Screens/ProfileScreen";
 import DashboardScreen from "./Screens/DashboardScreen";
 import NotFoundScreen from "./Screens/NotFoundScreen";
 
@@ -41,6 +41,10 @@ function App() {
                     {console.log("app.js")}
                     <Route path={routes.ABOUT} component={AboutUsContent} />
                     <ProtectedRoute path={routes.PROFILE_WALKER} component={WalkerProfileScreen} />
+                    <ProtectedRoute
+                        path={routes.PROFILE_OWNER}
+                        component={OwnerProfileScreen}
+                    />
                     <ProtectedRoute path={routes.WALKERS} component={WalkersScreen} />
                     <ProtectedRoute path={routes.OWNERS} component={OwnersScreen} />
                     <ProtectedRoute path={routes.DASHBOARD_WALKER} component={DashboardScreen} />
@@ -51,17 +55,13 @@ function App() {
                         path={routes.NEW_LISTINGS}
                         component={NewListingScreen}
                     />
-                    <ProtectedRoute path="/upload" component={Upload} />
+                    <Route path="/upload" component={Upload} />
                     <ProtectedRoute
                         path={routes.LISTING_DETAIL_BY_ID}
                         component={ListingsDetailScreen}
                     />
                     <Route path={routes.NOT_FOUND} component={NotFoundScreen} />
                     <Route exact path={routes.HOME} component={HomeScreen} />
-                    <Route
-                        path={routes.OWNER_PROFILE}
-                        component={OwnerProfileScreen}
-                    />
                     <Redirect to={routes.NOT_FOUND} />
                 </Switch>
             </Router>

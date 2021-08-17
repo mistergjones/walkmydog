@@ -101,7 +101,7 @@ const SignUpForm = (props) => {
                 {(formik) => (
 
                     <div>
-                        {console.log("Formik fields = ", formik.values, formik.status)}
+
                         <h1 className="my-4 font-weight-bold-display-4">
                             Sign Up
                         </h1>
@@ -186,13 +186,13 @@ const SignUpForm = (props) => {
                                 />
                                 <label>Owner</label>
 
-                                <ErrorMessage
-                                    name="type"
-                                    className="error"
-                                    component="p"
-                                />
-                            </div>
 
+                            </div>
+                            <ErrorMessage
+                                name="type"
+                                className="error"
+                                component="p"
+                            />
                             <div>
                                 <label htmlFor="password">Password</label>
                             </div>

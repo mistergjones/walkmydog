@@ -7,6 +7,12 @@ const endpoint = "/owners/";
 // 3. Get all owner info. This routes its way eventually to GET_OWNERS in backend/db/ownersSql.js???
 const getOwners = () => client.get(endpoint);
 
+// used to obtain 1 owner
+const getOwner = (credentialId) => {
+    const userEndpoint = endpoint + credentialId;
+    return client.get(userEndpoint);
+};
+
 const updateOwner = (ownerInfo) => {
     const userEndpoint = endpoint;
     console.log("UPDATE OWNER: user end point is", userEndpoint);
@@ -15,4 +21,5 @@ const updateOwner = (ownerInfo) => {
 export default {
     getOwners,
     updateOwner,
+    getOwner,
 };

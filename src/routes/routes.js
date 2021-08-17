@@ -8,6 +8,7 @@ export default {
     PROFILE_OWNER: "/profile/owner",
     WALKERS: "/walkers",
     OWNERS: "/owners",
+    OWNER: "/owners/:credentialId",
     DASHBOARD_WALKER: "/dashboard/walker",
     DASHBOARD_OWNER: "/dashboard/owner",
     LOGIN: "/login",

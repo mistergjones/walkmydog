@@ -16,41 +16,49 @@ import helpers from "../../Helpers/convertDateTime";
 
 function OwnerProfileForm(props) {
     const { setUser, user } = useContext(AuthContext);
-    const { request: getOwners } = useApi(ownersApi.getOwners);
+    // const { request: getOwners } = useApi(ownersApi.getOwners);
+    const { request: getOwner } = useApi(ownersApi.getOwner);
 
     const { request: updateOwner } = useApi(ownersApi.updateOwner);
     const { request: insertDog } = useApi(dogsApi.insertDog);
 
-    console.log("GLEN THE USER / CREDENTIL IS:", user);
+    console.log("GLEN THE USER TOKEN INFO IS: ", user);
 
     // now update the owner and dog table with this INFORMATION.
     // NOTE: CREDENTIAL ID IS HARDCODES UNTIL CODE MIGRATION/UPDATES
     const updatedOwner = async (formData) => {
         // convert the AUS DATE to US DATA Format to store in Database
         formData.dob = helpers.formatAusDateToUSDate(formData.dob);
-        // console.log("FORM DATA is", formData);
 
         try {
+            // 0.0 Obtain owner information from owner table based on 'user' TOKEN credential_id. This is required so we can insert the OWNER_ID into the DOG TABLE
+            var credentialId = user.id;
+            const ownerObj = await getOwner(credentialId);
+            // establish data object to prepare for key/value pair of owner id
+            const ownerDataObj = {};
+            ownerDataObj.owner_id = ownerObj.data.owner[0].owner_id;
+
             // 1.0 Update the owner info into the table
             const ownerResponse = await updateOwner(formData);
-            console.log(
-                "ownerProfile.js -> DO I GET A owner RESPONSE?????",
-                ownerResponse
-            );
+            // console.log(
+            //     "ownerProfile.js -> DO I GET A owner RESPONSE?????",
+            //     ownerResponse
+            // );
 
-            // 2.0 need to insert the dog info into the dog table
+            // 2.0 need to insert the dog info into the dog table and pass the owner ID
             const dogInfo = {
                 dogName: formData.dogName,
                 dogBreed: formData.dogBreed,
                 dogSize: formData.dogSize,
                 requiresLeash: formData.requiresLeash,
+                owner_id: ownerDataObj.owner_id,
             };
 
             const dogResponse = await insertDog(dogInfo);
-            console.log(
-                "ownerProfile.js -> DO I GET A dog RESPONSE?????",
-                dogResponse
-            );
+            // console.log(
+            //     "ownerProfile.js -> DO I GET A dog RESPONSE?????",
+            //     dogResponse
+            // );
 
             // GET JWT TOKEN FROM RESPONSE AND DECODE TO USER OBJECT. IF NO TOKEN RETURNS NULL;
             setUser(jwtService.getUserFromResponseToken(ownerResponse));
@@ -75,7 +83,8 @@ function OwnerProfileForm(props) {
             .required("Required"),
         postcode: Yup.number().min(4, "Must be 4 digits").required("Required"),
         mobile: Yup.string()
-            .min(10, "Mobile number must bet 10 digits")
+            .min(10, "Mobile number must be 10 digits")
+            .max(10, "Mobile number must be 10 digits")
             .required("Required"),
         dob: Yup.string().required("Required"),
         driverLicence: Yup.string()
@@ -142,6 +151,7 @@ function OwnerProfileForm(props) {
                         Owner Registration
                     </h1>
                     <Form>
+                        {/* <TextField name="email" type="text" value={ID} /> */}
                         <div className="row">
                             <div className="col">
                                 <TextField

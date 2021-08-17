@@ -14,7 +14,6 @@ import ProfileRedirect from "./ProfileRedirect";
 
 import RadioButton from "../UI/RadioButtons/RadioButton";
 
-
 // This function captures the new user input fields, validates them, hashes the password and inserts in to the database.
 const SignUpForm = (props) => {
     const { setUser } = useContext(AuthContext);
@@ -30,8 +29,8 @@ const SignUpForm = (props) => {
             // 2. Insert the data as an object
             const response = await insertUser({
                 // NOTE firstname and lastname not required for CREDENTIAL INSERT but required to kickstart either the population of WALKERS or OWNERS table
-                firstname: formData.firstName,
-                lastname: formData.lastName,
+                firstName: formData.firstName,
+                lastName: formData.lastName,
                 email: formData.email,
                 // hashedPassword: hashedPassword,
                 password: formData.password,
@@ -74,12 +73,10 @@ const SignUpForm = (props) => {
     });
 
     return (
-
         <>
             {console.log("return load")}
             <ProfileRedirect />
             <Formik
-
                 initialValues={{
                     firstName: "",
                     lastName: "",
@@ -94,14 +91,13 @@ const SignUpForm = (props) => {
                 onSubmit={async (fields) => {
                     console.log("Fields are:", fields);
                     await insertNewUser(fields);
-
                 }}
-                onReset={() => { console.log("reset") }}
+                onReset={() => {
+                    console.log("reset");
+                }}
             >
                 {(formik) => (
-
                     <div>
-
                         <h1 className="my-4 font-weight-bold-display-4">
                             Sign Up
                         </h1>
@@ -119,7 +115,6 @@ const SignUpForm = (props) => {
                                 type="text"
                                 value={formik.values.firstName}
                                 onChange={formik.handleChange}
-
                             />
 
                             <ErrorMessage
@@ -153,7 +148,6 @@ const SignUpForm = (props) => {
                                 type="email"
                                 value={formik.values.email}
                                 onChange={formik.handleChange}
-
                             />
                             <ErrorMessage
                                 name="email"
@@ -163,16 +157,25 @@ const SignUpForm = (props) => {
                             {/* <div>
                                 <label htmlFor="">Dog Walker or Owner?</label>
                             </div> */}
-                            <div id="my-radio-group">Are you a dog walker or dog owner?</div>
-                            <div className="sign-up-form-radio-buttons" role="group" aria-labelledby="my-radio-group">
-
+                            <div id="my-radio-group">
+                                Are you a dog walker or dog owner?
+                            </div>
+                            <div
+                                className="sign-up-form-radio-buttons"
+                                role="group"
+                                aria-labelledby="my-radio-group"
+                            >
                                 <Field
                                     type="radio"
                                     name="type"
                                     value="W"
                                     label="Walker"
                                     onChange={formik.handleChange}
-                                    selected={formik.values.type === "W" ? true : false}
+                                    selected={
+                                        formik.values.type === "W"
+                                            ? true
+                                            : false
+                                    }
                                 />
                                 <label>Walker</label>
 
@@ -182,11 +185,13 @@ const SignUpForm = (props) => {
                                     value="O"
                                     label="Owner"
                                     onChange={formik.handleChange}
-                                    selected={formik.values.type === "O" ? true : false}
+                                    selected={
+                                        formik.values.type === "O"
+                                            ? true
+                                            : false
+                                    }
                                 />
                                 <label>Owner</label>
-
-
                             </div>
                             <ErrorMessage
                                 name="type"
@@ -202,7 +207,6 @@ const SignUpForm = (props) => {
                                 type="password"
                                 value={formik.values.password}
                                 onChange={formik.handleChange}
-
                             />
                             <ErrorMessage
                                 name="password"
@@ -220,7 +224,6 @@ const SignUpForm = (props) => {
                                 type="password"
                                 value={formik.values.confirmPassword}
                                 onChange={formik.handleChange}
-
                             />
                             <ErrorMessage
                                 name="confirmPassword"
@@ -241,7 +244,6 @@ const SignUpForm = (props) => {
                             >
                                 Reset
                             </button>
-
                         </Form>
                     </div>
                 )}

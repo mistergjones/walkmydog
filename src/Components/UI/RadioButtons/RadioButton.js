@@ -1,10 +1,10 @@
 import React from "react";
-// import { ErrorMessage, useField } from "formik";
-
+import { ErrorMessage, useField } from "formik";
+import "./RadioButton.css"
 const RadioButton = (props) => {
     return (
-        <div>
-            <label htmlFor={props.id}>{props.label}:</label>
+        <div className="radio-button-container">
+
             <input
                 name={props.name}
                 id={props.id}
@@ -13,8 +13,8 @@ const RadioButton = (props) => {
                 onChange={props.onChange}
                 {...props}
             />
-
-            {/* <ErrorMessage component="div" name={props.name} className="error" /> */}
+            <label htmlFor={props.id}>{props.label}</label>
+            <ErrorMessage component="p" name={props.name} className="error" />
         </div>
     );
 };

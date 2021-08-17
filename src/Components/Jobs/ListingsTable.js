@@ -1,8 +1,15 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import routes from "../../routes/routes";
 import { NavLink } from 'react-router-dom';
+import { convertDateTime } from "../../Helpers/convertDateTime";
 
 function ListingsTable({ data }) {
+    const [finalisedData, setFinalisedData] = useState([]);
+
+    useEffect(() => {
+
+        setFinalisedData(convertDateTime(data));
+    }, [data]);
     const { LISTINGS_DETAIL } = routes;
     return <table className="tbl tbl--block">
         <thead>
@@ -17,7 +24,7 @@ function ListingsTable({ data }) {
             </tr>
         </thead>
         <tbody className="listings-table-data">
-            {data.map((booking, idx) => (
+            {finalisedData.map((booking, idx) => (
 
                 <tr key={idx}>
                     <td> <NavLink to={`${LISTINGS_DETAIL}${booking.booking_id}`}>{booking.date}</NavLink></td>

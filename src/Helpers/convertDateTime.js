@@ -1,7 +1,6 @@
 // this function takes a data object and converts the start_time into a time format. i.e. 9:30 am
-const convertDateTime = (data) => {
+export const convertDateTime = (data) => {
     const formattedData = [];
-
     data.forEach((item) => {
         const formattedItem = item;
         formattedItem.date = formatAusDate(item.date);

@@ -20,6 +20,7 @@
 .content-container {
     height: 75vh;
     width: 100%;
+    overflow: scroll;
     
 }
 

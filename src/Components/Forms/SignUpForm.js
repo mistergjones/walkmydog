@@ -29,8 +29,8 @@ const SignUpForm = (props) => {
             // 2. Insert the data as an object
             const response = await insertUser({
                 // NOTE firstname and lastname not required for CREDENTIAL INSERT but required to kickstart either the population of WALKERS or OWNERS table
-                firstName: formData.firstName,
-                lastName: formData.lastName,
+                firstname: formData.firstname,
+                lastname: formData.lastname,
                 email: formData.email,
                 // hashedPassword: hashedPassword,
                 password: formData.password,
@@ -51,11 +51,11 @@ const SignUpForm = (props) => {
 
     // establish the error checking rules and messages with YUP
     const validate = Yup.object({
-        firstName: Yup.string()
+        firstname: Yup.string()
             .min(2, "Must be 2 chacters or greater")
             .max(15, "Must be 15 characters or less")
             .required("Required"),
-        lastName: Yup.string()
+        lastname: Yup.string()
             .min(2, "Must be 2 chacters or greater")
             .max(20, "Must be 20 characters or less")
             .required("Required"),
@@ -78,8 +78,8 @@ const SignUpForm = (props) => {
             <ProfileRedirect />
             <Formik
                 initialValues={{
-                    firstName: "",
-                    lastName: "",
+                    firstname: "",
+                    lastname: "",
                     email: "",
                     password: "",
                     confirmPassword: "",
@@ -111,31 +111,31 @@ const SignUpForm = (props) => {
 
                             <Field
                                 className="sign-up-form-field-width"
-                                name="firstName"
+                                name="firstname"
                                 type="text"
-                                value={formik.values.firstName}
+                                value={formik.values.firstname}
                                 onChange={formik.handleChange}
                             />
 
                             <ErrorMessage
-                                name="firstName"
+                                name="firstname"
                                 className="error"
                                 component="p"
                             />
 
                             <div>
-                                <label htmlFor="lastName">Lastname</label>
+                                <label htmlFor="lastname">Lastname</label>
                             </div>
 
                             <Field
                                 className="sign-up-form-field-width"
-                                name="lastName"
+                                name="lastname"
                                 type="text"
-                                value={formik.values.lastName}
+                                value={formik.values.lastname}
                                 onChange={formik.handleChange}
                             />
                             <ErrorMessage
-                                name="lastName"
+                                name="lastname"
                                 className="error"
                                 component="p"
                             />

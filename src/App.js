@@ -27,7 +27,7 @@ import DashboardScreen from "./Screens/DashboardScreen";
 import NotFoundScreen from "./Screens/NotFoundScreen";
 
 // GJ: 06/08: added the below screen
-import OwnerProfileScreen from "./Screens/OwnerProfileScreen";
+import OwnerProfileScreen from "./Components/Profiles/OwnerProfileScreen";
 import WalkerProfileScreen from "./Components/Profiles/WalkerProfileScreen";
 
 function App() {
@@ -56,6 +56,10 @@ function App() {
                     <ProtectedRoute
                         path={routes.OWNERS}
                         component={OwnersScreen}
+                    />
+                    <ProtectedRoute
+                        path={routes.DASHBOARD_OWNER}
+                        component={DashboardScreen}
                     />
                     <ProtectedRoute
                         path={routes.DASHBOARD_WALKER}

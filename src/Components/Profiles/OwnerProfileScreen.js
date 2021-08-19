@@ -1,6 +1,6 @@
 import React from "react";
 import "./OwnerProfileScreen.css";
-import MasterScreen from "./Master/MasterScreen";
+import MasterScreen from "../../Screens/Master/MasterScreen";
 import OwnerProfileContent from "./OwnerProfileContent";
 
 function OwnerProfileScreen(props) {

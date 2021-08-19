@@ -77,7 +77,6 @@ CREATE TABLE users (
 );
 
 INSERT INTO USERS (firstname,lastname,street_address,town,postcode,mobile,email,password,dob,licence_num,licence_photo,bankName,bankBSB,bankAcctNum,overall_rating,type,walker_30WO,walker_60WO,walker_30HV,walker_60HV,active_membership,size_id) VALUES('generic','generic','11 Generic Street','Frankston',3199,'0400999999','gg@ggeneric.com','zzz122','2000-01-05','111111111','notapplied','CBA',063133,12345678,5,'O',0,0,0,0,'TRUE',1);
-
 INSERT INTO USERS (firstname,lastname,street_address,town,postcode,mobile,email,password,dob,licence_num,licence_photo,bankName,bankBSB,bankAcctNum,overall_rating,type,walker_30WO,walker_60WO,walker_30HV,walker_60HV,active_membership,size_id) VALUES('andre','reid','11 Playne Street','Frankston',3199,'0400000000','ar@areid.com','zzz123','2000-01-01','111111112','notapplied','CBA',063134,12345678,1,'O',0,0,0,0,'TRUE',1);
 INSERT INTO USERS (firstname,lastname,street_address,town,postcode,mobile,email,password,dob,licence_num,licence_photo,bankName,bankBSB,bankAcctNum,overall_rating,type,walker_30WO,walker_60WO,walker_30HV,walker_60HV,active_membership,size_id) VALUES('paddy','piper','11 Austin Road','Seaford',3198,'0401000001','pp@ppiper.com','zzz124','2000-01-02','111111113','notapplied','CBA',063135,12345678,2,'O',0,0,0,0,'TRUE',1);
 INSERT INTO USERS (firstname,lastname,street_address,town,postcode,mobile,email,password,dob,licence_num,licence_photo,bankName,bankBSB,bankAcctNum,overall_rating,type,walker_30WO,walker_60WO,walker_30HV,walker_60HV,active_membership,size_id) VALUES('riccardo','goodwin','11 Walkers Road','Carrum',3197,'0401000002','rg@rgoodwin.com','zzz125','2000-01-03','111111114','notapplied','CBA',063136,12345678,3,'O',0,0,0,0,'TRUE',1);
@@ -117,6 +116,7 @@ INSERT INTO USERS (firstname,lastname,street_address,town,postcode,mobile,email,
 INSERT INTO USERS (firstname,lastname,street_address,town,postcode,mobile,email,password,dob,licence_num,licence_photo,bankName,bankBSB,bankAcctNum,overall_rating,type,walker_30WO,walker_60WO,walker_30HV,walker_60HV,active_membership,size_id) VALUES('gurpreet','cowan','14 Cheddar Road','Reservoir',3073,'0401000036','gc@gcowan.com','zzz159','2000-01-18','111111148','notapplied','CBA',063170,12345678,2,'W',0,0,3,4,'TRUE',7);
 INSERT INTO USERS (firstname,lastname,street_address,town,postcode,mobile,email,password,dob,licence_num,licence_photo,bankName,bankBSB,bankAcctNum,overall_rating,type,walker_30WO,walker_60WO,walker_30HV,walker_60HV,active_membership,size_id) VALUES('aaliya','henry','14 The Blvd','Thomastown',3074,'0401000037','ah@ahenry.com','zzz160','2000-01-19','111111149','notapplied','CBA',063171,12345678,3,'W',1,0,3,4,'TRUE',8);
 INSERT INTO USERS (firstname,lastname,street_address,town,postcode,mobile,email,password,dob,licence_num,licence_photo,bankName,bankBSB,bankAcctNum,overall_rating,type,walker_30WO,walker_60WO,walker_30HV,walker_60HV,active_membership,size_id) VALUES('becky','hayden','14 Oherns Road','Epping',3076,'0401000038','bh@bhayden.com','zzz161','2000-01-01','111111150','notapplied','CBA',063172,12345678,4,'W',1,0,0,4,'TRUE',8);
+SELECT count(*) FROM users;
 
 -- THIS TABLE CREATE DOGS
 CREATE TABLE dogs (
@@ -125,7 +125,7 @@ dog_firstname VARCHAR(20) NOT NULL,
 dog_photo VARCHAR(100) NOT NULL,
 dog_breed VARCHAR(20) NOT NULL,
 dog_size VARCHAR(1) NOT NULL,
-dog_always_leashed BOOLEAN DEFAULT TRUE,
+dog_always_leashed VARCHAR(3) NOT NULL,
 user_id INTEGER,
 FOREIGN KEY (user_id) REFERENCES users(user_id)
 );
@@ -133,46 +133,46 @@ FOREIGN KEY (user_id) REFERENCES users(user_id)
 
 -- DOGS DATA
 
-INSERT INTO DOGS (dog_firstname, dog_photo, dog_breed, dog_size, dog_always_leashed, user_id) VALUES  ('fido','notapplied','sausage','S','TRUE',1);
-INSERT INTO DOGS (dog_firstname, dog_photo, dog_breed, dog_size, dog_always_leashed, user_id) VALUES  ('charlie','notapplied','alsatian','L','TRUE',2);
-INSERT INTO DOGS (dog_firstname, dog_photo, dog_breed, dog_size, dog_always_leashed, user_id) VALUES  ('mick','notapplied','mutt','M','FALSE',3);
-INSERT INTO DOGS (dog_firstname, dog_photo, dog_breed, dog_size, dog_always_leashed, user_id) VALUES  ('jess','notapplied','collie','M','TRUE',4);
-INSERT INTO DOGS (dog_firstname, dog_photo, dog_breed, dog_size, dog_always_leashed, user_id) VALUES  ('jessie','notapplied','lapdog','S','FALSE',5);
-INSERT INTO DOGS (dog_firstname, dog_photo, dog_breed, dog_size, dog_always_leashed, user_id) VALUES  ('tito','notapplied','retreiver','L','TRUE',6);
-INSERT INTO DOGS (dog_firstname, dog_photo, dog_breed, dog_size, dog_always_leashed, user_id) VALUES  ('brutus','notapplied','labrador','L','TRUE',7);
-INSERT INTO DOGS (dog_firstname, dog_photo, dog_breed, dog_size, dog_always_leashed, user_id) VALUES  ('jen','notapplied','pug','S','FALSE',8);
-INSERT INTO DOGS (dog_firstname, dog_photo, dog_breed, dog_size, dog_always_leashed, user_id) VALUES  ('tomtom','notapplied','corgi','S','FALSE',9);
-INSERT INTO DOGS (dog_firstname, dog_photo, dog_breed, dog_size, dog_always_leashed, user_id) VALUES  ('daisy','notapplied','terrier','S','FALSE',10);
-INSERT INTO DOGS (dog_firstname, dog_photo, dog_breed, dog_size, dog_always_leashed, user_id) VALUES  ('Loki','notapplied','sausage','S','FALSE',11);
-INSERT INTO DOGS (dog_firstname, dog_photo, dog_breed, dog_size, dog_always_leashed, user_id) VALUES  ('Toki','notapplied','alsatian','L','TRUE',12);
-INSERT INTO DOGS (dog_firstname, dog_photo, dog_breed, dog_size, dog_always_leashed, user_id) VALUES  ('Miko','notapplied','mutt','M','FALSE',13);
-INSERT INTO DOGS (dog_firstname, dog_photo, dog_breed, dog_size, dog_always_leashed, user_id) VALUES  ('Joki','notapplied','collie','M','TRUE',14);
-INSERT INTO DOGS (dog_firstname, dog_photo, dog_breed, dog_size, dog_always_leashed, user_id) VALUES  ('Noki','notapplied','lapdog','S','TRUE',15);
-INSERT INTO DOGS (dog_firstname, dog_photo, dog_breed, dog_size, dog_always_leashed, user_id) VALUES  ('Roki','notapplied','retreiver','L','TRUE',16);
-INSERT INTO DOGS (dog_firstname, dog_photo, dog_breed, dog_size, dog_always_leashed, user_id) VALUES  ('Zoki','notapplied','labrador','L','FALSE',17);
-INSERT INTO DOGS (dog_firstname, dog_photo, dog_breed, dog_size, dog_always_leashed, user_id) VALUES  ('Woki','notapplied','pug','S','TRUE',18);
-INSERT INTO DOGS (dog_firstname, dog_photo, dog_breed, dog_size, dog_always_leashed, user_id) VALUES  ('Poki','notapplied','corgi','S','FALSE',19);
-INSERT INTO DOGS (dog_firstname, dog_photo, dog_breed, dog_size, dog_always_leashed, user_id) VALUES  ('Soki','notapplied','terrier','S','TRUE',20);
-INSERT INTO DOGS (dog_firstname, dog_photo, dog_breed, dog_size, dog_always_leashed, user_id) VALUES  ('fido','notapplied','sausage','S','TRUE',21);
-INSERT INTO DOGS (dog_firstname, dog_photo, dog_breed, dog_size, dog_always_leashed, user_id) VALUES  ('charlie','notapplied','alsatian','L','FALSE',22);
-INSERT INTO DOGS (dog_firstname, dog_photo, dog_breed, dog_size, dog_always_leashed, user_id) VALUES  ('mick','notapplied','mutt','M','TRUE',23);
-INSERT INTO DOGS (dog_firstname, dog_photo, dog_breed, dog_size, dog_always_leashed, user_id) VALUES  ('jess','notapplied','collie','M','TRUE',24);
-INSERT INTO DOGS (dog_firstname, dog_photo, dog_breed, dog_size, dog_always_leashed, user_id) VALUES  ('jessie','notapplied','lapdog','S','FALSE',25);
-INSERT INTO DOGS (dog_firstname, dog_photo, dog_breed, dog_size, dog_always_leashed, user_id) VALUES  ('tito','notapplied','retreiver','L','TRUE',26);
-INSERT INTO DOGS (dog_firstname, dog_photo, dog_breed, dog_size, dog_always_leashed, user_id) VALUES  ('brutus','notapplied','labrador','L','FALSE',27);
-INSERT INTO DOGS (dog_firstname, dog_photo, dog_breed, dog_size, dog_always_leashed, user_id) VALUES  ('jen','notapplied','pug','S','TRUE',28);
-INSERT INTO DOGS (dog_firstname, dog_photo, dog_breed, dog_size, dog_always_leashed, user_id) VALUES  ('tomtom','notapplied','corgi','S','TRUE',29);
-INSERT INTO DOGS (dog_firstname, dog_photo, dog_breed, dog_size, dog_always_leashed, user_id) VALUES  ('daisy','notapplied','terrier','S','FALSE',30);
-INSERT INTO DOGS (dog_firstname, dog_photo, dog_breed, dog_size, dog_always_leashed, user_id) VALUES  ('Loki','notapplied','sausage','S','TRUE',31);
-INSERT INTO DOGS (dog_firstname, dog_photo, dog_breed, dog_size, dog_always_leashed, user_id) VALUES  ('Toki','notapplied','alsatian','L','FALSE',32);
-INSERT INTO DOGS (dog_firstname, dog_photo, dog_breed, dog_size, dog_always_leashed, user_id) VALUES  ('Miko','notapplied','mutt','M','TRUE',33);
-INSERT INTO DOGS (dog_firstname, dog_photo, dog_breed, dog_size, dog_always_leashed, user_id) VALUES  ('Joki','notapplied','collie','M','TRUE',34);
-INSERT INTO DOGS (dog_firstname, dog_photo, dog_breed, dog_size, dog_always_leashed, user_id) VALUES  ('Noki','notapplied','lapdog','S','FALSE',35);
-INSERT INTO DOGS (dog_firstname, dog_photo, dog_breed, dog_size, dog_always_leashed, user_id) VALUES  ('Roki','notapplied','retreiver','L','FALSE',36);
-INSERT INTO DOGS (dog_firstname, dog_photo, dog_breed, dog_size, dog_always_leashed, user_id) VALUES  ('Zoki','notapplied','labrador','L','FALSE',37);
-INSERT INTO DOGS (dog_firstname, dog_photo, dog_breed, dog_size, dog_always_leashed, user_id) VALUES  ('Woki','notapplied','pug','S','FALSE',38);
-INSERT INTO DOGS (dog_firstname, dog_photo, dog_breed, dog_size, dog_always_leashed, user_id) VALUES  ('Poki','notapplied','corgi','S','TRUE',39);
-INSERT INTO DOGS (dog_firstname, dog_photo, dog_breed, dog_size, dog_always_leashed, user_id) VALUES  ('Soki','notapplied','terrier','S','FALSE',40);
+INSERT INTO DOGS (dog_firstname, dog_photo, dog_breed, dog_size, dog_always_leashed, user_id) VALUES  ('fido','notapplied','sausage','S','YES',1);
+INSERT INTO DOGS (dog_firstname, dog_photo, dog_breed, dog_size, dog_always_leashed, user_id) VALUES  ('charlie','notapplied','alsatian','L','YES',2);
+INSERT INTO DOGS (dog_firstname, dog_photo, dog_breed, dog_size, dog_always_leashed, user_id) VALUES  ('mick','notapplied','mutt','M','NO',3);
+INSERT INTO DOGS (dog_firstname, dog_photo, dog_breed, dog_size, dog_always_leashed, user_id) VALUES  ('jess','notapplied','collie','M','YES',4);
+INSERT INTO DOGS (dog_firstname, dog_photo, dog_breed, dog_size, dog_always_leashed, user_id) VALUES  ('jessie','notapplied','lapdog','S','NO',5);
+INSERT INTO DOGS (dog_firstname, dog_photo, dog_breed, dog_size, dog_always_leashed, user_id) VALUES  ('tito','notapplied','retreiver','L','YES',6);
+INSERT INTO DOGS (dog_firstname, dog_photo, dog_breed, dog_size, dog_always_leashed, user_id) VALUES  ('brutus','notapplied','labrador','L','YES',7);
+INSERT INTO DOGS (dog_firstname, dog_photo, dog_breed, dog_size, dog_always_leashed, user_id) VALUES  ('jen','notapplied','pug','S','NO',8);
+INSERT INTO DOGS (dog_firstname, dog_photo, dog_breed, dog_size, dog_always_leashed, user_id) VALUES  ('tomtom','notapplied','corgi','S','NO',9);
+INSERT INTO DOGS (dog_firstname, dog_photo, dog_breed, dog_size, dog_always_leashed, user_id) VALUES  ('daisy','notapplied','terrier','S','NO',10);
+INSERT INTO DOGS (dog_firstname, dog_photo, dog_breed, dog_size, dog_always_leashed, user_id) VALUES  ('Loki','notapplied','sausage','S','NO',11);
+INSERT INTO DOGS (dog_firstname, dog_photo, dog_breed, dog_size, dog_always_leashed, user_id) VALUES  ('Toki','notapplied','alsatian','L','YES',12);
+INSERT INTO DOGS (dog_firstname, dog_photo, dog_breed, dog_size, dog_always_leashed, user_id) VALUES  ('Miko','notapplied','mutt','M','NO',13);
+INSERT INTO DOGS (dog_firstname, dog_photo, dog_breed, dog_size, dog_always_leashed, user_id) VALUES  ('Joki','notapplied','collie','M','YES',14);
+INSERT INTO DOGS (dog_firstname, dog_photo, dog_breed, dog_size, dog_always_leashed, user_id) VALUES  ('Noki','notapplied','lapdog','S','YES',15);
+INSERT INTO DOGS (dog_firstname, dog_photo, dog_breed, dog_size, dog_always_leashed, user_id) VALUES  ('Roki','notapplied','retreiver','L','YES',16);
+INSERT INTO DOGS (dog_firstname, dog_photo, dog_breed, dog_size, dog_always_leashed, user_id) VALUES  ('Zoki','notapplied','labrador','L','NO',17);
+INSERT INTO DOGS (dog_firstname, dog_photo, dog_breed, dog_size, dog_always_leashed, user_id) VALUES  ('Woki','notapplied','pug','S','YES',18);
+INSERT INTO DOGS (dog_firstname, dog_photo, dog_breed, dog_size, dog_always_leashed, user_id) VALUES  ('Poki','notapplied','corgi','S','NO',19);
+INSERT INTO DOGS (dog_firstname, dog_photo, dog_breed, dog_size, dog_always_leashed, user_id) VALUES  ('Soki','notapplied','terrier','S','YES',20);
+INSERT INTO DOGS (dog_firstname, dog_photo, dog_breed, dog_size, dog_always_leashed, user_id) VALUES  ('fido','notapplied','sausage','S','YES',21);
+INSERT INTO DOGS (dog_firstname, dog_photo, dog_breed, dog_size, dog_always_leashed, user_id) VALUES  ('charlie','notapplied','alsatian','L','NO',22);
+INSERT INTO DOGS (dog_firstname, dog_photo, dog_breed, dog_size, dog_always_leashed, user_id) VALUES  ('mick','notapplied','mutt','M','YES',23);
+INSERT INTO DOGS (dog_firstname, dog_photo, dog_breed, dog_size, dog_always_leashed, user_id) VALUES  ('jess','notapplied','collie','M','YES',24);
+INSERT INTO DOGS (dog_firstname, dog_photo, dog_breed, dog_size, dog_always_leashed, user_id) VALUES  ('jessie','notapplied','lapdog','S','NO',25);
+INSERT INTO DOGS (dog_firstname, dog_photo, dog_breed, dog_size, dog_always_leashed, user_id) VALUES  ('tito','notapplied','retreiver','L','YES',26);
+INSERT INTO DOGS (dog_firstname, dog_photo, dog_breed, dog_size, dog_always_leashed, user_id) VALUES  ('brutus','notapplied','labrador','L','NO',27);
+INSERT INTO DOGS (dog_firstname, dog_photo, dog_breed, dog_size, dog_always_leashed, user_id) VALUES  ('jen','notapplied','pug','S','YES',28);
+INSERT INTO DOGS (dog_firstname, dog_photo, dog_breed, dog_size, dog_always_leashed, user_id) VALUES  ('tomtom','notapplied','corgi','S','YES',29);
+INSERT INTO DOGS (dog_firstname, dog_photo, dog_breed, dog_size, dog_always_leashed, user_id) VALUES  ('daisy','notapplied','terrier','S','NO',30);
+INSERT INTO DOGS (dog_firstname, dog_photo, dog_breed, dog_size, dog_always_leashed, user_id) VALUES  ('Loki','notapplied','sausage','S','YES',31);
+INSERT INTO DOGS (dog_firstname, dog_photo, dog_breed, dog_size, dog_always_leashed, user_id) VALUES  ('Toki','notapplied','alsatian','L','NO',32);
+INSERT INTO DOGS (dog_firstname, dog_photo, dog_breed, dog_size, dog_always_leashed, user_id) VALUES  ('Miko','notapplied','mutt','M','YES',33);
+INSERT INTO DOGS (dog_firstname, dog_photo, dog_breed, dog_size, dog_always_leashed, user_id) VALUES  ('Joki','notapplied','collie','M','YES',34);
+INSERT INTO DOGS (dog_firstname, dog_photo, dog_breed, dog_size, dog_always_leashed, user_id) VALUES  ('Noki','notapplied','lapdog','S','NO',35);
+INSERT INTO DOGS (dog_firstname, dog_photo, dog_breed, dog_size, dog_always_leashed, user_id) VALUES  ('Roki','notapplied','retreiver','L','NO',36);
+INSERT INTO DOGS (dog_firstname, dog_photo, dog_breed, dog_size, dog_always_leashed, user_id) VALUES  ('Zoki','notapplied','labrador','L','NO',37);
+INSERT INTO DOGS (dog_firstname, dog_photo, dog_breed, dog_size, dog_always_leashed, user_id) VALUES  ('Woki','notapplied','pug','S','NO',38);
+INSERT INTO DOGS (dog_firstname, dog_photo, dog_breed, dog_size, dog_always_leashed, user_id) VALUES  ('Poki','notapplied','corgi','S','YES',39);
+INSERT INTO DOGS (dog_firstname, dog_photo, dog_breed, dog_size, dog_always_leashed, user_id) VALUES  ('Soki','notapplied','terrier','S','NO',40);
 SELECT count(*) FROM dogs;
 
 

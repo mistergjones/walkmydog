@@ -22,46 +22,54 @@ function OwnerProfileForm(props) {
     const { request: updateOwner } = useApi(ownersApi.updateOwner);
     const { request: insertDog } = useApi(dogsApi.insertDog);
 
-    console.log("GLEN THE USER TOKEN INFO IS: ", user);
+    const { request: getOwnerFromCredentialByEmail } = useApi(
+        ownersApi.getOwnerFromCredentialByEmail
+    );
 
-    // now update the owner and dog table with this INFORMATION.
-    // NOTE: CREDENTIAL ID IS HARDCODES UNTIL CODE MIGRATION/UPDATES
+    const { request: updateOwnerProfile } = useApi(
+        ownersApi.updateOwnerProfile
+    );
+
+    // user object has keys: email, firsntame, hasProfile, id, lastname, type
+    // console.log("GLEN THE USER TOKEN INFO IS: ", user);
+
+    // This function allows a user who has signed up as a DOG OWNER to complete their enrollment by providing
+    // their personal, bank account and dog details.
+    // If the form is valid, this information is then updated in the OWNER, DOG and CREDETIAL tables
     const updatedOwner = async (formData) => {
-        // convert the AUS DATE to US DATA Format to store in Database
+        // 1.0 Convert the DOB field from AUS format to US format to suit Postgress.
         formData.dob = helpers.formatAusDateToUSDate(formData.dob);
 
+        // create an entire data object taht will be used to store both Owner and Dog Info Objects
+        let ownerDataObject = {};
+
         try {
-            // 0.0 Obtain owner information from owner table based on 'user' TOKEN credential_id. This is required so we can insert the OWNER_ID into the DOG TABLE
-            var credentialId = user.id;
-            const ownerObj = await getOwner(credentialId);
-            // establish data object to prepare for key/value pair of owner id
-            const ownerDataObj = {};
-            ownerDataObj.owner_id = ownerObj.data.owner[0].owner_id;
+            // console.log("FORM DATA is:", formData);
+            console.log("USER is", user);
 
-            // 1.0 Update the owner info into the table
-            const ownerResponse = await updateOwner(formData);
-            // console.log(
-            //     "ownerProfile.js -> DO I GET A owner RESPONSE?????",
-            //     ownerResponse
-            // );
+            // DOG INFO PART
+            // 1.0 Obtain owner information from owner table based on 'user' TOKEN credential_id. This is required so we can insert the OWNER_ID into the DOG TABLE. e.g. map a dog to their owner_id
+            const ownerObj = await getOwner(user.id);
 
-            // 2.0 need to insert the dog info into the dog table and pass the owner ID
-            const dogInfo = {
-                dogName: formData.dogName,
-                dogBreed: formData.dogBreed,
-                dogSize: formData.dogSize,
-                requiresLeash: formData.requiresLeash,
-                owner_id: ownerDataObj.owner_id,
+            if (ownerObj.data.owner.length === 0) {
+                console.log("Failed to obain the owner information");
+            }
+
+            // 2.0 Get all the infromation for the ownerDataObj.
+            ownerDataObject = {
+                ...formData,
+                ...user,
+                owner_id: ownerObj.data.owner[0].owner_id,
             };
 
-            const dogResponse = await insertDog(dogInfo);
-            // console.log(
-            //     "ownerProfile.js -> DO I GET A dog RESPONSE?????",
-            //     dogResponse
-            // );
+            const response = await updateOwnerProfile({
+                profile: ownerDataObject,
+            });
+
+            console.log("WTF WTF WTF", response);
 
             // GET JWT TOKEN FROM RESPONSE AND DECODE TO USER OBJECT. IF NO TOKEN RETURNS NULL;
-            setUser(jwtService.getUserFromResponseToken(ownerResponse));
+            setUser(jwtService.getUserFromResponseToken(response));
         } catch (error) {
             console.log("ownerProfileForm -> updatedOwner()", error);
         }
@@ -107,246 +115,337 @@ function OwnerProfileForm(props) {
             .min(2, "Dog name must be >= 2 letters")
             .required("Required"),
         dogSize: Yup.string().required("Please select your dog size"),
-        requiresLeash: Yup.bool().oneOf(
-            [true],
-            "Does your dog require an always on leash?"
+        requiresLeash: Yup.string().required(
+            "Yes or No: Does your dog require an always on leash?"
         ),
     });
     return (
-        <Formik
-            initialValues={{
-                firstname: "",
-                lastname: "",
-                streetAddress: "",
-                suburb: "",
-                postcode: "",
-                mobile: "",
-                dob: "",
-                driverLicence: "",
-                bankName: "",
-                BSB: "",
-                accountNumber: "",
-                acceptTerms: false,
-                dogName: "",
-                dogBreed: "",
-                dogSize: "",
-                requiresLeash: false,
-            }}
-            // validate the input fields to the schema above
-            validationSchema={validate}
-            // onSubmit={(values) => console.log(values)}
-            // onSubmit={async () => {
-            //     await getOwners();
-            // }}
-            onSubmit={async (fields) => {
-                // console.log("Fields are: ", fields);
+        <>
+            <ProfileRedirect />
+            <Formik
+                initialValues={{
+                    firstname: user.firstname,
+                    lastname: user.lastname,
+                    streetAddress: "",
+                    suburb: "",
+                    postcode: "",
+                    mobile: "",
+                    dob: "",
+                    driverLicence: "",
+                    bankName: "",
+                    BSB: "",
+                    accountNumber: "",
+                    acceptTerms: false,
+                    dogName: "",
+                    dogBreed: "",
+                    dogSize: "",
+                    requiresLeash: "",
+                }}
+                // validate the input fields to the schema above
+                validationSchema={validate}
+                // onSubmit={(values) => console.log(values)}
+                // onSubmit={async () => {
+                //     await getOwners();
+                // }}
+                onSubmit={async (fields) => {
+                    try {
+                        // console.log("Fields are: ", fields);
+                        // need to update the owner table. NOTE: RATING and MEMBERHSIP_ACTIVE are hardcode in the SQL directly
+                        const response = await updatedOwner(fields);
+                    } catch (error) {}
+                }}
+            >
+                {(formik) => (
+                    <div>
+                        <Form>
+                            <div className="owner-form-container">
+                                <section>
+                                    <div className="owner-profile-form-container">
+                                        <h1 className="owner-profile-form-heading">
+                                            Owner Details
+                                        </h1>
+                                        <div className="owner-profile-form-field-col-1">
+                                            <TextField
+                                                // label="Firstname"
+                                                name="firstname"
+                                                type="text"
+                                                placeholder="Firstname"
+                                            />
+                                        </div>
 
-                // need to update the owner table. NOTE: RATING and MEMBERHSIP_ACTIVE are hardcode in the SQL directly
-                await updatedOwner(fields);
-            }}
-        >
-            {(formikInfo) => (
-                <div>
-                    <h1 className="my-4 font-weight-bold display-4">
-                        Owner Registration
-                    </h1>
-                    <Form>
-                        {/* <TextField name="email" type="text" value={ID} /> */}
-                        <div className="row">
-                            <div className="col">
-                                <TextField
-                                    // label="Firstname"
-                                    name="firstname"
-                                    type="text"
-                                    placeholder="Firstname"
-                                />
-                            </div>
-                            <div className="col">
-                                <TextField
-                                    // label="Lastname"
-                                    name="lastname"
-                                    type="text"
-                                    placeholder="Lastname"
-                                />
-                            </div>
-                        </div>
+                                        <div className="owner-profile-form-field-col-2">
+                                            <TextField
+                                                // label="Lastname"
+                                                name="lastname"
+                                                type="text"
+                                                placeholder="Lastname"
+                                            />
+                                        </div>
 
-                        <TextField
-                            // label="Street Address"
-                            name="streetAddress"
-                            type="text"
-                            placeholder="Street Address"
-                        />
-                        <div className="row">
-                            <div className="col">
-                                <TextField
-                                    // label="Suburb"
-                                    name="suburb"
-                                    type="text"
-                                    placeholder="Suburb"
-                                />
-                            </div>
-                            <div className="col">
-                                <TextField
-                                    // label="Postcode"
-                                    name="postcode"
-                                    type="number"
-                                    placeholder="Postcode"
-                                />
-                            </div>
-                        </div>
+                                        <div className="owner-profile-form-field-2-col-span">
+                                            <TextField
+                                                // label="Street Address"
+                                                name="streetAddress"
+                                                type="text"
+                                                placeholder="Street Address"
+                                            />
+                                        </div>
 
-                        <div className="row">
-                            <div className="col">
-                                <TextField
-                                    // label="Mobile"
-                                    name="mobile"
-                                    type="text"
-                                    placeholder="Mobile #"
-                                />
-                            </div>
-                            <div className="col">
-                                <TextField
-                                    // label="DOB"
-                                    name="dob"
-                                    type="date"
-                                    placeholder="DOB: DD-MM-YYYY"
-                                />
-                            </div>
-                        </div>
+                                        <div className="owner-profile-form-field-col-1">
+                                            <TextField
+                                                // label="Suburb"
+                                                name="suburb"
+                                                type="text"
+                                                placeholder="Suburb"
+                                            />
+                                        </div>
 
-                        <TextField
-                            // label="Driver Licence No:"
-                            name="driverLicence"
-                            type="text"
-                            placeholder="Driver Licence #"
-                        />
+                                        <div className="owner-profile-form-field-col-2">
+                                            <TextField
+                                                // label="Postcode"
+                                                name="postcode"
+                                                type="number"
+                                                placeholder="Postcode"
+                                            />
+                                        </div>
 
-                        <div className="row">
-                            <div className="col">
-                                <TextField
-                                    // label="Bank Name"
-                                    name="bankName"
-                                    type="text"
-                                    placeholder="Bank Name"
-                                />
-                            </div>
-                            <div className="col">
-                                <TextField
-                                    // label="BSB"
-                                    name="BSB"
-                                    type="text"
-                                    placeholder="BSB #"
-                                />
-                            </div>
-                        </div>
-                        <TextField
-                            // label="Account No:"
-                            name="accountNumber"
-                            type="text"
-                            placeholder="Account Number"
-                        />
+                                        <div className="owner-profile-form-field-col-1">
+                                            <TextField
+                                                // label="Mobile"
+                                                name="mobile"
+                                                type="text"
+                                                placeholder="Mobile #"
+                                            />
+                                        </div>
 
-                        <div className="row">
-                            <div className="col">
-                                <TextField
-                                    // label="Dog Name"
-                                    name="dogName"
-                                    type="text"
-                                    placeholder="Dog Name"
-                                />
-                            </div>
-                            <div className="col">
-                                <TextField
-                                    // label="Breed"
-                                    name="dogBreed"
-                                    type="text"
-                                    placeholder=" Dog Breed"
-                                />
-                            </div>
-                        </div>
+                                        <div className="owner-profile-form-field-col-2">
+                                            <TextField
+                                                // label="DOB"
+                                                name="dob"
+                                                type="date"
+                                                placeholder="DOB: DD-MM-YYYY"
+                                            />
+                                        </div>
 
-                        {/* <div>
+                                        <div className="owner-profile-form-field-col-1">
+                                            <TextField
+                                                // label="Driver Licence No:"
+                                                name="driverLicence"
+                                                type="text"
+                                                placeholder="Driver Licence #"
+                                            />
+                                        </div>
+                                    </div>
+
+                                    <div className="owner-profile-form-container">
+                                        <h1 className="owner-profile-form-heading">
+                                            Bank Details
+                                        </h1>
+                                        <div className="owner-profile-form-field-2-col-span">
+                                            <TextField
+                                                // label="Bank Name"
+                                                name="bankName"
+                                                type="text"
+                                                placeholder="Bank Name"
+                                            />
+                                        </div>
+                                        <div className="walker-profile-form-field-col-1">
+                                            <TextField
+                                                // label="BSB"
+                                                name="BSB"
+                                                type="text"
+                                                placeholder="BSB #"
+                                            />
+                                        </div>
+                                        <div className="walker-profile-form-field-col-2">
+                                            <TextField
+                                                // label="Account No:"
+                                                name="accountNumber"
+                                                type="text"
+                                                placeholder="Account Number"
+                                            />
+                                        </div>
+                                    </div>
+                                </section>
+
+                                <section>
+                                    <div className="owner-profile-form-container">
+                                        <h1 className="owner-profile-form-heading">
+                                            Dog Details
+                                        </h1>
+
+                                        <div className="owner-profile-form-field-col-1">
+                                            <TextField
+                                                // label="Dog Name"
+                                                name="dogName"
+                                                type="text"
+                                                placeholder="Dog Name"
+                                            />
+                                        </div>
+
+                                        <div className="owner-profile-form-field-col-2">
+                                            <TextField
+                                                // label="Breed"
+                                                name="dogBreed"
+                                                type="text"
+                                                placeholder=" Dog Breed"
+                                            />
+                                        </div>
+
+                                        {/* <div>
                             <TextField
                                 // label="Dog Photo"
                                 name="dogPhoto"
                                 type="text"
                                 placeholder="NOT WORKING - PLACEHOLDER Dog Photo"
                             />
-                        </div> */}
+                            </div> */}
 
-                        <div className="sign-up-form-radio-buttons">
-                            <label htmlFor="">
-                                Small Dog:
-                                <Field type="radio" name="dogSize" value="S" />
-                            </label>
+                                        <div className="owner-profile-form-field-2-col-span">
+                                            <h1 className="owner-profile-form-heading">
+                                                Dog Size
+                                            </h1>
+                                            <div className="sign-up-form-radio-buttons">
+                                                <label htmlFor="">
+                                                    Small Dog:
+                                                    <Field
+                                                        type="radio"
+                                                        name="dogSize"
+                                                        value="S"
+                                                    />
+                                                </label>
 
-                            <label htmlFor="">
-                                Medium Dog:
-                                <Field type="radio" name="dogSize" value="M" />
-                            </label>
+                                                <label htmlFor="">
+                                                    Medium Dog:
+                                                    <Field
+                                                        type="radio"
+                                                        name="dogSize"
+                                                        value="M"
+                                                    />
+                                                </label>
 
-                            <label htmlFor="">
-                                Large Dog:
-                                <Field type="radio" name="dogSize" value="L" />
-                            </label>
-                        </div>
-                        <ErrorMessage
-                            name="dogSize"
-                            className="error"
-                            component="p"
-                        />
+                                                <label htmlFor="">
+                                                    Large Dog:
+                                                    <Field
+                                                        type="radio"
+                                                        name="dogSize"
+                                                        value="L"
+                                                    />
+                                                </label>
+                                            </div>
+                                            <ErrorMessage
+                                                name="dogSize"
+                                                className="error"
+                                                component="p"
+                                            />
+                                        </div>
 
-                        <div className="sign-up-form-radio-buttons">
-                            <label htmlFor="">
-                                Yes - Leash always required?:
-                                <Field
-                                    type="radio"
-                                    name="requiresLeash"
-                                    value="TRUE"
-                                />
-                            </label>
+                                        <div className="owner-profile-form-field-2-col-span">
+                                            <h1 className="owner-profile-form-heading">
+                                                Always Leashed?
+                                            </h1>
+                                            <div className="sign-up-form-radio-buttons">
+                                                <label htmlFor="">
+                                                    Yes:
+                                                    <Field
+                                                        type="radio"
+                                                        name="requiresLeash"
+                                                        value="YES"
+                                                        onChange={
+                                                            formik.handleChange
+                                                        }
+                                                    />
+                                                </label>
 
-                            <label htmlFor="">
-                                No - Leash not required:
-                                <Field
-                                    type="radio"
-                                    name="requiresLeash"
-                                    value="FALSE"
-                                />
-                            </label>
-                        </div>
-                        <ErrorMessage
-                            name="requiresLeash"
-                            className="error"
-                            component="p"
-                        />
+                                                <label htmlFor="">
+                                                    No:
+                                                    <Field
+                                                        type="radio"
+                                                        name="requiresLeash"
+                                                        value="NO"
+                                                        onChange={
+                                                            formik.handleChange
+                                                        }
+                                                    />
+                                                </label>
+                                            </div>
+                                            {/* <Field
+                                type="radio"
+                                name="requiresLeash"
+                                value="TRUE"
+                                label="Leashed?"
+                                onChange={formik.handleChange}
+                                selected={
+                                    formik.values.type === "TRUE" ? true : false
+                                }
+                            />
+                            <label>Leashed?</label>
 
-                        <label htmlFor="acceptTerms" className="accept_terms">
-                            <Field type="checkbox" name="acceptTerms" />
-                            Accept Terms and Conditions
-                        </label>
+                            <Field
+                                type="radio"
+                                name="requiresLeash"
+                                value="FALSE"
+                                label="No Leash"
+                                onChange={formik.handleChange}
+                                selected={
+                                    formik.values.type === "FALSE"
+                                        ? true
+                                        : false
+                                }
+                            />
+                            <label>No Leashed</label> */}
+                                        </div>
 
-                        <ErrorMessage
-                            name="acceptTerms"
-                            className="error"
-                            component="p"
-                        />
+                                        <ErrorMessage
+                                            name="requiresLeash"
+                                            className="error"
+                                            component="p"
+                                        />
 
-                        <div></div>
-                        <button className="btn btn-dark mt-3" type="submit">
-                            Create Profile
-                        </button>
-                        <button
-                            className="btn btn-danger mt-3 ms-3"
-                            type="reset"
-                        >
-                            Reset
-                        </button>
-                    </Form>
-                </div>
-            )}
-        </Formik>
+                                        <div className="owner-profile-form-field-2-col-span">
+                                            <h1 className="owner-profile-form-heading">
+                                                Accept Terms?
+                                            </h1>
+                                            <label
+                                                htmlFor="acceptTerms"
+                                                className="accept_terms"
+                                            >
+                                                <Field
+                                                    type="checkbox"
+                                                    name="acceptTerms"
+                                                />
+                                                Accept Terms and Conditions
+                                            </label>
+
+                                            <ErrorMessage
+                                                name="acceptTerms"
+                                                className="error"
+                                                component="p"
+                                            />
+                                        </div>
+                                    </div>
+                                </section>
+                            </div>
+
+                            <div className="owner-profile-form-field-2-col-span">
+                                <button
+                                    className="btn btn-dark mt-3"
+                                    type="submit"
+                                >
+                                    Create Profile
+                                </button>
+                                <button
+                                    className="btn btn-danger mt-3 ms-3"
+                                    type="reset"
+                                >
+                                    Reset
+                                </button>
+                            </div>
+                        </Form>
+                    </div>
+                )}
+            </Formik>
+        </>
     );
 }
 

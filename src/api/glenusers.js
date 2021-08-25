@@ -36,13 +36,7 @@ const loginUser = (userInfo) => {
     return client.post(userEndpoint, userInfo);
 };
 
-const updateProfile = (profile) => {
-    // client.setHeaders({ "x-auth-token": storageService.getToken() })
-    console.log("update profile token = ", storageService.getToken())
-    console.log("profile = ", profile);
-    const profileEndpoint = "/users/profile";
-    return client.post(profileEndpoint, profile);
-};
+
 
 // const register = (userInfo) => client.post("/users", userInfo);
 
@@ -52,6 +46,6 @@ export default {
     getUserByEmail,
     // 27/07 - GJ added the bleow
     insertUser,
-    updateProfile,
+
     loginUser,
 };

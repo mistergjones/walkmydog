@@ -1,21 +1,20 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import TextField from "../UI/TextField/TextField";
-import useApi from "../../hooks/useApi";
-import glenusersApi from "../../api/glenusers";
-import AuthContext from "../../context/authContext";
+import TextField from '../UI/TextField/TextField';
+import useApi from '../../hooks/useApi';
+import walkersApi from "../../api/walker"
+import AuthContext from '../../context/authContext';
 import "./WalkerProfileForm.css";
-
 import jwtService from "../../storage/jwt";
 import ProfileRedirect from "./ProfileRedirect";
 
 const validate = Yup.object({
-    firstName: Yup.string()
+    firstname: Yup.string()
         .min(2, "Minimum of 2 characters")
         .max(100, "Must be 100 characters or less")
         .required("First Name is required"),
-    lastName: Yup.string()
+    lastname: Yup.string()
         .min(2, "Minimum of 2 chacters")
         .max(100, "Must be 100 characters or less")
         .required("Last Name is required"),
@@ -51,8 +50,8 @@ function WalkerProfileForm(props) {
     const [result, setResult] = useState(null);
     const [widget, setWidget] = useState(null);
     const { user, setUser } = useContext(AuthContext);
-    const [profileUrl, setProfileUrl] = useState("/Whippet.jpg");
-    const { request: updateProfile } = useApi(glenusersApi.updateProfile);
+    const [profileUrl, setProfileUrl] = useState("/Whippet.jpg")
+    const { request: updateProfile } = useApi(walkersApi.updateProfile);
 
     useEffect(() => {
         setWidget(
@@ -77,8 +76,8 @@ function WalkerProfileForm(props) {
         <>
             <Formik
                 initialValues={{
-                    firstName: user.firstname,
-                    lastName: user.lastname,
+                    firstname: user.firstname,
+                    lastname: user.lastname,
                     streetAddress: "",
                     suburb: "",
                     postCode: "",
@@ -130,19 +129,21 @@ function WalkerProfileForm(props) {
                                         </h1>
                                         <div className="walker-profile-form-field-col-1">
                                             <TextField
-                                                name="firstName"
+
+                                                name="firstname"
                                                 type="text"
                                                 placeholder="First Name"
-                                                value={values.firstName}
+                                                value={values.firstname}
                                                 onChange={handleChange}
                                             />
                                         </div>
                                         <div className="walker-profile-form-field-col-2">
                                             <TextField
-                                                name="lastName"
+
+                                                name="lastname"
                                                 type="text"
                                                 placeholder="Last Name"
-                                                value={values.lastName}
+                                                value={values.lastname}
                                                 onChange={handleChange}
                                             />
                                         </div>

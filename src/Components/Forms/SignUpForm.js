@@ -54,11 +54,11 @@ const SignUpForm = (props) => {
         firstname: Yup.string()
             .min(2, "Must be 2 chacters or greater")
             .max(15, "Must be 15 characters or less")
-            .required("Required"),
+            .required("Firstname is Required"),
         lastname: Yup.string()
             .min(2, "Must be 2 chacters or greater")
             .max(20, "Must be 20 characters or less")
-            .required("Required"),
+            .required("Lastname is Required"),
         email: Yup.string()
             .email("Email is invalid")
             .required("Email is required"),
@@ -118,6 +118,7 @@ const SignUpForm = (props) => {
                             />
 
                             <ErrorMessage
+                                id="errorFirstname"
                                 name="firstname"
                                 className="error"
                                 component="p"
@@ -135,6 +136,7 @@ const SignUpForm = (props) => {
                                 onChange={formik.handleChange}
                             />
                             <ErrorMessage
+                                id="errorLastname"
                                 name="lastname"
                                 className="error"
                                 component="p"
@@ -150,6 +152,7 @@ const SignUpForm = (props) => {
                                 onChange={formik.handleChange}
                             />
                             <ErrorMessage
+                                id="errorEmail"
                                 name="email"
                                 className="error"
                                 component="p"
@@ -166,6 +169,7 @@ const SignUpForm = (props) => {
                                 aria-labelledby="my-radio-group"
                             >
                                 <Field
+                                    id="walker"
                                     type="radio"
                                     name="type"
                                     value="W"
@@ -180,6 +184,7 @@ const SignUpForm = (props) => {
                                 <label>Walker</label>
 
                                 <Field
+                                    id="owner"
                                     type="radio"
                                     name="type"
                                     value="O"
@@ -194,6 +199,7 @@ const SignUpForm = (props) => {
                                 <label>Owner</label>
                             </div>
                             <ErrorMessage
+                                id="errorType"
                                 name="type"
                                 className="error"
                                 component="p"
@@ -209,6 +215,7 @@ const SignUpForm = (props) => {
                                 onChange={formik.handleChange}
                             />
                             <ErrorMessage
+                                id="errorPassword"
                                 name="password"
                                 className="error"
                                 component="p"
@@ -226,12 +233,14 @@ const SignUpForm = (props) => {
                                 onChange={formik.handleChange}
                             />
                             <ErrorMessage
+                                id="errorConfirmPassword"
                                 name="confirmPassword"
                                 className="error"
                                 component="p"
                             />
 
                             <button
+                                id="submit"
                                 className="btn btn-dark mt-3"
                                 type="submit"
                                 disabled={formik.isSubmitting}
@@ -239,6 +248,7 @@ const SignUpForm = (props) => {
                                 Register
                             </button>
                             <button
+                                id="register"
                                 className="btn btn-danger mt-3 ms-3 "
                                 type="reset"
                             >

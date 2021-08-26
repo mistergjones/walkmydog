@@ -309,6 +309,7 @@ function OwnerProfileForm(props) {
                                                 <label htmlFor="">
                                                     Small Dog:
                                                     <Field
+                                                        id="smallDog"
                                                         type="radio"
                                                         name="dogSize"
                                                         value="S"
@@ -318,6 +319,7 @@ function OwnerProfileForm(props) {
                                                 <label htmlFor="">
                                                     Medium Dog:
                                                     <Field
+                                                        id="mediumDog"
                                                         type="radio"
                                                         name="dogSize"
                                                         value="M"
@@ -327,6 +329,7 @@ function OwnerProfileForm(props) {
                                                 <label htmlFor="">
                                                     Large Dog:
                                                     <Field
+                                                        id="largeDog"
                                                         type="radio"
                                                         name="dogSize"
                                                         value="L"
@@ -348,6 +351,7 @@ function OwnerProfileForm(props) {
                                                 <label htmlFor="">
                                                     Yes:
                                                     <Field
+                                                        id="requiresLeash"
                                                         type="radio"
                                                         name="requiresLeash"
                                                         value="YES"
@@ -360,6 +364,7 @@ function OwnerProfileForm(props) {
                                                 <label htmlFor="">
                                                     No:
                                                     <Field
+                                                        id="doesNotRequireLeash"
                                                         type="radio"
                                                         name="requiresLeash"
                                                         value="NO"
@@ -411,6 +416,7 @@ function OwnerProfileForm(props) {
                                                 className="accept_terms"
                                             >
                                                 <Field
+                                                    id="acceptTerms"
                                                     type="checkbox"
                                                     name="acceptTerms"
                                                 />
@@ -429,12 +435,14 @@ function OwnerProfileForm(props) {
 
                             <div className="owner-profile-form-field-2-col-span">
                                 <button
+                                    id="submit"
                                     className="btn btn-dark mt-3"
                                     type="submit"
                                 >
                                     Create Profile
                                 </button>
                                 <button
+                                    id="reset"
                                     className="btn btn-danger mt-3 ms-3"
                                     type="reset"
                                 >

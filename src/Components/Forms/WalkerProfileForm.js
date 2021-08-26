@@ -1,15 +1,14 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import TextField from '../UI/TextField/TextField';
-import useApi from '../../hooks/useApi';
-import glenusersApi from '../../api/glenusers';
-import AuthContext from '../../context/authContext';
-import "./WalkerProfileForm.css"
+import TextField from "../UI/TextField/TextField";
+import useApi from "../../hooks/useApi";
+import glenusersApi from "../../api/glenusers";
+import AuthContext from "../../context/authContext";
+import "./WalkerProfileForm.css";
 
-import jwtService from '../../storage/jwt';
-import ProfileRedirect from './ProfileRedirect';
-
+import jwtService from "../../storage/jwt";
+import ProfileRedirect from "./ProfileRedirect";
 
 const validate = Yup.object({
     firstName: Yup.string()
@@ -34,51 +33,48 @@ const validate = Yup.object({
         .min(10, "Phone number must bet 10 digits")
         .max(10, "Phone number must be 10 didits")
         .required("Phone number is required"),
-    dateOfBirth: Yup.date()
-        .required("Date of birth is required"),
-    licenseNumber: Yup.string()
-        .required("License Number is required"),
-    bankName: Yup.string()
-        .required("Bank name is required"),
-    bsb: Yup.number()
-        .required("BSB is required"),
-    accountNumber: Yup.number()
-        .required("Account number is required"),
+    dob: Yup.date().required("Date of birth is required"),
+    licenseNumber: Yup.string().required("License Number is required"),
+    bankName: Yup.string().required("Bank name is required"),
+    bsb: Yup.number().required("BSB is required"),
+    accountNumber: Yup.number().required("Account number is required"),
     size: Yup.array()
-        .min(1, "Need to select at least 1 dog size").required("Required"),
+        .min(1, "Need to select at least 1 dog size")
+        .required("Required"),
     serviceType: Yup.array()
         .min(1, "Need to select at least 1 service type")
-        .required("Required")
-
-
-
+        .required("Required"),
 });
-
-
-
 
 function WalkerProfileForm(props) {
     const [error, setError] = useState(null);
     const [result, setResult] = useState(null);
     const [widget, setWidget] = useState(null);
     const { user, setUser } = useContext(AuthContext);
-    const [profileUrl, setProfileUrl] = useState("/Whippet.jpg")
+    const [profileUrl, setProfileUrl] = useState("/Whippet.jpg");
     const { request: updateProfile } = useApi(glenusersApi.updateProfile);
 
     useEffect(() => {
-
-        setWidget(window.cloudinary.createUploadWidget({ cloud_name: 'dqnazdwqk', upload_preset: 'gr2bgrfy', sources: ["local"], multiple: false },
-            function (error, result) {
-                console.log("result = " + result + "error = " + error);
-                setError(error);
-                setResult(result);
-                if (result) setProfileUrl(result[0].url)
-            }))
+        setWidget(
+            window.cloudinary.createUploadWidget(
+                {
+                    cloud_name: "dqnazdwqk",
+                    upload_preset: "gr2bgrfy",
+                    sources: ["local"],
+                    multiple: false,
+                },
+                function (error, result) {
+                    console.log("result = " + result + "error = " + error);
+                    setError(error);
+                    setResult(result);
+                    if (result) setProfileUrl(result[0].url);
+                }
+            )
+        );
     }, []);
-    console.log("user = ", user)
+    console.log("user = ", user);
     return (
         <>
-
             <Formik
                 initialValues={{
                     firstName: user.firstname,
@@ -87,13 +83,13 @@ function WalkerProfileForm(props) {
                     suburb: "",
                     postCode: "",
                     phone: "",
-                    dateOfBirth: "",
+                    dob: "",
                     licenseNumber: "",
                     bankName: "",
                     bsb: "",
                     accountNumber: "",
                     size: [],
-                    serviceType: []
+                    serviceType: [],
                 }}
                 // call the function to validate the inputed values
                 validationSchema={validate}
@@ -103,63 +99,60 @@ function WalkerProfileForm(props) {
 
                     // send request.
                     try {
-                        const response = await updateProfile({ profile: { type: user.type, id: user.id, email: user.email, ...fields, profileUrl } });
+                        const response = await updateProfile({
+                            profile: {
+                                type: user.type,
+                                id: user.id,
+                                email: user.email,
+                                ...fields,
+                                profileUrl,
+                            },
+                        });
                         // Get new token hasProfile = true
                         console.log("Profile screen response =", response);
                         // GET JWT TOKEN FROM RESPONSE AND DECODE TO USER OBJECT IF NO TOKEN RETURNS NULL;
                         setUser(jwtService.getUserFromResponseToken(response));
-
                     } catch (error) {
-                        console.log("error submit profile form = ", error)
+                        console.log("error submit profile form = ", error);
                     }
                 }}
             >
                 {({ values, handleChange, resetForm }) => (
                     <>
-
                         <ProfileRedirect />
 
                         <Form>
                             <div className="walker-form-container">
                                 <section>
                                     <div className="walker-profile-form-container">
-                                        <h1 className="walker-profile-form-heading">Person Details</h1>
+                                        <h1 className="walker-profile-form-heading">
+                                            Person Details
+                                        </h1>
                                         <div className="walker-profile-form-field-col-1">
-
                                             <TextField
-
                                                 name="firstName"
                                                 type="text"
                                                 placeholder="First Name"
                                                 value={values.firstName}
                                                 onChange={handleChange}
-
                                             />
                                         </div>
                                         <div className="walker-profile-form-field-col-2">
-
-
                                             <TextField
-
                                                 name="lastName"
                                                 type="text"
                                                 placeholder="Last Name"
                                                 value={values.lastName}
                                                 onChange={handleChange}
-
                                             />
                                         </div>
                                         <div className="walker-profile-form-field-2-col-span">
-
-
                                             <TextField
-
                                                 name="streetAddress"
                                                 type="text"
                                                 placeholder="Street Address"
                                                 value={values.streetAddress}
                                                 onChange={handleChange}
-
                                             />
                                         </div>
                                         <div className="walker-profile-form-field-col-1">
@@ -180,7 +173,6 @@ function WalkerProfileForm(props) {
                                                 onChange={handleChange}
                                                 maxLength={4}
                                                 minLength={4}
-
                                             />
                                         </div>
                                         <div className="walker-profile-form-field-col-1">
@@ -194,10 +186,10 @@ function WalkerProfileForm(props) {
                                         </div>
                                         <div className="walker-profile-form-field-col-2">
                                             <TextField
-                                                name="dateOfBirth"
+                                                name="dob"
                                                 type="date"
                                                 placeholder="Date of Birth"
-                                                value={values.dateOfBirth}
+                                                value={values.dob}
                                                 onChange={handleChange}
                                             />
                                         </div>
@@ -212,7 +204,9 @@ function WalkerProfileForm(props) {
                                         </div>
                                     </div>
                                     <div className="walker-profile-form-container">
-                                        <h1 className="walker-profile-form-heading">Bank Details</h1>
+                                        <h1 className="walker-profile-form-heading">
+                                            Bank Details
+                                        </h1>
                                         <div className="walker-profile-form-field-2-col-span">
                                             <TextField
                                                 name="bankName"
@@ -224,7 +218,7 @@ function WalkerProfileForm(props) {
                                         </div>
                                         <div className="walker-profile-form-field-col-1">
                                             <TextField
-                                                name="bsb"
+                                                name="BSB"
                                                 type="number"
                                                 placeholder="BSB"
                                                 value={values.bsb}
@@ -241,57 +235,60 @@ function WalkerProfileForm(props) {
                                             />
                                         </div>
                                     </div>
-
                                 </section>
                                 <section>
-
-
                                     <div className="walker-profile-form-container">
-
-                                        <h1 className="walker-profile-form-heading">Preferences</h1>
-                                        <h2 className="walker-profile-form-subheading">Dog Size</h2>
-
+                                        <h1 className="walker-profile-form-heading">
+                                            Preferences
+                                        </h1>
+                                        <h2 className="walker-profile-form-subheading">
+                                            Dog Size
+                                        </h2>
 
                                         <div className="walker-profile-form-field-2-col-span-checkbox">
                                             <div className="walker-profile-form-checkbox">
-
                                                 <label>Small</label>
                                                 <input
+                                                    id="smallDog"
                                                     name="size"
                                                     type="checkbox"
                                                     value="S"
                                                     onChange={handleChange}
-                                                    checked={values.size.includes("S")}
+                                                    checked={values.size.includes(
+                                                        "S"
+                                                    )}
                                                 />
                                             </div>
                                             <div className="walker-profile-form-checkbox">
-
                                                 <label>Medium</label>
                                                 <input
-
+                                                    id="mediumDog"
                                                     name="size"
                                                     type="checkbox"
                                                     value="M"
                                                     onChange={handleChange}
-                                                    checked={values.size.includes("M")}
+                                                    checked={values.size.includes(
+                                                        "M"
+                                                    )}
                                                 />
                                             </div>
                                             <div className="walker-profile-form-checkbox">
-
                                                 <label>Large</label>
                                                 <input
+                                                    id="largeDog"
                                                     label="Large"
                                                     name="size"
                                                     type="checkbox"
                                                     value="L"
                                                     onChange={handleChange}
-                                                    checked={values.size.includes("L")}
+                                                    checked={values.size.includes(
+                                                        "L"
+                                                    )}
                                                 />
                                             </div>
                                         </div>
 
                                         <div>
-
                                             <ErrorMessage
                                                 name="size"
                                                 className="error"
@@ -299,65 +296,79 @@ function WalkerProfileForm(props) {
                                             />
                                         </div>
 
-                                        <h2 className="walker-profile-form-subheading">Service Type</h2>
-
+                                        <h2 className="walker-profile-form-subheading">
+                                            Service Type
+                                        </h2>
 
                                         <div className="walker-profile-form-field-2-col-span-checkbox">
                                             <div className="walker-profile-form-checkbox">
-
                                                 <label>Home Visits</label>
                                                 <input
+                                                    id="homeVisits"
                                                     name="serviceType"
                                                     type="checkbox"
                                                     value={"Home"}
                                                     onChange={handleChange}
-                                                    checked={values.serviceType.includes("Home")}
+                                                    checked={values.serviceType.includes(
+                                                        "Home"
+                                                    )}
                                                 />
                                             </div>
                                             <div className="walker-profile-form-checkbox">
-
                                                 <label>Walks</label>
                                                 <input
-
+                                                    id="walks"
                                                     name="serviceType"
                                                     type="checkbox"
                                                     value="Walks"
                                                     onChange={handleChange}
-                                                    checked={values.serviceType.includes("Walks")}
+                                                    checked={values.serviceType.includes(
+                                                        "Walks"
+                                                    )}
                                                 />
                                             </div>
                                         </div>
 
                                         <div>
-
                                             <ErrorMessage
                                                 name="serviceType"
                                                 className="error"
                                                 component="p"
                                             />
-
                                         </div>
 
-                                        <h2 className="walker-profile-form-subheading">Photo</h2>
+                                        <h2 className="walker-profile-form-subheading">
+                                            Photo
+                                        </h2>
                                         <div className="walker-profile-form-field-col-1 walker-profile-form-upload-container">
-                                            {<img className="walker-profile-form-upload-photo" src={profileUrl} />}
+                                            {
+                                                <img
+                                                    className="walker-profile-form-upload-photo"
+                                                    src={profileUrl}
+                                                />
+                                            }
                                         </div>
                                         <div className="walker-profile-form-field-col-2 walker-profile-form-upload-container">
-                                            <button className="btn btn-dark mt-2" onClick={() => widget.open()}>Upload</button>
+                                            <button
+                                                className="btn btn-dark mt-2"
+                                                onClick={() => widget.open()}
+                                            >
+                                                Upload
+                                            </button>
                                         </div>
-
-
                                     </div>
                                 </section>
                             </div>
                             <div className="walker-profile-form-field-2-col-span">
                                 <button
+                                    id="submit"
                                     className="btn btn-dark mt-2"
                                     type="submit"
                                 >
                                     Update
                                 </button>
                                 <button
+                                    id="reset"
                                     className="btn btn-danger mt-2 ms-3"
                                     type="reset"
                                 >
@@ -368,7 +379,8 @@ function WalkerProfileForm(props) {
                     </>
                 )}
             </Formik>
-        </>)
+        </>
+    );
 }
 
 export default WalkerProfileForm;

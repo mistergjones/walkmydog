@@ -3,14 +3,14 @@
  * display througout the app
  */
 
-import React from 'react';
-import "./ErrorMessageDisplay.css"
+import React from "react";
+import "./ErrorMessageDisplay.css";
 
 function ErrorMessageDisplay({ message }) {
     return (
         <div className="message-container">
             <h1>We have an error</h1>
-            <h2>Message</h2> <p> {message}</p>
+            <h2>Message</h2> <p id="errorMessage"> {message}</p>
         </div>
     );
 }

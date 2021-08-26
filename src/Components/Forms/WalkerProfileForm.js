@@ -1,10 +1,10 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import TextField from '../UI/TextField/TextField';
-import useApi from '../../hooks/useApi';
-import walkersApi from "../../api/walker"
-import AuthContext from '../../context/authContext';
+import TextField from "../UI/TextField/TextField";
+import useApi from "../../hooks/useApi";
+import walkersApi from "../../api/walker";
+import AuthContext from "../../context/authContext";
 import "./WalkerProfileForm.css";
 import jwtService from "../../storage/jwt";
 import ProfileRedirect from "./ProfileRedirect";
@@ -35,8 +35,8 @@ const validate = Yup.object({
     dob: Yup.date().required("Date of birth is required"),
     licenseNumber: Yup.string().required("License Number is required"),
     bankName: Yup.string().required("Bank name is required"),
-    bsb: Yup.number().required("BSB is required"),
-    accountNumber: Yup.number().required("Account number is required"),
+    bsb: Yup.string().required("BSB is required"),
+    accountNumber: Yup.string().required("Account number is required"),
     size: Yup.array()
         .min(1, "Need to select at least 1 dog size")
         .required("Required"),
@@ -50,7 +50,7 @@ function WalkerProfileForm(props) {
     const [result, setResult] = useState(null);
     const [widget, setWidget] = useState(null);
     const { user, setUser } = useContext(AuthContext);
-    const [profileUrl, setProfileUrl] = useState("/Whippet.jpg")
+    const [profileUrl, setProfileUrl] = useState("/Whippet.jpg");
     const { request: updateProfile } = useApi(walkersApi.updateProfile);
 
     useEffect(() => {
@@ -129,7 +129,6 @@ function WalkerProfileForm(props) {
                                         </h1>
                                         <div className="walker-profile-form-field-col-1">
                                             <TextField
-
                                                 name="firstname"
                                                 type="text"
                                                 placeholder="First Name"
@@ -139,7 +138,6 @@ function WalkerProfileForm(props) {
                                         </div>
                                         <div className="walker-profile-form-field-col-2">
                                             <TextField
-
                                                 name="lastname"
                                                 type="text"
                                                 placeholder="Last Name"
@@ -219,9 +217,9 @@ function WalkerProfileForm(props) {
                                         </div>
                                         <div className="walker-profile-form-field-col-1">
                                             <TextField
-                                                name="BSB"
-                                                type="number"
-                                                placeholder="BSB"
+                                                name="bsb"
+                                                type="text"
+                                                placeholder="bsb"
                                                 value={values.bsb}
                                                 onChange={handleChange}
                                             />
@@ -229,7 +227,7 @@ function WalkerProfileForm(props) {
                                         <div className="walker-profile-form-field-col-2">
                                             <TextField
                                                 name="accountNumber"
-                                                type="number"
+                                                type="text"
                                                 placeholder="Account number"
                                                 value={values.accountNumber}
                                                 onChange={handleChange}

@@ -24,16 +24,19 @@ const validate = Yup.object({
     suburb: Yup.string()
         .max(50, "Must be 50 characters or less")
         .required("Suburb is required"),
-    postCode: Yup.string()
+    state: Yup.string()
+        .max(3, "Must be 3 characters or less")
+        .required("State is required"),
+    postcode: Yup.string()
         .min(4, "Must be 4 digits")
         .max(4, "Must be 4 digits")
         .required("Post Code is required"),
-    phone: Yup.string()
-        .min(10, "Phone number must bet 10 digits")
-        .max(10, "Phone number must be 10 didits")
-        .required("Phone number is required"),
+    mobile: Yup.string()
+        .min(10, "Mobile number must bet 10 digits")
+        .max(10, "Mobile number must be 10 didits")
+        .required("Mobile number is required"),
     dob: Yup.date().required("Date of birth is required"),
-    licenseNumber: Yup.string().required("License Number is required"),
+    driverLicence: Yup.string().required("License Number is required"),
     bankName: Yup.string().required("Bank name is required"),
     bsb: Yup.string().required("BSB is required"),
     accountNumber: Yup.string().required("Account number is required"),
@@ -80,10 +83,11 @@ function WalkerProfileForm(props) {
                     lastname: user.lastname,
                     streetAddress: "",
                     suburb: "",
-                    postCode: "",
-                    phone: "",
+                    state: "",
+                    postcode: "",
+                    mobile: "",
                     dob: "",
-                    licenseNumber: "",
+                    driverLicence: "",
                     bankName: "",
                     bsb: "",
                     accountNumber: "",
@@ -165,10 +169,10 @@ function WalkerProfileForm(props) {
                                         </div>
                                         <div className="walker-profile-form-field-col-2">
                                             <TextField
-                                                name="postCode"
+                                                name="postcode"
                                                 type="text"
-                                                placeholder="Post Code"
-                                                value={values.postCode}
+                                                placeholder="Postcode"
+                                                value={values.postcode}
                                                 onChange={handleChange}
                                                 maxLength={4}
                                                 minLength={4}
@@ -176,14 +180,26 @@ function WalkerProfileForm(props) {
                                         </div>
                                         <div className="walker-profile-form-field-col-1">
                                             <TextField
-                                                name="phone"
+                                                name="state"
                                                 type="text"
-                                                placeholder="Phone"
-                                                value={values.phone}
+                                                placeholder="State"
+                                                value={values.state}
                                                 onChange={handleChange}
+                                                maxLength={3}
+                                                minLength={2}
                                             />
                                         </div>
                                         <div className="walker-profile-form-field-col-2">
+                                            <TextField
+                                                name="mobile"
+                                                type="text"
+                                                placeholder="Mobile #"
+                                                value={values.mobile}
+                                                onChange={handleChange}
+                                                maxLength={10}
+                                            />
+                                        </div>
+                                        <div className="walker-profile-form-field-col-1">
                                             <TextField
                                                 name="dob"
                                                 type="date"
@@ -192,13 +208,14 @@ function WalkerProfileForm(props) {
                                                 onChange={handleChange}
                                             />
                                         </div>
-                                        <div className="walker-profile-form-field-col-1">
+                                        <div className="walker-profile-form-field-col-2">
                                             <TextField
-                                                name="licenseNumber"
+                                                name="driverLicence"
                                                 type="text"
-                                                placeholder="License number"
-                                                value={values.licenseNumber}
+                                                placeholder="Driver Licence Number"
+                                                value={values.driverLicence}
                                                 onChange={handleChange}
+                                                maxLength={10}
                                             />
                                         </div>
                                     </div>

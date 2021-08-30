@@ -79,41 +79,46 @@ function OwnerProfileForm(props) {
     const validate = Yup.object().shape({
         firstname: Yup.string()
             .max(20, "Must be 20 characters or less")
-            .required("Required"),
+            .required("Firstname is required"),
         lastname: Yup.string()
             .max(20, "Must be 20 characters or less")
-            .required("Required"),
+            .required("Lastname is required"),
         streetAddress: Yup.string()
             .max(50, "Must be 50 characters or less")
-            .required("Required"),
+            .required("Street Address is required"),
         suburb: Yup.string()
             .max(50, "Must be 50 characters or less")
-            .required("Required"),
-        postcode: Yup.number().min(4, "Must be 4 digits").required("Required"),
+            .required("Suburb is required"),
+        state: Yup.string()
+            .max(3, "Must be 3 characters or less")
+            .required("State is required"),
+        postcode: Yup.number()
+            .min(4, "Must be 4 digits")
+            .required("Postcode is required"),
         mobile: Yup.string()
             .min(10, "Mobile number must be 10 digits")
             .max(10, "Mobile number must be 10 digits")
-            .required("Required"),
-        dob: Yup.string().required("Required"),
+            .required("Mobile # is required"),
+        dob: Yup.string().required("DOB is required"),
         driverLicence: Yup.string()
             .min(10, "Driver Licence must be 10 digits")
-            .required("Required"),
+            .required("Driver Licence Numer is required"),
         bankName: Yup.string()
             .max(20, "Bank name must be <= 20 digits")
-            .required("Required"),
-        BSB: Yup.string()
+            .required("Bank Name is qequired"),
+        bsb: Yup.string()
             .max(6, "BSB must be <= 6 digits")
-            .required("Required"),
+            .required("6 Digit BSB is Required"),
         accountNumber: Yup.string()
             .max(10, "Account Number must be <= 10 digits")
-            .required("Required"),
+            .required("Account Number is Required"),
         acceptTerms: Yup.bool().oneOf([true], "Accept Terms and Conditions"),
         dogName: Yup.string()
             .min(2, "Dog name must be >= 2 letters")
-            .required("Required"),
+            .required("Dog name is required"),
         dogBreed: Yup.string()
             .min(2, "Dog name must be >= 2 letters")
-            .required("Required"),
+            .required("Dog Breed is required"),
         dogSize: Yup.string().required("Please select your dog size"),
         requiresLeash: Yup.string().required(
             "Yes or No: Does your dog require an always on leash?"
@@ -128,12 +133,13 @@ function OwnerProfileForm(props) {
                     lastname: user.lastname,
                     streetAddress: "",
                     suburb: "",
+                    state: "",
                     postcode: "",
                     mobile: "",
                     dob: "",
                     driverLicence: "",
                     bankName: "",
-                    BSB: "",
+                    bsb: "",
                     accountNumber: "",
                     acceptTerms: false,
                     dogName: "",
@@ -202,23 +208,37 @@ function OwnerProfileForm(props) {
 
                                         <div className="owner-profile-form-field-col-2">
                                             <TextField
-                                                // label="Postcode"
-                                                name="postcode"
-                                                type="number"
-                                                placeholder="Postcode"
+                                                // label="State"
+                                                name="state"
+                                                type="text"
+                                                placeholder="State"
+                                                maxLength={3}
+                                                minLength={2}
                                             />
                                         </div>
 
                                         <div className="owner-profile-form-field-col-1">
                                             <TextField
-                                                // label="Mobile"
-                                                name="mobile"
-                                                type="text"
-                                                placeholder="Mobile #"
+                                                // label="Postcode"
+                                                name="postcode"
+                                                type="number"
+                                                placeholder="Postcode"
+                                                maxLength={4}
+                                                minLength={4}
                                             />
                                         </div>
 
                                         <div className="owner-profile-form-field-col-2">
+                                            <TextField
+                                                // label="Mobile"
+                                                name="mobile"
+                                                type="text"
+                                                placeholder="Mobile Phone #"
+                                                maxLength={10}
+                                            />
+                                        </div>
+
+                                        <div className="owner-profile-form-field-col-1">
                                             <TextField
                                                 // label="DOB"
                                                 name="dob"
@@ -227,7 +247,7 @@ function OwnerProfileForm(props) {
                                             />
                                         </div>
 
-                                        <div className="owner-profile-form-field-col-1">
+                                        <div className="owner-profile-form-field-col-2">
                                             <TextField
                                                 // label="Driver Licence No:"
                                                 name="driverLicence"
@@ -252,7 +272,7 @@ function OwnerProfileForm(props) {
                                         <div className="walker-profile-form-field-col-1">
                                             <TextField
                                                 // label="BSB"
-                                                name="BSB"
+                                                name="bsb"
                                                 type="text"
                                                 placeholder="BSB #"
                                             />

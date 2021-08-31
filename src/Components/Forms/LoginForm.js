@@ -60,9 +60,6 @@ const LoginForm = () => {
             >
                 {(formik) => (
                     <div>
-                        <h1 className="my-4 font-weight-bold-display-4">
-                            Log-in{" "}
-                        </h1>
                         <Form>
                             <TextField
                                 label="Email address"

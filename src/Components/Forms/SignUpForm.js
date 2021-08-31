@@ -13,6 +13,7 @@ import jwtService from "../../storage/jwt";
 import ProfileRedirect from "./ProfileRedirect";
 
 import RadioButton from "../UI/RadioButtons/RadioButton";
+import TextField from "../UI/TextField/TextField";
 
 // This function captures the new user input fields, validates them, hashes the password and inserts in to the database.
 const SignUpForm = (props) => {
@@ -98,145 +99,93 @@ const SignUpForm = (props) => {
             >
                 {(formik) => (
                     <div>
-                        <h1 className="my-4 font-weight-bold-display-4">
-                            Sign Up
-                        </h1>
+
                         <Form
                             onSubmit={formik.handleSubmit}
                             className="sign-up-form-layout"
                         >
-                            <div>
-                                <label htmlFor="firstName">Firstname</label>
-                            </div>
 
-                            <Field
-                                className="sign-up-form-field-width"
+                            <TextField
+                                label="First Name"
                                 name="firstname"
                                 type="text"
                                 value={formik.values.firstname}
                                 onChange={formik.handleChange}
                             />
 
-                            <ErrorMessage
-                                id="errorFirstname"
-                                name="firstname"
-                                className="error"
-                                component="p"
-                            />
+                            <TextField
+                                label="Last Name"
 
-                            <div>
-                                <label htmlFor="lastname">Lastname</label>
-                            </div>
-
-                            <Field
-                                className="sign-up-form-field-width"
                                 name="lastname"
                                 type="text"
                                 value={formik.values.lastname}
                                 onChange={formik.handleChange}
                             />
-                            <ErrorMessage
-                                id="errorLastname"
-                                name="lastname"
-                                className="error"
-                                component="p"
-                            />
-                            <div>
-                                <label htmlFor="email">Email</label>
-                            </div>
-                            <Field
-                                className="sign-up-form-field-width"
+
+
+                            <TextField
+                                label="Email"
                                 name="email"
                                 type="email"
                                 value={formik.values.email}
                                 onChange={formik.handleChange}
                             />
-                            <ErrorMessage
-                                id="errorEmail"
-                                name="email"
-                                className="error"
-                                component="p"
-                            />
-                            {/* <div>
-                                <label htmlFor="">Dog Walker or Owner?</label>
-                            </div> */}
-                            <div id="my-radio-group">
-                                Are you a dog walker or dog owner?
-                            </div>
-                            <div
-                                className="sign-up-form-radio-buttons"
-                                role="group"
-                                aria-labelledby="my-radio-group"
-                            >
-                                <Field
-                                    id="walker"
-                                    type="radio"
-                                    name="type"
-                                    value="W"
-                                    label="Walker"
-                                    onChange={formik.handleChange}
-                                    selected={
-                                        formik.values.type === "W"
-                                            ? true
-                                            : false
-                                    }
-                                />
-                                <label>Walker</label>
 
-                                <Field
-                                    id="owner"
-                                    type="radio"
+                            <div id="my-radio-group" className="sign-up-form-radio-buttons-comntainer">
+                                <h1 className="sign-up-form-radio-heading">Are you a dog walker or dog owner?</h1>
+
+                                <div className="sign-up-form-radio-buttons">
+                                    <RadioButton
+                                        id="walker"
+                                        type="radio"
+                                        name="type"
+                                        value="W"
+                                        label="Walker"
+                                        onChange={formik.handleChange}
+                                        selected={
+                                            formik.values.type === "W"
+                                                ? true
+                                                : false
+                                        }
+                                    />
+
+
+                                    <RadioButton
+                                        id="owner"
+                                        type="radio"
+                                        name="type"
+                                        value="O"
+                                        label="Owner"
+                                        onChange={formik.handleChange}
+                                        selected={
+                                            formik.values.type === "O"
+                                                ? true
+                                                : false
+                                        }
+                                    />
+                                </div>
+
+                                <ErrorMessage
+                                    id="errorType"
                                     name="type"
-                                    value="O"
-                                    label="Owner"
-                                    onChange={formik.handleChange}
-                                    selected={
-                                        formik.values.type === "O"
-                                            ? true
-                                            : false
-                                    }
+                                    className="error"
+                                    component="p"
                                 />
-                                <label>Owner</label>
                             </div>
-                            <ErrorMessage
-                                id="errorType"
-                                name="type"
-                                className="error"
-                                component="p"
-                            />
-                            <div>
-                                <label htmlFor="password">Password</label>
-                            </div>
-                            <Field
-                                className="sign-up-form-field-width"
+                            <TextField
+                                label="Password"
                                 name="password"
                                 type="password"
                                 value={formik.values.password}
                                 onChange={formik.handleChange}
                             />
-                            <ErrorMessage
-                                id="errorPassword"
-                                name="password"
-                                className="error"
-                                component="p"
-                            />
-                            <div>
-                                <label htmlFor="confirmPassword">
-                                    Confirm Password
-                                </label>
-                            </div>
-                            <Field
-                                className="sign-up-form-field-width"
+
+                            <TextField
+                                label="Confirm Password"
                                 name="confirmPassword"
                                 type="password"
                                 value={formik.values.confirmPassword}
                                 onChange={formik.handleChange}
-                            />
-                            <ErrorMessage
-                                id="errorConfirmPassword"
-                                name="confirmPassword"
-                                className="error"
-                                component="p"
                             />
 
                             <button

@@ -15,12 +15,15 @@
     text-align: center;
     height: 5vh;
     width: 100%;
+    background-color: #e2d1e6;
+    color: #741188;
 }
 
 .content-container {
     height: 75vh;
     width: 100%;
     overflow: scroll;
+    background-color: #e2d1e6;
     
 }
 

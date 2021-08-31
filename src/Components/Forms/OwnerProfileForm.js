@@ -13,6 +13,7 @@ import jwtService from "../../storage/jwt";
 import ProfileRedirect from "./ProfileRedirect";
 
 import helpers from "../../Helpers/convertDateTime";
+import RadioButton from '../UI/RadioButtons/RadioButton';
 
 function OwnerProfileForm(props) {
     const { setUser, user } = useContext(AuthContext);
@@ -158,7 +159,7 @@ function OwnerProfileForm(props) {
                         // console.log("Fields are: ", fields);
                         // need to update the owner table. NOTE: RATING and MEMBERHSIP_ACTIVE are hardcode in the SQL directly
                         const response = await updatedOwner(fields);
-                    } catch (error) {}
+                    } catch (error) { }
                 }}
             >
                 {(formik) => (
@@ -172,7 +173,7 @@ function OwnerProfileForm(props) {
                                         </h1>
                                         <div className="owner-profile-form-field-col-1">
                                             <TextField
-                                                // label="Firstname"
+                                                label="First Name"
                                                 name="firstname"
                                                 type="text"
                                                 placeholder="Firstname"
@@ -181,7 +182,7 @@ function OwnerProfileForm(props) {
 
                                         <div className="owner-profile-form-field-col-2">
                                             <TextField
-                                                // label="Lastname"
+                                                label="Last Name"
                                                 name="lastname"
                                                 type="text"
                                                 placeholder="Lastname"
@@ -190,7 +191,7 @@ function OwnerProfileForm(props) {
 
                                         <div className="owner-profile-form-field-2-col-span">
                                             <TextField
-                                                // label="Street Address"
+                                                label="Street Address"
                                                 name="streetAddress"
                                                 type="text"
                                                 placeholder="Street Address"
@@ -199,7 +200,7 @@ function OwnerProfileForm(props) {
 
                                         <div className="owner-profile-form-field-col-1">
                                             <TextField
-                                                // label="Suburb"
+                                                label="Suburb"
                                                 name="suburb"
                                                 type="text"
                                                 placeholder="Suburb"
@@ -208,7 +209,7 @@ function OwnerProfileForm(props) {
 
                                         <div className="owner-profile-form-field-col-2">
                                             <TextField
-                                                // label="State"
+                                                label="State"
                                                 name="state"
                                                 type="text"
                                                 placeholder="State"
@@ -219,7 +220,8 @@ function OwnerProfileForm(props) {
 
                                         <div className="owner-profile-form-field-col-1">
                                             <TextField
-                                                // label="Postcode"
+                                                label="Postcode"
+                                                label="Postcode"
                                                 name="postcode"
                                                 type="number"
                                                 placeholder="Postcode"
@@ -230,7 +232,7 @@ function OwnerProfileForm(props) {
 
                                         <div className="owner-profile-form-field-col-2">
                                             <TextField
-                                                // label="Mobile"
+                                                label="Mobile"
                                                 name="mobile"
                                                 type="text"
                                                 placeholder="Mobile Phone #"
@@ -240,7 +242,7 @@ function OwnerProfileForm(props) {
 
                                         <div className="owner-profile-form-field-col-1">
                                             <TextField
-                                                // label="DOB"
+                                                label="DOB"
                                                 name="dob"
                                                 type="date"
                                                 placeholder="DOB: DD-MM-YYYY"
@@ -249,7 +251,7 @@ function OwnerProfileForm(props) {
 
                                         <div className="owner-profile-form-field-col-2">
                                             <TextField
-                                                // label="Driver Licence No:"
+                                                label="Driver Licence No:"
                                                 name="driverLicence"
                                                 type="text"
                                                 placeholder="Driver Licence #"
@@ -263,7 +265,7 @@ function OwnerProfileForm(props) {
                                         </h1>
                                         <div className="owner-profile-form-field-2-col-span">
                                             <TextField
-                                                // label="Bank Name"
+                                                label="Bank Name"
                                                 name="bankName"
                                                 type="text"
                                                 placeholder="Bank Name"
@@ -271,7 +273,7 @@ function OwnerProfileForm(props) {
                                         </div>
                                         <div className="walker-profile-form-field-col-1">
                                             <TextField
-                                                // label="BSB"
+                                                label="BSB"
                                                 name="bsb"
                                                 type="text"
                                                 placeholder="BSB #"
@@ -279,7 +281,7 @@ function OwnerProfileForm(props) {
                                         </div>
                                         <div className="walker-profile-form-field-col-2">
                                             <TextField
-                                                // label="Account No:"
+                                                label="Account No:"
                                                 name="accountNumber"
                                                 type="text"
                                                 placeholder="Account Number"
@@ -296,7 +298,7 @@ function OwnerProfileForm(props) {
 
                                         <div className="owner-profile-form-field-col-1">
                                             <TextField
-                                                // label="Dog Name"
+                                                label="Dog Name"
                                                 name="dogName"
                                                 type="text"
                                                 placeholder="Dog Name"
@@ -305,7 +307,7 @@ function OwnerProfileForm(props) {
 
                                         <div className="owner-profile-form-field-col-2">
                                             <TextField
-                                                // label="Breed"
+                                                label="Breed"
                                                 name="dogBreed"
                                                 type="text"
                                                 placeholder=" Dog Breed"
@@ -326,41 +328,40 @@ function OwnerProfileForm(props) {
                                                 Dog Size
                                             </h1>
                                             <div className="sign-up-form-radio-buttons">
-                                                <label htmlFor="">
-                                                    Small Dog:
-                                                    <Field
-                                                        id="smallDog"
-                                                        type="radio"
-                                                        name="dogSize"
-                                                        value="S"
-                                                    />
-                                                </label>
 
-                                                <label htmlFor="">
-                                                    Medium Dog:
-                                                    <Field
-                                                        id="mediumDog"
-                                                        type="radio"
-                                                        name="dogSize"
-                                                        value="M"
-                                                    />
-                                                </label>
 
-                                                <label htmlFor="">
-                                                    Large Dog:
-                                                    <Field
-                                                        id="largeDog"
-                                                        type="radio"
-                                                        name="dogSize"
-                                                        value="L"
-                                                    />
-                                                </label>
+                                                <RadioButton
+                                                    label="Small Dog"
+                                                    id="smallDog"
+                                                    type="radio"
+                                                    name="dogSize"
+                                                    value="S"
+                                                />
+
+
+
+
+                                                <RadioButton
+                                                    label="Medium Dog"
+                                                    id="mediumDog"
+                                                    type="radio"
+                                                    name="dogSize"
+                                                    value="M"
+                                                />
+
+
+
+
+                                                <RadioButton
+                                                    label="Large Dog"
+                                                    id="largeDog"
+                                                    type="radio"
+                                                    name="dogSize"
+                                                    value="L"
+                                                />
+
                                             </div>
-                                            <ErrorMessage
-                                                name="dogSize"
-                                                className="error"
-                                                component="p"
-                                            />
+
                                         </div>
 
                                         <div className="owner-profile-form-field-2-col-span">
@@ -368,31 +369,31 @@ function OwnerProfileForm(props) {
                                                 Always Leashed?
                                             </h1>
                                             <div className="sign-up-form-radio-buttons">
-                                                <label htmlFor="">
-                                                    Yes:
-                                                    <Field
-                                                        id="requiresLeash"
-                                                        type="radio"
-                                                        name="requiresLeash"
-                                                        value="YES"
-                                                        onChange={
-                                                            formik.handleChange
-                                                        }
-                                                    />
-                                                </label>
 
-                                                <label htmlFor="">
-                                                    No:
-                                                    <Field
-                                                        id="doesNotRequireLeash"
-                                                        type="radio"
-                                                        name="requiresLeash"
-                                                        value="NO"
-                                                        onChange={
-                                                            formik.handleChange
-                                                        }
-                                                    />
-                                                </label>
+                                                <RadioButton
+                                                    label="Yes"
+                                                    id="requiresLeash"
+                                                    type="radio"
+                                                    name="requiresLeash"
+                                                    value="YES"
+                                                    onChange={
+                                                        formik.handleChange
+                                                    }
+                                                />
+
+
+
+                                                <RadioButton
+                                                    label="No"
+                                                    id="doesNotRequireLeash"
+                                                    type="radio"
+                                                    name="requiresLeash"
+                                                    value="NO"
+                                                    onChange={
+                                                        formik.handleChange
+                                                    }
+                                                />
+
                                             </div>
                                             {/* <Field
                                 type="radio"
@@ -421,11 +422,7 @@ function OwnerProfileForm(props) {
                             <label>No Leashed</label> */}
                                         </div>
 
-                                        <ErrorMessage
-                                            name="requiresLeash"
-                                            className="error"
-                                            component="p"
-                                        />
+
 
                                         <div className="owner-profile-form-field-2-col-span">
                                             <h1 className="owner-profile-form-heading">

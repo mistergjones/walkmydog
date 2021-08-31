@@ -7,7 +7,7 @@ function LoginScreen(props) {
         <div className="new-listing-screen-container">
             <MasterScreen
                 ScreenComponent={LoginContent}
-                heading={"Login Screen"}
+                heading={"Login"}
             />
         </div>
     );

@@ -1,5 +1,5 @@
-import React, { useContext, useEffect, useState } from "react";
-import { Formik, Form, Field, ErrorMessage } from "formik";
+import React, { useContext, useEffect, useState, useRef } from "react";
+import { Formik, Form, Field, ErrorMessage, useField } from "formik";
 import * as Yup from "yup";
 import TextField from "../UI/TextField/TextField";
 import useApi from "../../hooks/useApi";
@@ -8,6 +8,14 @@ import AuthContext from "../../context/authContext";
 import "./WalkerProfileForm.css";
 import jwtService from "../../storage/jwt";
 import ProfileRedirect from "./ProfileRedirect";
+import loadBMaps from "../../maps/bingMaps";
+import AddressTextField from '../UI/TextField/AddressTextField';
+
+
+
+
+
+
 
 const validate = Yup.object({
     firstname: Yup.string()
@@ -48,6 +56,7 @@ const validate = Yup.object({
         .required("Required"),
 });
 
+
 function WalkerProfileForm(props) {
     const [error, setError] = useState(null);
     const [result, setResult] = useState(null);
@@ -55,8 +64,19 @@ function WalkerProfileForm(props) {
     const { user, setUser } = useContext(AuthContext);
     const [profileUrl, setProfileUrl] = useState("/Whippet.jpg");
     const { request: updateProfile } = useApi(walkersApi.updateProfile);
+    const [address, setAddress] = useState(null);
+
+
+
 
     useEffect(() => {
+
+
+        window.selectedSuggestion = function (result) {
+            setAddress(result);
+        }
+
+        loadBMaps(() => console.log("call back"));
         setWidget(
             window.cloudinary.createUploadWidget(
                 {
@@ -73,11 +93,16 @@ function WalkerProfileForm(props) {
                 }
             )
         );
+
     }, []);
-    console.log("user = ", user);
+
+
     return (
+
         <>
+
             <Formik
+
                 initialValues={{
                     firstname: user.firstname,
                     lastname: user.lastname,
@@ -94,10 +119,12 @@ function WalkerProfileForm(props) {
                     size: [],
                     serviceType: [],
                 }}
+
                 // call the function to validate the inputed values
                 validationSchema={validate}
                 // need to do something e.g. check the info from the database
                 onSubmit={async (fields) => {
+                    console.log("fields = ", fields);
                     console.log("user profile =", user);
 
                     // send request.
@@ -120,11 +147,13 @@ function WalkerProfileForm(props) {
                     }
                 }}
             >
-                {({ values, handleChange, resetForm }) => (
+                {(formik) => (
+
                     <>
+
                         <ProfileRedirect />
 
-                        <Form>
+                        <Form id="formikform" autoComplete="off">
                             <div className="walker-form-container">
                                 <section>
                                     <div className="walker-profile-form-container">
@@ -133,89 +162,116 @@ function WalkerProfileForm(props) {
                                         </h1>
                                         <div className="walker-profile-form-field-col-1">
                                             <TextField
+                                                label="First Name"
                                                 name="firstname"
                                                 type="text"
                                                 placeholder="First Name"
-                                                value={values.firstname}
-                                                onChange={handleChange}
+                                                value={formik.values.firstname}
+                                                onChange={formik.handleChange}
+                                                onKeyPress={e => e.code === "Enter" ? e.preventDefault() : ""}
                                             />
                                         </div>
                                         <div className="walker-profile-form-field-col-2">
+
                                             <TextField
+                                                label="Last Name"
                                                 name="lastname"
                                                 type="text"
                                                 placeholder="Last Name"
-                                                value={values.lastname}
-                                                onChange={handleChange}
+                                                value={formik.values.lastname}
+                                                onChange={formik.handleChange}
+                                                onKeyPress={e => e.code === "Enter" ? e.preventDefault() : ""}
                                             />
                                         </div>
-                                        <div className="walker-profile-form-field-2-col-span">
-                                            <TextField
+
+                                        <div id="searchBoxContainer" className="walker-profile-form-field-2-col-span">
+                                            <AddressTextField
+                                                label="Address"
+                                                id="searchBox"
                                                 name="streetAddress"
                                                 type="text"
                                                 placeholder="Street Address"
-                                                value={values.streetAddress}
-                                                onChange={handleChange}
+                                                value={formik.values.streetAddress}
+                                                onChange={formik.handleChange}
+                                                address={address ? address.address.addressLine : null}
                                             />
                                         </div>
+
                                         <div className="walker-profile-form-field-col-1">
-                                            <TextField
+                                            <AddressTextField
+                                                label="Suburb"
+                                                id="suburb"
                                                 name="suburb"
                                                 type="text"
                                                 placeholder="Suburb"
-                                                value={values.suburb}
-                                                onChange={handleChange}
+                                                value={formik.values.suburb}
+                                                address={address ? address.address.locality : null}
+                                                onChange={formik.handleChange}
+                                                disabled
+
                                             />
                                         </div>
                                         <div className="walker-profile-form-field-col-2">
-                                            <TextField
+                                            <AddressTextField
+                                                label="Post Code"
+                                                id="postcode"
                                                 name="postcode"
                                                 type="text"
-                                                placeholder="Postcode"
-                                                value={values.postcode}
-                                                onChange={handleChange}
-                                                maxLength={4}
-                                                minLength={4}
+                                                placeholder="Post Code"
+                                                value={formik.values.postcode}
+                                                address={address ? address.address.postalCode ? address.address.postalCode : "3000" : null}
+                                                disabled
+                                                onChange={formik.handleChange}
+
                                             />
                                         </div>
                                         <div className="walker-profile-form-field-col-1">
-                                            <TextField
+                                            <AddressTextField
+                                                label="State"
                                                 name="state"
                                                 type="text"
                                                 placeholder="State"
-                                                value={values.state}
-                                                onChange={handleChange}
+                                                value={formik.values.state}
+                                                onChange={formik.handleChange}
+                                                address={address ? address.address.adminDistrict : null}
                                                 maxLength={3}
                                                 minLength={2}
+                                                onKeyPress={e => e.code === "Enter" ? e.preventDefault() : ""}
                                             />
                                         </div>
                                         <div className="walker-profile-form-field-col-2">
                                             <TextField
+                                                label="Mobile"
                                                 name="mobile"
                                                 type="text"
                                                 placeholder="Mobile #"
-                                                value={values.mobile}
-                                                onChange={handleChange}
+                                                value={formik.values.mobile}
+                                                onChange={formik.handleChange}
                                                 maxLength={10}
+                                                onKeyPress={e => e.code === "Enter" ? e.preventDefault() : ""}
                                             />
                                         </div>
                                         <div className="walker-profile-form-field-col-1">
                                             <TextField
+                                                label="DOB"
                                                 name="dob"
                                                 type="date"
                                                 placeholder="Date of Birth"
-                                                value={values.dob}
-                                                onChange={handleChange}
+                                                value={formik.values.dob}
+                                                onChange={formik.handleChange}
+                                                onKeyPress={e => e.code === "Enter" ? e.preventDefault() : ""}
                                             />
                                         </div>
                                         <div className="walker-profile-form-field-col-2">
                                             <TextField
+                                                label="Driver License #"
                                                 name="driverLicence"
                                                 type="text"
                                                 placeholder="Driver Licence Number"
-                                                value={values.driverLicence}
-                                                onChange={handleChange}
+                                                value={formik.values.driverLicence}
+                                                onChange={formik.handleChange}
                                                 maxLength={10}
+                                                onKeyPress={e => e.code === "Enter" ? e.preventDefault() : ""}
                                             />
                                         </div>
                                     </div>
@@ -224,40 +280,45 @@ function WalkerProfileForm(props) {
                                             Bank Details
                                         </h1>
                                         <div className="walker-profile-form-field-2-col-span">
+
                                             <TextField
+                                                label="Bank Name"
                                                 name="bankName"
                                                 type="text"
                                                 placeholder="Bank name"
-                                                value={values.bankName}
-                                                onChange={handleChange}
+                                                value={formik.values.bankName}
+                                                onChange={formik.handleChange}
+                                                onKeyPress={e => e.code === "Enter" ? e.preventDefault() : ""}
                                             />
                                         </div>
                                         <div className="walker-profile-form-field-col-1">
                                             <TextField
+                                                label="BSB"
                                                 name="bsb"
                                                 type="text"
-                                                placeholder="bsb"
-                                                value={values.bsb}
-                                                onChange={handleChange}
+                                                placeholder="BSB"
+                                                value={formik.values.bsb}
+                                                onChange={formik.handleChange}
+                                                onKeyPress={e => e.code === "Enter" ? e.preventDefault() : ""}
                                             />
                                         </div>
                                         <div className="walker-profile-form-field-col-2">
                                             <TextField
+                                                label="Account Name"
                                                 name="accountNumber"
                                                 type="text"
                                                 placeholder="Account number"
-                                                value={values.accountNumber}
-                                                onChange={handleChange}
+                                                value={formik.values.accountNumber}
+                                                onChange={formik.handleChange}
+                                                onKeyPress={e => e.code === "Enter" ? e.preventDefault() : ""}
                                             />
                                         </div>
                                     </div>
                                 </section>
                                 <section>
                                     <div className="walker-profile-form-container">
-                                        <h1 className="walker-profile-form-heading">
-                                            Preferences
-                                        </h1>
-                                        <h2 className="walker-profile-form-subheading">
+
+                                        <h2 className="walker-profile-form-heading">
                                             Dog Size
                                         </h2>
 
@@ -269,8 +330,8 @@ function WalkerProfileForm(props) {
                                                     name="size"
                                                     type="checkbox"
                                                     value="S"
-                                                    onChange={handleChange}
-                                                    checked={values.size.includes(
+                                                    onChange={formik.handleChange}
+                                                    checked={formik.values.size.includes(
                                                         "S"
                                                     )}
                                                 />
@@ -282,8 +343,8 @@ function WalkerProfileForm(props) {
                                                     name="size"
                                                     type="checkbox"
                                                     value="M"
-                                                    onChange={handleChange}
-                                                    checked={values.size.includes(
+                                                    onChange={formik.handleChange}
+                                                    checked={formik.values.size.includes(
                                                         "M"
                                                     )}
                                                 />
@@ -296,8 +357,8 @@ function WalkerProfileForm(props) {
                                                     name="size"
                                                     type="checkbox"
                                                     value="L"
-                                                    onChange={handleChange}
-                                                    checked={values.size.includes(
+                                                    onChange={formik.handleChange}
+                                                    checked={formik.values.size.includes(
                                                         "L"
                                                     )}
                                                 />
@@ -312,7 +373,7 @@ function WalkerProfileForm(props) {
                                             />
                                         </div>
 
-                                        <h2 className="walker-profile-form-subheading">
+                                        <h2 className="walker-profile-form-heading">
                                             Service Type
                                         </h2>
 
@@ -324,8 +385,8 @@ function WalkerProfileForm(props) {
                                                     name="serviceType"
                                                     type="checkbox"
                                                     value={"Home"}
-                                                    onChange={handleChange}
-                                                    checked={values.serviceType.includes(
+                                                    onChange={formik.handleChange}
+                                                    checked={formik.values.serviceType.includes(
                                                         "Home"
                                                     )}
                                                 />
@@ -337,8 +398,8 @@ function WalkerProfileForm(props) {
                                                     name="serviceType"
                                                     type="checkbox"
                                                     value="Walks"
-                                                    onChange={handleChange}
-                                                    checked={values.serviceType.includes(
+                                                    onChange={formik.handleChange}
+                                                    checked={formik.values.serviceType.includes(
                                                         "Walks"
                                                     )}
                                                 />
@@ -353,7 +414,7 @@ function WalkerProfileForm(props) {
                                             />
                                         </div>
 
-                                        <h2 className="walker-profile-form-subheading">
+                                        <h2 className="walker-profile-form-heading">
                                             Photo
                                         </h2>
                                         <div className="walker-profile-form-field-col-1 walker-profile-form-upload-container">

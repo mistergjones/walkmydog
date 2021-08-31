@@ -1,4 +1,9 @@
 .text-field-container {
     /* background-color: yellow; */
     padding: 5px;
+    
+}
+.label-text {
+    color: #741188;
+    font-weight: bold;
 }

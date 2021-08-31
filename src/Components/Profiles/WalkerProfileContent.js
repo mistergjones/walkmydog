@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import WalkerProfileForm from '../Forms/WalkerProfileForm';
 import "./WalkerProfileContent.css"
 
@@ -10,9 +10,10 @@ import "./WalkerProfileContent.css"
 function WalkerProfileContent(props) {
     return (
 
-        <div style={{ width: "100%", height: "100%" }}>
+        <div className="walker-profile-form-screen-container">
 
             <WalkerProfileForm />
+
         </div>
 
 

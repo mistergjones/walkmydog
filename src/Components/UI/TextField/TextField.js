@@ -13,7 +13,7 @@ function TextField({ label, ...props }) {
     // console.log("Helpers are:", helpers);
     return (
         <div className="text-field-container">
-            {/* <label htmlFor={field.name}>{label}</label> */}
+            <label className="label-text" htmlFor={field.name}>{label}</label>
             <input
 
                 className={`form-control shadow-none ${meta.touched && meta.error && "is-invalid"
@@ -21,6 +21,7 @@ function TextField({ label, ...props }) {
                 {...field}
                 {...props}
                 autoComplete="off"
+
             />
             <ErrorMessage component="p" name={field.name} className="error" />
         </div>

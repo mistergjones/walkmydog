@@ -8,7 +8,7 @@ function SignUpScreen(props) {
         <div className="new-listing-screen-container">
             <MasterScreen
                 ScreenComponent={SignUpContent}
-                heading={"SigN Up Screen"}
+                heading={"Sign Up"}
             />
         </div>
     );

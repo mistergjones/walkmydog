@@ -20,13 +20,15 @@ const SignUpForm = (props) => {
     const { setUser } = useContext(AuthContext);
     const { request: insertUser } = useApi(usersApi.insertUser);
 
-    console.log("sign up component");
+    console.log("We are in SIGN UP FORM");
     // take the form data, hash the clear text password and insert into DB.
     // return TRUE if success and route elsewhere....
     const insertNewUser = async (formData) => {
         //1. Remove the confirmPassword...it is not needed for the insert
         // delete formData.confirmPassword;
         try {
+            console.log("Form data is: ", formData);
+            console.log("Before insertUser");
             // 2. Insert the data as an object
             const response = await insertUser({
                 // NOTE firstname and lastname not required for CREDENTIAL INSERT but required to kickstart either the population of WALKERS or OWNERS table
@@ -37,6 +39,7 @@ const SignUpForm = (props) => {
                 password: formData.password,
                 type: formData.type,
             });
+            console.log("After insertUser", response);
 
             // console.log("SIGN UP - resonse data: ", response);
             // GET JWT TOKEN FROM RESPONSE AND DECODE TO USER OBJECT IF NO TOKEN RETURNS NULL;
@@ -99,12 +102,10 @@ const SignUpForm = (props) => {
             >
                 {(formik) => (
                     <div>
-
                         <Form
                             onSubmit={formik.handleSubmit}
                             className="sign-up-form-layout"
                         >
-
                             <TextField
                                 label="First Name"
                                 name="firstname"
@@ -115,13 +116,11 @@ const SignUpForm = (props) => {
 
                             <TextField
                                 label="Last Name"
-
                                 name="lastname"
                                 type="text"
                                 value={formik.values.lastname}
                                 onChange={formik.handleChange}
                             />
-
 
                             <TextField
                                 label="Email"
@@ -131,8 +130,13 @@ const SignUpForm = (props) => {
                                 onChange={formik.handleChange}
                             />
 
-                            <div id="my-radio-group" className="sign-up-form-radio-buttons-comntainer">
-                                <h1 className="sign-up-form-radio-heading">Are you a dog walker or dog owner?</h1>
+                            <div
+                                id="my-radio-group"
+                                className="sign-up-form-radio-buttons-comntainer"
+                            >
+                                <h1 className="sign-up-form-radio-heading">
+                                    Are you a dog walker or dog owner?
+                                </h1>
 
                                 <div className="sign-up-form-radio-buttons">
                                     <RadioButton
@@ -148,7 +152,6 @@ const SignUpForm = (props) => {
                                                 : false
                                         }
                                     />
-
 
                                     <RadioButton
                                         id="owner"

@@ -36,8 +36,6 @@ const loginUser = (userInfo) => {
     return client.post(userEndpoint, userInfo);
 };
 
-
-
 // const register = (userInfo) => client.post("/users", userInfo);
 
 export default {

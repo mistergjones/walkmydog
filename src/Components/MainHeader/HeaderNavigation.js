@@ -16,25 +16,50 @@ const HeaderNavigation = (props) => {
                 <li>
                     <NavLink to={routes.HOME}> Home</NavLink>
                 </li>
-                {type && <li>
-                    <NavLink to={routes.NEW_LISTINGS}> Listings</NavLink>
-                </li>}
-                {type === "W" && <li>
-                    <NavLink to={routes.WALKERS}> Walkers</NavLink>
-                </li>}
-                {type === "O" && <li>
-                    <NavLink to={routes.OWNERS}>Owners</NavLink>
-                </li>}
+                {type === "W" && (
+                    <li>
+                        <NavLink to={routes.HISTORY}>Walker History</NavLink>
+                    </li>
+                )}
+                {type && (
+                    <li>
+                        <NavLink to={routes.NEW_LISTINGS}> Listings</NavLink>
+                    </li>
+                )}
+                {type === "W" && (
+                    <li>
+                        <NavLink to={routes.WALKERS}> Walkers</NavLink>
+                    </li>
+                )}
+                {type === "O" && (
+                    <li>
+                        <NavLink to={routes.OWNERS}>Owners</NavLink>
+                    </li>
+                )}
 
-                {!user && (<li>
-                    <NavLink to={routes.SIGN_UP}>SignUp</NavLink>
-                </li>)}
-                {!user ? <li>
-                    <NavLink to={routes.LOGIN}> Login</NavLink>
-                </li> : <li>{user.email}</li>}
+                {!user && (
+                    <li>
+                        <NavLink to={routes.SIGN_UP}>SignUp</NavLink>
+                    </li>
+                )}
+                {!user ? (
+                    <li>
+                        <NavLink to={routes.LOGIN}> Login</NavLink>
+                    </li>
+                ) : (
+                    <li>{user.email}</li>
+                )}
                 {user && (
                     <li>
-                        <NavLink to={routes.HOME} onClick={() => { storageService.removeToken(); setUser(null) }}>Logout</NavLink>
+                        <NavLink
+                            to={routes.HOME}
+                            onClick={() => {
+                                storageService.removeToken();
+                                setUser(null);
+                            }}
+                        >
+                            Logout
+                        </NavLink>
                     </li>
                 )}
             </ul>

@@ -10,6 +10,7 @@ import SignUpScreen from "./Screens/HeaderPages/SignUpScreen";
 import ListingsDetailScreen from "./Screens/ListingsDetailScreen";
 import routes from "./routes/routes";
 import WalkersScreen from "./Screens/HeaderPages/WalkersScreen";
+import WalkerHistoryScreen from "./Screens/WalkerHistoryScreen";
 import AuthContext from "./context/authContext";
 import {
     Route,
@@ -23,7 +24,8 @@ import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import Upload from "./Components/Upload/Upload";
 import ProtectedRoute from "./Components/protectedRoute";
 // import ProfileScreen from "./Screens/ProfileScreen";
-import DashboardScreen from "./Screens/DashboardScreen";
+import OwnerDashboardScreen from "./Screens/OwnerDashboardScreen";
+import WalkerDashboardScreen from "./Screens/WalkerDashboardScreen";
 import NotFoundScreen from "./Screens/NotFoundScreen";
 
 // GJ: 06/08: added the below screen
@@ -62,11 +64,15 @@ function App() {
                     />
                     <ProtectedRoute
                         path={routes.DASHBOARD_OWNER}
-                        component={DashboardScreen}
+                        component={OwnerDashboardScreen}
                     />
                     <ProtectedRoute
                         path={routes.DASHBOARD_WALKER}
-                        component={DashboardScreen}
+                        component={WalkerDashboardScreen}
+                    />
+                    <ProtectedRoute
+                        path={routes.HISTORY}
+                        component={WalkerHistoryScreen}
                     />
                     <Route path={routes.LOGIN} component={LoginScreen} />
                     <Route path={routes.SIGN_UP} component={SignUpScreen} />

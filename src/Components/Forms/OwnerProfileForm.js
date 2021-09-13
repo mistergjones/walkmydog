@@ -158,7 +158,11 @@ function OwnerProfileForm(props) {
                     try {
                         // console.log("Fields are: ", fields);
                         // need to update the owner table. NOTE: RATING and MEMBERHSIP_ACTIVE are hardcode in the SQL directly
-                        const response = await updatedOwner(fields);
+                        const response = await updatedOwner({
+                            ...fields,
+                            lat: -37.8115397,
+                            lng: 144.9729145
+                        });
                     } catch (error) { }
                 }}
             >
@@ -336,6 +340,9 @@ function OwnerProfileForm(props) {
                                                     type="radio"
                                                     name="dogSize"
                                                     value="S"
+                                                    onChange={
+                                                        formik.handleChange
+                                                    }
                                                 />
 
 
@@ -347,6 +354,9 @@ function OwnerProfileForm(props) {
                                                     type="radio"
                                                     name="dogSize"
                                                     value="M"
+                                                    onChange={
+                                                        formik.handleChange
+                                                    }
                                                 />
 
 
@@ -358,6 +368,9 @@ function OwnerProfileForm(props) {
                                                     type="radio"
                                                     name="dogSize"
                                                     value="L"
+                                                    onChange={
+                                                        formik.handleChange
+                                                    }
                                                 />
 
                                             </div>

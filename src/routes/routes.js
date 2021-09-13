@@ -16,4 +16,5 @@ export default {
     NEW_LISTINGS: "/newlistings",
     HOME: "/",
     NOT_FOUND: "/notfound",
+    CREATE_LISTING_OWNER: "/listings/create"
 };

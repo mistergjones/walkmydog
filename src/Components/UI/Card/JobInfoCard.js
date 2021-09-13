@@ -1,6 +1,6 @@
 import React from 'react';
 import "./JobInfoCard.css"
-import { formatTime12Hour } from '../../../Helpers/convertDateTime';
+import { formatTime12Hour, formatAusDate } from '../../../Helpers/convertDateTime';
 
 
 
@@ -15,7 +15,10 @@ function JobInfoCard({ job, type }) {
                     </div>
                 </div>
                 <div className="center-side">
-
+                    <div className="field">
+                        <div className="field-heading">Date</div>
+                        <p>{formatAusDate(job.date)}</p>
+                    </div>
                     <div className="field">
                         <div className="field-heading">Time</div>
                         <p>{formatTime12Hour(job.startTime)}</p>

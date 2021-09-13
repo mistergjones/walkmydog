@@ -57,7 +57,7 @@ export default function Chart(props) {
             <center>
                 <h3>Your income:</h3>
             </center>
-            <ResponsiveContainer width={"100%"} height={500}>
+            <ResponsiveContainer width={"100%"} height={800}>
                 <BarChart
                     width={500}
                     height={300}

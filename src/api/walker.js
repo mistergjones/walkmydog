@@ -18,9 +18,9 @@ const getWalkerPreferences = (walkerId) => {
     return client.get(preferenceEndpoint);
 };
 
-// GJ: 07/09: The below is used to obtain all the completed jobs for the walker by walker_id
-const getWalkerHistoricalCompletions = (walker_id) => {
-    const userEndpoint = endpoint + walker_id;
+// GJ: 07/09: The below is used to obtain all the completed jobs for the walker based on their token credential_id
+const getWalkerHistoricalCompletions = (credential_id) => {
+    const userEndpoint = endpoint + credential_id;
     console.log(
         "walker.js -> The getWalkerHistoricalCompletions point is:",
         userEndpoint

@@ -1,5 +1,5 @@
-import React, { useContext, useEffect, useState, useRef } from "react";
-import { Formik, Form, Field, ErrorMessage, useField } from "formik";
+import React, { useContext, useEffect, useState } from "react";
+import { Formik, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import TextField from "../UI/TextField/TextField";
 import useApi from "../../hooks/useApi";
@@ -54,6 +54,7 @@ const validate = Yup.object({
     serviceType: Yup.array()
         .min(1, "Need to select at least 1 service type")
         .required("Required"),
+
 });
 
 
@@ -74,6 +75,7 @@ function WalkerProfileForm(props) {
 
         window.selectedSuggestion = function (result) {
             setAddress(result);
+            console.log("result = ", result)
         }
 
         loadBMaps(() => console.log("call back"));
@@ -118,6 +120,7 @@ function WalkerProfileForm(props) {
                     accountNumber: "",
                     size: [],
                     serviceType: [],
+
                 }}
 
                 // call the function to validate the inputed values
@@ -136,6 +139,8 @@ function WalkerProfileForm(props) {
                                 email: user.email,
                                 ...fields,
                                 profileUrl,
+                                lat: address.location.latitude,
+                                lng: address.location.longitude
                             },
                         });
                         // Get new token hasProfile = true

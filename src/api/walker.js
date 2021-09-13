@@ -12,6 +12,13 @@ const updateProfile = (profile) => {
     return client.post(endpoint + profileEndpoint, profile);
 };
 
+const getWalkerPreferences = (walkerId) => {
+    const preferenceEndpoint = endpoint + "preferences/" + walkerId;
+
+    return client.get(preferenceEndpoint)
+}
+
 export default {
-    updateProfile
+    updateProfile,
+    getWalkerPreferences
 }

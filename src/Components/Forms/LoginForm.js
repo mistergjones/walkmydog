@@ -14,7 +14,7 @@ import jwtService from "../../storage/jwt";
 import ProfileRedirect from "./ProfileRedirect";
 
 const LoginForm = () => {
-    const { setUser, setErrorMessage } = useContext(AuthContext);
+    const { setUser } = useContext(AuthContext);
 
     const { request: loginUser } = useApi(usersApi.loginUser);
     // establish a state to determine if login successful or not

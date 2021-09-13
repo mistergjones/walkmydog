@@ -4,12 +4,16 @@ import ListingsTable from "./ListingsTable";
 
 
 
-const JobScroll = ({ data }) => {
+const JobScroll = ({ data, preferences }) => {
 
 
     return (
         <div className="job-scroll-container">
-            <ListingsTable data={data} />
+
+            <ListingsTable
+                data={data}
+                preferences={preferences}
+            />
 
         </div>
     );

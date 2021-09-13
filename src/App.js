@@ -29,6 +29,8 @@ import NotFoundScreen from "./Screens/NotFoundScreen";
 // GJ: 06/08: added the below screen
 import OwnerProfileScreen from "./Components/Profiles/OwnerProfileScreen";
 import WalkerProfileScreen from "./Components/Profiles/WalkerProfileScreen";
+import BMapsDistance from './maps/BMapsDistance';
+import CreateListingScreen from './Screens/CreateListingScreen';
 
 function App() {
     const [user, setUser] = useState(null);
@@ -39,7 +41,8 @@ function App() {
         >
             <Router>
                 <Switch>
-                    {console.log("app.js")}
+                    <ProtectedRoute path={routes.CREATE_LISTING_OWNER} component={CreateListingScreen} />
+                    <Route path="/distance" component={BMapsDistance} />
                     <Route path={routes.ABOUT} component={AboutUsContent} />
                     <ProtectedRoute
                         path={routes.PROFILE_WALKER}

@@ -21,21 +21,29 @@ const getWalkerPreferences = (walkerId) => {
 // GJ: 07/09: The below is used to obtain all the completed jobs for the walker based on their token credential_id
 const getWalkerHistoricalCompletions = (credential_id) => {
     const userEndpoint = endpoint + credential_id;
-    console.log(
-        "walker.js -> The getWalkerHistoricalCompletions point is:",
-        userEndpoint
-    );
+    // console.log(
+    //     "walker.js -> The getWalkerHistoricalCompletions point is:",
+    //     userEndpoint
+    // );
+    return client.get(userEndpoint);
+};
+
+// GJ: 14/09: The below is used to obtain all the completed jobs for the walker based on their token credential_id
+const getAssignedWalks = (credential_id) => {
+    const userEndpoint = endpoint + "assignedwalks/" + credential_id;
+    console.log("walker.js -> The getAssignedWalks point is:", userEndpoint);
     return client.get(userEndpoint);
 };
 const getWalkerProfile = (credentialID) => {
     const walkerProfileEnpoint = endpoint + "profile/" + credentialID;
 
     return client.get(walkerProfileEnpoint);
-}
+};
 
 export default {
     updateProfile,
     getWalkerHistoricalCompletions,
     getWalkerPreferences,
-    getWalkerProfile
+    getWalkerProfile,
+    getAssignedWalks,
 };

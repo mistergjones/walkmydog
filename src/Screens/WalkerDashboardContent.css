@@ -1,0 +1,41 @@
+.walker-dashboard-content-container {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 0.5fr 1fr 1fr 1fr;
+    gap: 0px 0px;
+    grid-template-areas:
+        "area1"
+        "area2"
+        "area3"
+        "area4";
+    justify-items: stretch;
+    align-items: stretch;
+    border: 10px dashed darkorange;
+    text-align: center;
+}
+
+.area1 {
+    grid-area: area1;
+    border: 3px solid black;
+}
+
+.area2 {
+    grid-area: area2;
+    border: 3px solid blue;
+    height: 300px;
+    overflow: auto;
+}
+
+.area3 {
+    grid-area: area3;
+    border: 3px solid red;
+    height: 300px;
+    overflow: auto;
+}
+
+.area4 {
+    grid-area: area4;
+    border: 3px solid green;
+    height: 300px;
+    overflow: auto;
+}

@@ -20,37 +20,21 @@ function WalkerHistoryContent(props) {
         request: getWalkerHistoricalCompletions,
     } = useApi(walkersApi.getWalkerHistoricalCompletions);
 
-    const loadData = async () => {
-        //await getWalkerHistoricalCompletions(16);
-        // setLoaded(true);
-    };
-
-    const transformIncomeDataForGraph = () => {
-        // console.log("Walker Data is: ", walkerCompletedJobs);
-        // console.log("Income Data is: ", walkerHistoricalIncome);
-    };
-
     useEffect(() => {
-        //loadData();
-
         // this approach is way to only render this once and set the loaded status
         // get the Walker Data and and split into its different datasets
         const getWalkerInformation = async () => {
             const tempWalkerDataObject = await getWalkerHistoricalCompletions(
                 user.id
             );
-            console.log("ESDA", tempWalkerDataObject);
             setWalkerCompletedJobs(tempWalkerDataObject.data.walkerInfo);
             setWalkerHistoricalIncome(
                 tempWalkerDataObject.data.walkerIncomeInfo
             );
-            // the components will not show unless this flag is set to true
+            // The components will not show unless this flag is set to true
             setIsDataLoaded(true);
         };
         getWalkerInformation();
-        if (isDataLoaded === true) {
-            transformIncomeDataForGraph();
-        }
     }, [isDataLoaded]);
 
     return (
@@ -58,7 +42,7 @@ function WalkerHistoryContent(props) {
             <div className="walker-history-container">
                 <div className="walker-history-container-col1">
                     <h1>Completed Historical Walks</h1>
-                    <h3>NEED TO CATER FOR 0 RECORDS</h3>
+
                     {/* {loaded && <WalkerJobScroll data={walkerHistoricalCompletions} />} */}
                     {isDataLoaded && (
                         <WalkerJobScroll data={walkerCompletedJobs} />
@@ -67,7 +51,7 @@ function WalkerHistoryContent(props) {
                 </div>
                 <div className="walker-history-container-col2">
                     <h1>Completed Walk Income</h1>
-                    <h3>NEED TO CATER FOR 0 RECORDS</h3>
+
                     {isDataLoaded && (
                         <Chart graphData={walkerHistoricalIncome} />
                     )}

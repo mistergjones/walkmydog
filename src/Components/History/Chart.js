@@ -22,40 +22,24 @@ import {
     ResponsiveContainer,
 } from "recharts";
 
-const data = [
-    // {
-    //     name: "30HV",
-    //     completed: 35,
-    //     assigned: 75,
-    //     // amt: 500,
-    // },
-    // {
-    //     name: "30WO",
-    //     completed: 135,
-    //     assigned: 25,
-    //     // amt: 500,
-    // },
-    // {
-    //     name: "60HV",
-    //     completed: 95,
-    //     assigned: 50,
-    //     // amt: 500,
-    // },
-    // {
-    //     name: "60WO",
-    //     completed: 115,
-    //     assigned: 75,
-    //     // amt: 500,
-    // },
-];
-
 export default function Chart(props) {
+    // obtain tje object graph data
     const data = props.graphData;
+
+    // determine Total Income if data exists or not
+    let totalIncome = null;
+    if (data.length === 0) {
+        totalIncome = 0;
+    } else {
+        for (var i = 0; i < data.length; i++) {
+            totalIncome = totalIncome + parseFloat(data[i].booked_income);
+        }
+    }
 
     return (
         <div className="chart-container">
             <center>
-                <h3>Your income:</h3>
+                <h3>Your Total income:${totalIncome}</h3>
             </center>
             <ResponsiveContainer width={"100%"} height={800}>
                 <BarChart
@@ -75,7 +59,7 @@ export default function Chart(props) {
                         dataKey="booked_income"
                         unit="A$"
                         type="number"
-                        domain={[0, 500]}
+                        domain={[0, 300]}
                     />
                     <Tooltip />
                     <Legend />

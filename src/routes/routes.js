@@ -1,4 +1,5 @@
 export default {
+    ASSIGNED_WALKER: "/walkers/assignedwalks/:credential_id",
     HISTORY: "/history",
     DOGS: "/dogs",
     OWNER_PROFILE: "/ownerprofile",
@@ -19,5 +20,5 @@ export default {
     NEW_LISTINGS: "/newlistings",
     HOME: "/",
     NOT_FOUND: "/notfound",
-    CREATE_LISTING_OWNER: "/listings/create"
+    CREATE_LISTING_OWNER: "/listings/create",
 };

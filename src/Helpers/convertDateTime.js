@@ -13,13 +13,13 @@ export const convertDateTime = (data) => {
 
 // Date stored in US format reverse the date to be AUS format
 export const formatAusDate = (date) => {
-    console.log("date = " + date)
+    console.log("date = " + date);
 
     let formattedDate = [];
     formattedDate[0] = Number(date.slice(0, 10).split("-")[2]) + 1;
     formattedDate[1] = date.slice(0, 10).split("-")[1];
     formattedDate[2] = date.slice(0, 10).split("-")[0];
-    return formattedDate ? formattedDate.join("-") : "NA";
+    return formattedDate ? formattedDate.join("/") : "NA";
 };
 
 export const formatTime12Hour = (time) => {
@@ -38,4 +38,6 @@ export const formatAusDateToUSDate = (dateInfo) => {
 export default {
     convertDateTime,
     formatAusDateToUSDate,
+    formatTime12Hour,
+    formatAusDate,
 };

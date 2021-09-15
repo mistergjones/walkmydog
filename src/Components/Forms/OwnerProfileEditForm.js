@@ -12,11 +12,14 @@ import AuthContext from "../../context/authContext";
 import jwtService from "../../storage/jwt";
 import ProfileRedirect from "./ProfileRedirect";
 
-import helpers from "../../Helpers/convertDateTime";
+import helpers, { formatAusDate } from "../../Helpers/convertDateTime";
 import RadioButton from "../UI/RadioButtons/RadioButton";
 
 import loadBMaps from "../../maps/bingMaps";
 import AddressTextField from "../UI/TextField/AddressTextField";
+
+import { useHistory } from "react-router-dom";
+import routes from "../../routes/routes";
 
 // implement Yup error handling
 const validate = Yup.object().shape({
@@ -68,10 +71,13 @@ const validate = Yup.object().shape({
     ),
 });
 
-function OwnerProfileForm(props) {
+function OwnerProfileEditForm(props) {
     const { setUser, user } = useContext(AuthContext);
     // const { request: getOwners } = useApi(ownersApi.getOwners);
-    const { request: getOwner } = useApi(ownersApi.getOwner);
+    const { request: getOwnerProfile } = useApi(ownersApi.getOwnerProfile);
+
+    const [owner, setOwner] = useState();
+    let history = useHistory();
     // const { request: updateOwner } = useApi(ownersApi.updateOwner);
     // const { request: insertDog } = useApi(dogsApi.insertDog);
     // const { request: getOwnerFromCredentialByEmail } = useApi(
@@ -84,12 +90,18 @@ function OwnerProfileForm(props) {
 
     // establish the use of BING MAPS address search.
     const [address, setAddress] = useState(null);
+    const loadOwner = async () => {
+        const { data } = await getOwnerProfile(user.id);
+        setOwner(data);
+    }
 
     useEffect(() => {
         window.selectedSuggestion = function (result) {
             setAddress(result);
         };
+
         loadBMaps(() => console.log("call back"));
+        loadOwner();
     }, []);
 
     // user object has keys: email, firsntame, hasProfile, id, lastname, type
@@ -105,24 +117,25 @@ function OwnerProfileForm(props) {
         // create an entire data object taht will be used to store both Owner and Dog Info Objects
         let ownerDataObject = {};
 
+
         try {
             // console.log("FORM DATA is:", formData);
             // console.log("USER is", user);
 
             // DOG INFO PART
             // 1.0 Obtain owner information from owner table based on 'user' TOKEN credential_id. This is required so we can insert the OWNER_ID into the DOG TABLE. e.g. map a dog to their owner_id
-            const ownerObj = await getOwner(user.id);
-            console.log("ownerObj = ", ownerObj);
+            // const ownerObj = await getOwner(user.id);
 
-            if (ownerObj.data.owner.length === 0) {
-                console.log("Failed to obain the owner information");
-            }
+            // if (ownerObj.data.owner.length === 0) {
+            //     console.log("Failed to obain the owner information");
+            // }
 
             // 2.0 Get all the infromation for the ownerDataObj.
             ownerDataObject = {
                 ...formData,
-                ...user,
-                owner_id: ownerObj.data.owner[0].owner_id,
+                id: user.id,
+                hasProfile: user.hasProfile,
+                owner_id: owner.owner_id,
             };
 
             const response = await updateOwnerProfile({
@@ -133,33 +146,37 @@ function OwnerProfileForm(props) {
 
             // GET JWT TOKEN FROM RESPONSE AND DECODE TO USER OBJECT. IF NO TOKEN RETURNS NULL;
             setUser(jwtService.getUserFromResponseToken(response));
+
+
+
         } catch (error) {
             console.log("ownerProfileForm -> UpdatedOwner()", error);
         }
     };
 
+
     return (
         <>
-            <ProfileRedirect />
-            <Formik
+
+            {owner ? <Formik
                 initialValues={{
-                    firstname: user.firstname,
-                    lastname: user.lastname,
-                    streetAddress: "",
-                    suburb: "",
-                    state: "",
-                    postcode: "",
-                    mobile: "",
-                    dob: "",
-                    driverLicence: "",
-                    bankName: "",
-                    bsb: "",
-                    accountNumber: "",
+                    firstname: owner.firstname,
+                    lastname: owner.lastname,
+                    streetAddress: owner.street_address,
+                    suburb: owner.suburb,
+                    state: owner.state,
+                    postcode: owner.postcode,
+                    mobile: owner.mobile,
+                    dob: owner.dob.slice(0, 10),
+                    driverLicence: owner.licence_num,
+                    bankName: owner.bank_name,
+                    bsb: owner.bank_bsb,
+                    accountNumber: owner.bank_acct_num,
                     acceptTerms: false,
-                    dogName: "",
-                    dogBreed: "",
-                    dogSize: "",
-                    requiresLeash: "",
+                    dogName: owner.dog_firstname,
+                    dogBreed: owner.dog_breed,
+                    dogSize: owner.dog_size,
+                    requiresLeash: owner.dog_always_leashed,
                 }}
                 // validate the input fields to the schema above
                 validationSchema={validate}
@@ -173,10 +190,15 @@ function OwnerProfileForm(props) {
                         // need to update the owner table. NOTE: RATING and MEMBERHSIP_ACTIVE are hardcode in the SQL directly
                         const response = await updatedOwner({
                             ...fields,
-                            lat: address.location.latitude,
-                            lng: address.location.longitude,
+                            lat: address ? address.location.latitude : owner.lat,
+                            lng: address ? address.location.longitude : owner.lng,
                         });
-                    } catch (error) { }
+                        ;
+
+                        history.push(routes.DASHBOARD_OWNER);
+                    } catch (error) {
+                        console.log("error = ", error)
+                    }
                 }}
             >
                 {(formik) => (
@@ -506,6 +528,7 @@ function OwnerProfileForm(props) {
                                                     onChange={
                                                         formik.handleChange
                                                     }
+                                                    defaultChecked={formik.values.dogSize === "S"}
                                                 />
 
                                                 <RadioButton
@@ -517,6 +540,7 @@ function OwnerProfileForm(props) {
                                                     onChange={
                                                         formik.handleChange
                                                     }
+                                                    defaultChecked={formik.values.dogSize === "M"}
                                                 />
 
                                                 <RadioButton
@@ -528,6 +552,7 @@ function OwnerProfileForm(props) {
                                                     onChange={
                                                         formik.handleChange
                                                     }
+                                                    defaultChecked={formik.values.dogSize === "L"}
                                                 />
                                             </div>
                                         </div>
@@ -546,6 +571,7 @@ function OwnerProfileForm(props) {
                                                     onChange={
                                                         formik.handleChange
                                                     }
+                                                    defaultChecked={formik.values.requiresLeash === "YES"}
                                                 />
 
                                                 <RadioButton
@@ -557,6 +583,7 @@ function OwnerProfileForm(props) {
                                                     onChange={
                                                         formik.handleChange
                                                     }
+                                                    defaultChecked={formik.values.requiresLeash === "NO"}
                                                 />
                                             </div>
                                             {/* <Field
@@ -631,9 +658,9 @@ function OwnerProfileForm(props) {
                         </Form>
                     </div>
                 )}
-            </Formik>
+            </Formik> : null}
         </>
     );
 }
 
-export default OwnerProfileForm;
+export default OwnerProfileEditForm;

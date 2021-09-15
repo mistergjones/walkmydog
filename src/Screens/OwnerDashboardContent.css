@@ -1,0 +1,12 @@
+.owner-profile-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+}
+
+.owner-profile-grid-column {
+    display: flex;
+    flex-direction: column;
+}

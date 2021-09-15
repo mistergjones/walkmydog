@@ -33,10 +33,16 @@ const updateOwnerProfile = (profile) => {
     return client.post(profileEndpoint, profile);
 };
 
+const getOwnerProfile = (ownerId) => {
+    const ownerProfileEndpoint = "/owners/profile/" + ownerId;
+    return client.get(ownerProfileEndpoint);
+}
+
 export default {
     getOwners,
     updateOwner,
     getOwner,
     getOwnerFromCredentialByEmail,
     updateOwnerProfile,
+    getOwnerProfile
 };

@@ -27,9 +27,15 @@ const getWalkerHistoricalCompletions = (credential_id) => {
     );
     return client.get(userEndpoint);
 };
+const getWalkerProfile = (credentialID) => {
+    const walkerProfileEnpoint = endpoint + "profile/" + credentialID;
+
+    return client.get(walkerProfileEnpoint);
+}
 
 export default {
     updateProfile,
     getWalkerHistoricalCompletions,
     getWalkerPreferences,
+    getWalkerProfile
 };

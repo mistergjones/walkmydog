@@ -7,6 +7,8 @@ export default {
     ABOUT: "/about",
     PROFILE_WALKER: "/profile/walker",
     PROFILE_OWNER: "/profile/owner",
+    EDIT_PROFILE_WALKER: "/profile/walker/edit",
+    EDIT_PROFILE_OWNER: "/profile/owner/edit",
     WALKERS: "/walkers",
     OWNERS: "/owners",
     OWNER: "/owners/:credentialId",

@@ -39,14 +39,18 @@ function WalkerDashboardContent(props) {
     // GJ: 15/09: The below is used to enable the CANCELLCATION of an assigned Walk
     const {
         // data: walkerHistoricalCompletions,
-        request: cancellAssignedWalk,
-    } = useApi(walkersApi.cancellAssignedWalk);
+        request: cancelAssignedWalk,
+    } = useApi(walkersApi.cancelAssignedWalk);
 
-    const handleCancellation = () => {
+    const handleCancellation = async () => {
         //TODO: need to invoke a query to canel a booking from the button
         // 1. probably need user.id and booking_id together to
         // 2. need to update the fields in booking to reflect "c"
         // 3. need to record who made the cancellation
+        console.log("HANDLE CLICK CLICKANDAF ADSF ");
+        try {
+            const result = await cancelAssignedWalk(55);
+        } catch (error) {}
     };
 
     useEffect(() => {
@@ -97,7 +101,10 @@ function WalkerDashboardContent(props) {
                     <div className="area-border">
                         <h3>Upcoming Assigned Services </h3>
                         <div className="area3">
-                            <Upcoming data={upcomingWalks} />
+                            <Upcoming
+                                data={upcomingWalks}
+                                handleClick={handleCancellation}
+                            />
                         </div>
                     </div>
                 )}

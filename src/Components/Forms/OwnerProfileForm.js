@@ -112,16 +112,23 @@ function OwnerProfileForm(props) {
             // DOG INFO PART
             // 1.0 Obtain owner information from owner table based on 'user' TOKEN credential_id. This is required so we can insert the OWNER_ID into the DOG TABLE. e.g. map a dog to their owner_id
             const ownerObj = await getOwner(user.id);
-            console.log("ownerObj = ", ownerObj);
+            // console.log("ownerObj = ", ownerObj);
 
             if (ownerObj.data.owner.length === 0) {
                 console.log("Failed to obain the owner information");
             }
 
             // 2.0 Get all the infromation for the ownerDataObj.
+            // GJ: 15/09: changed the order to have ...user first to ensure the submitted
+            // formData with firstname and lastname were retained when committing to the DB
             ownerDataObject = {
-                ...formData,
                 ...user,
+                ...formData,
+                // id: user.id,
+                // hasProfile: user.hasProfile,
+                // iat: user.iat,
+                // email: user.email,
+                // type: user.type,
                 owner_id: ownerObj.data.owner[0].owner_id,
             };
 
@@ -176,7 +183,7 @@ function OwnerProfileForm(props) {
                             lat: address.location.latitude,
                             lng: address.location.longitude,
                         });
-                    } catch (error) { }
+                    } catch (error) {}
                 }}
             >
                 {(formik) => (
@@ -245,7 +252,7 @@ function OwnerProfileForm(props) {
                                                 address={
                                                     address
                                                         ? address.address
-                                                            .addressLine
+                                                              .addressLine
                                                         : null
                                                 }
                                             />
@@ -270,7 +277,7 @@ function OwnerProfileForm(props) {
                                                 address={
                                                     address
                                                         ? address.address
-                                                            .locality
+                                                              .locality
                                                         : null
                                                 }
                                                 onChange={formik.handleChange}
@@ -300,9 +307,9 @@ function OwnerProfileForm(props) {
                                                 address={
                                                     address
                                                         ? address.address
-                                                            .postalCode
+                                                              .postalCode
                                                             ? address.address
-                                                                .postalCode
+                                                                  .postalCode
                                                             : "3000"
                                                         : null
                                                 }
@@ -335,7 +342,7 @@ function OwnerProfileForm(props) {
                                                 address={
                                                     address
                                                         ? address.address
-                                                            .adminDistrict
+                                                              .adminDistrict
                                                         : null
                                                 }
                                                 maxLength={20}

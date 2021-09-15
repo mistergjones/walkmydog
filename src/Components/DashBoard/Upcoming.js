@@ -5,10 +5,10 @@ import "./Upcoming.css";
 import Helpers from "../../Helpers/convertDateTime";
 
 // GJ: 15/09:this function receives data from its parent (WalkerDashboardContent) to props
-function Upcoming(props) {
+function Upcoming({ data, handleClick }) {
     // set the route for teh "MORE" button. WHERE DOES IT GO???
     // const { ???? } = routes;
-    console.log("WHAT IS IN PROS", props.data);
+
     return (
         <div className="upcoming-container">
             <table className="tbl tbl--block fixed_header">
@@ -23,7 +23,7 @@ function Upcoming(props) {
                     </tr>
                 </thead>
                 <tbody>
-                    {props.data.map((assignedWalkItem, index) => (
+                    {data.map((assignedWalkItem, index) => (
                         <tr key={index}>
                             <td>
                                 {Helpers.formatAusDate(assignedWalkItem.date)}
@@ -37,7 +37,7 @@ function Upcoming(props) {
                             <td>{assignedWalkItem.suburb}</td>
                             <td></td>
                             <td>
-                                <button>Cancel</button>
+                                <button onClick={handleClick}>Cancel</button>
                             </td>
                         </tr>
                     ))}

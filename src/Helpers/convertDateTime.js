@@ -13,7 +13,7 @@ export const convertDateTime = (data) => {
 
 // Date stored in US format reverse the date to be AUS format
 export const formatAusDate = (date) => {
-    console.log("date = " + date);
+    //console.log("date = " + date);
 
     let formattedDate = [];
     formattedDate[0] = Number(date.slice(0, 10).split("-")[2]) + 1;

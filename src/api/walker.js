@@ -31,13 +31,22 @@ const getWalkerHistoricalCompletions = (credential_id) => {
 // GJ: 14/09: The below is used to obtain all the completed jobs for the walker based on their token credential_id
 const getAssignedWalks = (credential_id) => {
     const userEndpoint = endpoint + "assignedwalks/" + credential_id;
-    console.log("walker.js -> The getAssignedWalks point is:", userEndpoint);
+    //console.log("walker.js -> The getAssignedWalks point is:", userEndpoint);
     return client.get(userEndpoint);
 };
 const getWalkerProfile = (credentialID) => {
     const walkerProfileEnpoint = endpoint + "profile/" + credentialID;
-
     return client.get(walkerProfileEnpoint);
+};
+
+// GJ: 15/09: The below is used to delete the assigned booking for the walker
+const cancelAssignedWalk = (credential_id) => {
+    const userEndpoint = endpoint + credential_id;
+    // console.log(
+    //     "walker.js -> The cancelAssignedWalk point is:",
+    //     userEndpoint
+    // );
+    return client.delete(userEndpoint);
 };
 
 export default {

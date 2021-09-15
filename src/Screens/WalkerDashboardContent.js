@@ -36,6 +36,12 @@ function WalkerDashboardContent(props) {
         request: getAssignedWalks,
     } = useApi(walkersApi.getAssignedWalks);
 
+    // GJ: 15/09: The below is used to enable the CANCELLCATION of an assigned Walk
+    const {
+        // data: walkerHistoricalCompletions,
+        request: cancellAssignedWalk,
+    } = useApi(walkersApi.cancellAssignedWalk);
+
     const handleCancellation = () => {
         //TODO: need to invoke a query to canel a booking from the button
         // 1. probably need user.id and booking_id together to
@@ -71,27 +77,36 @@ function WalkerDashboardContent(props) {
     return (
         <>
             <div className="walker-dashboard-content-container">
-                <div className="area1">
+                <div className="area-border">
                     <h3>Profile</h3>
-                    <Profile />
+                    <div className="area1">
+                        <Profile data={user} />
+                    </div>
                 </div>
                 {isDataLoaded && (
-                    <div className="area2">
-                        <h3>History</h3>
-                        <History data={walkerCompletedJobs} />
+                    <div className="area-border">
+                        <h3>Historical Services</h3>
+
+                        <div className="area2">
+                            <History data={walkerCompletedJobs} />
+                        </div>
                     </div>
                 )}
 
                 {isAssignedWalkDataLoaded && (
-                    <div className="area3">
-                        <h3>Upcoming </h3>
-                        <Upcoming data={upcomingWalks} />
+                    <div className="area-border">
+                        <h3>Upcoming Assigned Services </h3>
+                        <div className="area3">
+                            <Upcoming data={upcomingWalks} />
+                        </div>
                     </div>
                 )}
 
-                <div className="area4">
-                    <h3>New Listings</h3>
-                    <NewListings />
+                <div className="area-border">
+                    <div className="area4">
+                        <h3>New Listings</h3>
+                        <NewListings />
+                    </div>
                 </div>
             </div>
         </>

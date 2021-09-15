@@ -11,7 +11,7 @@ function Upcoming(props) {
     console.log("WHAT IS IN PROS", props.data);
     return (
         <div className="upcoming-container">
-            <table className="tbl tbl--block">
+            <table className="tbl tbl--block fixed_header">
                 <thead>
                     <tr>
                         <th>Date</th>
@@ -20,7 +20,6 @@ function Upcoming(props) {
                         <th>Suburb</th>
                         <th></th>
                         <th>Action</th>
-                        <th>Other</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -39,10 +38,6 @@ function Upcoming(props) {
                             <td></td>
                             <td>
                                 <button>Cancel</button>
-                            </td>
-
-                            <td>
-                                <button>More Info</button>
                             </td>
                         </tr>
                     ))}

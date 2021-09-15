@@ -11,7 +11,7 @@ function History(props) {
 
     return (
         <div className="history-container">
-            <table className="tbl tbl--block">
+            <table className="tbl tbl--block fixed_header">
                 <thead>
                     <tr>
                         <th>Date</th>
@@ -19,8 +19,12 @@ function History(props) {
                         <th>Service</th>
                         <th>Dog Name</th>
                         <th>Service Fee</th>
-                        <th>Action</th>
-                        <th>Other</th>
+
+                        <th>
+                            <NavLink to={`${HISTORY}`}>
+                                <button>History</button>
+                            </NavLink>
+                        </th>
                     </tr>
                 </thead>
                 <tbody>
@@ -38,11 +42,6 @@ function History(props) {
                             <td>{historialRowItem.dog_firstname}</td>
                             <td>${historialRowItem.service_fee}</td>
                             <td></td>
-                            <td>
-                                <NavLink to={`${HISTORY}`}>
-                                    <button>History</button>
-                                </NavLink>
-                            </td>
                         </tr>
                     ))}
                 </tbody>

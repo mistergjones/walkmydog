@@ -3,14 +3,27 @@
     width: 80%;
 }
 
-.gj2 tr {
+.fixed_header {
+    width: 100%;
+    table-layout: fixed;
+    border-collapse: collapse;
+}
+
+.fixed_header tbody {
+    display: block;
+    width: 100%;
+    overflow: auto;
+    height: 100vh;
+    background-color: #7c1691;
+}
+
+.fixed_header thead tr {
     display: block;
 }
 
-.gj {
-    display: block;
-
-    overflow: auto;
-    height: 200px;
-    width: 100%;
+.fixed_header th,
+.fixed_header td {
+    padding: 5px;
+    text-align: center;
+    width: 300px;
 }

@@ -4,7 +4,7 @@ import "./NewListings.css";
 function NewListings(props) {
     return (
         <div className="newlistings-container">
-            <table className="tbl tbl--block">
+            <table className="tbl tbl--block fixed_header">
                 <thead>
                     <tr>
                         <th>Date</th>
@@ -13,7 +13,6 @@ function NewListings(props) {
                         <th>Suburb</th>
                         <th></th>
                         <th>Action</th>
-                        <th>Other</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -26,10 +25,6 @@ function NewListings(props) {
                         <td>
                             <button>Book</button>
                         </td>
-
-                        <td>
-                            <button>More Info</button>
-                        </td>
                     </tr>
                     <tr>
                         <td>15/09/2021</td>
@@ -40,10 +35,6 @@ function NewListings(props) {
                         <td>
                             <button>Book</button>
                         </td>
-
-                        <td>
-                            <button>More Info</button>
-                        </td>
                     </tr>
                     <tr>
                         <td>15/09/2021</td>
@@ -53,10 +44,6 @@ function NewListings(props) {
                         <td></td>
                         <td>
                             <button>Book</button>
-                        </td>
-
-                        <td>
-                            <button>More Info</button>
                         </td>
                     </tr>
                 </tbody>

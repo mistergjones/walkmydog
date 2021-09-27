@@ -4,7 +4,8 @@ import { formatTime12Hour, formatAusDate } from '../../../Helpers/convertDateTim
 
 
 
-function JobInfoCard({ job, type }) {
+
+function JobInfoCard({ job, type, handleSubmit }) {
     return (
         <>
             <div data-aos="flip-right" className="jobinfo-container">
@@ -39,7 +40,8 @@ function JobInfoCard({ job, type }) {
                 <div className="right-side jobinfo-button-container">
                     <button
                         className={"btn btn-mt-3 btn-light"}
-                        type="submit" >{type === "O" ? "CANCEL" : "BOOK"}</button>
+                        type="submit"
+                        onClick={handleSubmit}> {type === "O" ? "CANCEL" : "BOOK"}</button>
                 </div>
             </div>
         </>

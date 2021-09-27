@@ -18,10 +18,14 @@ const NewListingsContent = () => {
     const { request: getWalkerPreferences } = useApi(walkersApi.getWalkerPreferences);
 
     const loadData = async () => {
+
         const bookings = await getBookings();
         setFormattedBookings(convertDateTime(bookings.data));
-        const preferences = await getWalkerPreferences(user.id);
-        setWalkerPreferences(preferences.data);
+        if (user.type === "W") {
+
+            const preferences = await getWalkerPreferences(user.id);
+            setWalkerPreferences(preferences.data);
+        }
     }
 
     useEffect(() => {

@@ -47,7 +47,7 @@ function BookingForm(props) {
 
 
     }, []);
-    console.log("owner = " + owner);
+
     return (
 
         <>

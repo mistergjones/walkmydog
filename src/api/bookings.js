@@ -46,6 +46,10 @@ const getAssignedJobsForOwner = (ownerCredentialID) => {
     );
     return client.get(assignedJobs);
 };
+const updateBooking = (status) => {
+    return client.put(endpoint, status);
+}
+
 
 export default {
     getBookings,
@@ -55,4 +59,6 @@ export default {
     cancelBooking,
     getCompletedJobsForOwner,
     getAssignedJobsForOwner,
+    updateBooking
+
 };

@@ -6,7 +6,8 @@ import useApi from "../hooks/useApi";
 import ownersApi from "../api/owners";
 import bookingsApi from "../api/bookings";
 import { formatAusDate } from "../Helpers/convertDateTime";
-import "./../Screens/OwnerDashboardContent.css";
+import "./../Screens/OwnerDashboardContent.css"
+import OwnerProfile from "../Components/DashBoard/OwnerProfile";
 
 // 19/09: GJ: added the below components for Owner Dashboard
 import Profile from "../Components/DashBoard/Profile";

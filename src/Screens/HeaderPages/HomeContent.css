@@ -1,0 +1,41 @@
+.home-content-container {
+    border: 3px solid black;
+}
+
+.home-content-cover-image {
+}
+
+.home-content-grid-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 0.5fr 0.3fr;
+    gap: 0px 0px;
+    grid-template-areas:
+        "Column1 Column2 Column3"
+        "Row1 Row1 Row1";
+    text-align: center;
+}
+.Column1 {
+    grid-area: Column1;
+    border: 3px solid red;
+}
+.Column2 {
+    grid-area: Column2;
+    border: 3px solid black;
+}
+
+#dogLottie,
+#dogLickLottie,
+#dogWineLottie {
+    /* centre it */
+    margin: 0 auto;
+}
+
+.Column3 {
+    grid-area: Column3;
+    border: 3px solid blue;
+}
+.Row1 {
+    grid-area: Row1;
+    border: 3px solid green;
+}

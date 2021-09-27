@@ -1,4 +1,5 @@
 import React from "react";
+import "./HomeScreen.css";
 import MasterScreen from "../Master/MasterScreen";
 import HomeContent from "./HomeContent";
 

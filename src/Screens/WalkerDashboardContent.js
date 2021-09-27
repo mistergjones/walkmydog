@@ -5,6 +5,7 @@ import "./WalkerDashboardContent.css";
 import AuthContext from "../context/authContext";
 import useApi from "../hooks/useApi";
 import walkersApi from "../api/walker";
+import bookingsApi from "../api/bookings";
 
 import Profile from "../Components/DashBoard/Profile";
 import History from "../Components/DashBoard/History";
@@ -36,21 +37,39 @@ function WalkerDashboardContent(props) {
         request: getAssignedWalks,
     } = useApi(walkersApi.getAssignedWalks);
 
-    // GJ: 15/09: The below is used to enable the CANCELLCATION of an assigned Walk
+    // GJ: 15/09: The below is used to enable the CANCELLCATION of an assigned Walk/Booking
     const {
         // data: walkerHistoricalCompletions,
         request: cancelAssignedWalk,
-    } = useApi(walkersApi.cancelAssignedWalk);
+    } = useApi(bookingsApi.cancelBooking);
 
-    const handleCancellation = async () => {
-        //TODO: need to invoke a query to canel a booking from the button
-        // 1. probably need user.id and booking_id together to
-        // 2. need to update the fields in booking to reflect "c"
-        // 3. need to record who made the cancellation
-        console.log("HANDLE CLICK CLICKANDAF ADSF ");
+    // this function will run when a walker wants to cancel a ASSIGNED walk.
+    // The function is passed to the child with this function receiving the "booking_id_value"
+    const handleCancellation = async (booking_id_value) => {
         try {
-            const result = await cancelAssignedWalk(55);
-        } catch (error) {}
+            // 0. Establish a data object to capture the Booking ID and Walker ID to pass through to the DELETE booking route
+            const walkerBookingIDObj = {};
+
+            // 1. Obtain relevant data and place in data object
+            const bookingID = booking_id_value.target.value;
+            walkerBookingIDObj.walker_id = upcomingWalks[0].walker_id;
+            walkerBookingIDObj.booking_id = bookingID;
+
+            // 2. Now pass the data through as a data object to the route and get result
+            const result = await cancelAssignedWalk(
+                bookingID,
+                walkerBookingIDObj
+            );
+
+            // 3. If result is true. Reload the updated Upcoming Assigned Services.
+            // If FALSE, don't do anything
+            if (result.data.data === true) {
+                // Set to FALSE to re-render the data
+                setAssignedWalkDataLoaded(false);
+            }
+        } catch (error) {
+            console.log("WHA IS THE ERROR", error);
+        }
     };
 
     useEffect(() => {
@@ -64,6 +83,7 @@ function WalkerDashboardContent(props) {
             setWalkerHistoricalIncome(
                 tempWalkerDataObject.data.walkerIncomeInfo
             );
+
             // The components will not show unless this flag is set to true
             setIsDataLoaded(true);
         };
@@ -103,7 +123,7 @@ function WalkerDashboardContent(props) {
                         <div className="area3">
                             <Upcoming
                                 data={upcomingWalks}
-                                handleClick={handleCancellation}
+                                handleCancel={handleCancellation}
                             />
                         </div>
                     </div>

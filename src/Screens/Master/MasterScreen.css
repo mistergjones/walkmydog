@@ -7,8 +7,8 @@
     height: 10vh;
     width: 100%;
     position: sticky;
-    top: 0;
-    left: 0;
+    /* top: 0;
+    left: 0; */
 }
 
 .master-screen-heading {
@@ -24,7 +24,6 @@
     width: 100%;
     overflow: scroll;
     background-color: #e2d1e6;
-    
 }
 
 .footer-container {

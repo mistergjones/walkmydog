@@ -7,7 +7,7 @@ import Helpers from "../../Helpers/convertDateTime";
 // GJ: 15/09:this function receives data from its parent (WalkerDashboardContent) to props
 // GJ: it will also pass back the "value" representing the booking_id that will be used
 // to delete a booking if need be.
-function Upcoming({ data, handleCancel }) {
+function OwnerUpcoming({ data, handleCancel }) {
     // set the route for the Upcoming services to click on the row itself
     const { LISTINGS_DETAIL } = routes;
 
@@ -19,7 +19,7 @@ function Upcoming({ data, handleCancel }) {
                         <th>Date</th>
                         <th>Start Time</th>
                         <th>Service</th>
-                        <th>Suburb</th>
+                        <th>Walker</th>
                         <th></th>
                         <th>Action</th>
                     </tr>
@@ -59,7 +59,9 @@ function Upcoming({ data, handleCancel }) {
                                 <NavLink
                                     to={`${LISTINGS_DETAIL}${assignedWalkItem.booking_id}`}
                                 >
-                                    {assignedWalkItem.suburb}
+                                    {assignedWalkItem.firstname +
+                                        " " +
+                                        assignedWalkItem.lastname}
                                 </NavLink>
                             </td>
 
@@ -80,4 +82,4 @@ function Upcoming({ data, handleCancel }) {
     );
 }
 
-export default Upcoming;
+export default OwnerUpcoming;

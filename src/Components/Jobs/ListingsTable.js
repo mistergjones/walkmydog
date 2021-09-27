@@ -102,7 +102,7 @@ function ListingsTable({ data, preferences }) {
                                     value="S"
                                     onClick={() => handleDogSizesClicked("S")}
                                 />
-                                <span class="checkmark"></span>
+                                <span className="checkmark"></span>
                             </label>
                         </div>
 
@@ -117,7 +117,7 @@ function ListingsTable({ data, preferences }) {
                                     value="M"
                                     onClick={() => handleDogSizesClicked("M")}
                                 />
-                                <span class="checkmark"></span>
+                                <span className="checkmark"></span>
                             </label>
                         </div>
                         <div className="container-checkbox">
@@ -131,7 +131,7 @@ function ListingsTable({ data, preferences }) {
                                     value="L"
                                     onClick={() => handleDogSizesClicked("L")}
                                 />
-                                <span class="checkmark"></span>
+                                <span className="checkmark"></span>
                             </label>
                         </div>
                     </div>
@@ -151,7 +151,7 @@ function ListingsTable({ data, preferences }) {
                                     value="S"
                                     onClick={() => setWalks(!walks)}
                                 />
-                                <span class="checkmark"></span>
+                                <span className="checkmark"></span>
                             </label>
                         </div>
                         <div className="container-checkbox">
@@ -165,7 +165,7 @@ function ListingsTable({ data, preferences }) {
                                     value="S"
                                     onClick={() => setHomeVisit(!homeVisit)}
                                 />
-                                <span class="checkmark"></span>
+                                <span className="checkmark"></span>
                             </label>
                         </div>
                     </div>

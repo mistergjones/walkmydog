@@ -40,10 +40,10 @@ const getWalkerProfile = (credentialID) => {
 };
 
 // GJ: 15/09: The below is used to delete the assigned booking for the walker
-const cancelAssignedWalk = (credential_id) => {
+const cancelAssignedWalk = (credential_id, walkerBookingIDObj) => {
     const userEndpoint = endpoint + credential_id;
     console.log("walker.js -> The cancelAssignedWalk point is:", userEndpoint);
-    return client.patch(userEndpoint);
+    return client.patch(userEndpoint, walkerBookingIDObj);
 };
 
 export default {

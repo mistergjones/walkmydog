@@ -6,7 +6,7 @@ import useApi from "../hooks/useApi";
 import ownersApi from "../api/owners";
 import bookingsApi from "../api/bookings";
 import { formatAusDate } from "../Helpers/convertDateTime";
-import "./../Screens/OwnerDashboardContent.css"
+import "./../Screens/OwnerDashboardContent.css";
 import OwnerProfile from "../Components/DashBoard/OwnerProfile";
 
 // 19/09: GJ: added the below components for Owner Dashboard
@@ -84,7 +84,6 @@ function OwnerDashBoardContentScreen(props) {
         };
 
         // GJ: 21/09: load the Upcoming Jobs for the owner
-        //TODO: NEED TO DO ALL TEH BACKEND STUFF FOR THIS
         const loadAssignedJobs = async () => {
             const { data } = await getAssignedJobsForOwner(user.id);
             // store data via the set statement
@@ -122,7 +121,7 @@ function OwnerDashBoardContentScreen(props) {
 
                 {isAssignedWalkDataLoaded && (
                     <div className="area-border">
-                        <h3>Upcoming jobs assigned (cancel not working yet)</h3>
+                        <h3>Open & Assigned Jobs</h3>
                         <OwnerUpcoming
                             data={gotAssignedJobsData}
                             handleCancel={handleCancellation}

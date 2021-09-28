@@ -25,7 +25,7 @@ function OwnerUpcoming({ data, handleCancel }) {
                     </tr>
                 </thead>
                 <tbody className="listings-table-data">
-                    {data.map((assignedWalkItem, index) => (
+                    {data.assignedJobs.map((assignedWalkItem, index) => (
                         <tr key={index}>
                             <td>
                                 <NavLink
@@ -70,6 +70,54 @@ function OwnerUpcoming({ data, handleCancel }) {
                                 <button
                                     onClick={handleCancel}
                                     value={assignedWalkItem.booking_id}
+                                >
+                                    Cancel
+                                </button>
+                            </td>
+                        </tr>
+                    ))}
+
+                    {data.openJobs.map((openWalkItem, index) => (
+                        <tr key={index}>
+                            <td>
+                                <NavLink
+                                    to={`${LISTINGS_DETAIL}${openWalkItem.booking_id}`}
+                                >
+                                    {Helpers.formatAusDate(openWalkItem.date)}
+                                </NavLink>
+                            </td>
+
+                            <td>
+                                <NavLink
+                                    to={`${LISTINGS_DETAIL}${openWalkItem.booking_id}`}
+                                >
+                                    {Helpers.formatTime12Hour(
+                                        openWalkItem.start_time
+                                    )}
+                                </NavLink>
+                            </td>
+
+                            <td>
+                                <NavLink
+                                    to={`${LISTINGS_DETAIL}${openWalkItem.booking_id}`}
+                                >
+                                    {openWalkItem.service_type}
+                                </NavLink>
+                            </td>
+
+                            <td>
+                                <NavLink
+                                    to={`${LISTINGS_DETAIL}${openWalkItem.booking_id}`}
+                                >
+                                    Un-assigned
+                                </NavLink>
+                            </td>
+
+                            <td></td>
+                            <td>
+                                <button
+                                    onClick={handleCancel}
+                                    value={openWalkItem.booking_id}
                                 >
                                     Cancel
                                 </button>

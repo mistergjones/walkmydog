@@ -38,6 +38,7 @@ const getCompletedJobsForOwner = (ownerCredentialID) => {
     return client.get(completedJobs);
 };
 
+// GJ: The below is used to obtain both ASSIGNED and OPEN jobs for the owner
 const getAssignedJobsForOwner = (ownerCredentialID) => {
     const assignedJobs = endpoint + "assigned/" + ownerCredentialID;
     console.log(
@@ -48,8 +49,7 @@ const getAssignedJobsForOwner = (ownerCredentialID) => {
 };
 const updateBooking = (status) => {
     return client.put(endpoint, status);
-}
-
+};
 
 export default {
     getBookings,
@@ -59,6 +59,5 @@ export default {
     cancelBooking,
     getCompletedJobsForOwner,
     getAssignedJobsForOwner,
-    updateBooking
-
+    updateBooking,
 };

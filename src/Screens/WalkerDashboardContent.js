@@ -129,12 +129,12 @@ function WalkerDashboardContent(props) {
                     </div>
                 )}
 
-                <div className="area-border">
+                {/* <div className="area-border">
                     <div className="area4">
                         <h3>New Listings</h3>
                         <NewListings />
                     </div>
-                </div>
+                </div> */}
             </div>
         </>
     );

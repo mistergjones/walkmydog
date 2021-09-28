@@ -18,24 +18,36 @@ const HeaderNavigation = (props) => {
                 </li>
                 {type === "W" && (
                     <li>
-                        <NavLink to={routes.HISTORY}>Walker History</NavLink>
+                        <NavLink to={routes.HISTORY}>Your History</NavLink>
                     </li>
                 )}
                 {type && (
                     <li>
-                        <NavLink to={routes.NEW_LISTINGS}> Listings</NavLink>
+                        <NavLink to={routes.NEW_LISTINGS}>New Listings</NavLink>
+                    </li>
+                )}
+                {/* {type === "W" && (
+                    <li>
+                        <NavLink to={routes.WALKERS}> Walkers</NavLink>
+                    </li>
+                )} */}
+                {type === "O" && (
+                    <li>
+                        <NavLink to={routes.DASHBOARD_OWNER}>Dashboard</NavLink>
                     </li>
                 )}
                 {type === "W" && (
                     <li>
-                        <NavLink to={routes.WALKERS}> Walkers</NavLink>
+                        <NavLink to={routes.DASHBOARD_WALKER}>
+                            Dashboard
+                        </NavLink>
                     </li>
                 )}
-                {type === "O" && (
+                {/* {type === "O" && (
                     <li>
                         <NavLink to={routes.OWNERS}>Owners</NavLink>
                     </li>
-                )}
+                )} */}
 
                 {!user && (
                     <li>

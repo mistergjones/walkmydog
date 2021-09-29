@@ -142,10 +142,8 @@ function OwnerProfileEditForm(props) {
                 profile: ownerDataObject,
             });
 
-            // console.log("WTF WTF WTF", response);
-
             // GET JWT TOKEN FROM RESPONSE AND DECODE TO USER OBJECT. IF NO TOKEN RETURNS NULL;
-            setUser(jwtService.getUserFromResponseToken(response));
+            setUser(jwtService.getUserFromResponseToken(response.headers["x-auth-token"]));
 
 
 

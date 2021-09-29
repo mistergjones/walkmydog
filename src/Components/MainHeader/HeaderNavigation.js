@@ -14,26 +14,31 @@ const HeaderNavigation = (props) => {
         <div className="navigation">
             <ul>
                 <li>
-                    <NavLink to={routes.HOME}> Home</NavLink>
+                    <NavLink to={routes.HOME}>Home</NavLink>
                 </li>
-                {type === "W" && (
+                {type === "W" && user.hasProfile && (
                     <li>
-                        <NavLink to={routes.HISTORY}>Your History</NavLink>
+                        <NavLink to={routes.HISTORY}>History</NavLink>
                     </li>
                 )}
-                {type && (
+                {type === "W" && user.hasProfile && (
                     <li>
-                        <NavLink to={routes.NEW_LISTINGS}>New Listings</NavLink>
+                        <NavLink to={routes.NEW_LISTINGS}>New Jobs</NavLink>
                     </li>
                 )}
-                {/* {type === "W" && (
-                    <li>
-                        <NavLink to={routes.WALKERS}> Walkers</NavLink>
-                    </li>
-                )} */}
-                {type === "O" && (
+                {type === "O" && user.hasProfile && (
                     <li>
                         <NavLink to={routes.DASHBOARD_OWNER}>Dashboard</NavLink>
+                    </li>
+                )}
+                {type === "O" && user.hasProfile && (
+                    <li>
+                        <NavLink to={routes.CREATE_LISTING_OWNER}>Book Job</NavLink>
+                    </li>
+                )}
+                {type === "W" && user.hasProfile && (
+                    <li>
+                        <NavLink to={routes.DASHBOARD_WALKER}>Dashboard</NavLink>
                     </li>
                 )}
                 {type === "W" && (

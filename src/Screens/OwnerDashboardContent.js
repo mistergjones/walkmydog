@@ -154,10 +154,10 @@ function OwnerDashBoardContentScreen(props) {
                 </div>
             )} */}
 
-                <div className="area-border">
+                {/* <div className="area-border">
                     <h3>Create New Listing</h3>
                     <NavLink to={routes.CREATE_LISTING_OWNER}>Book</NavLink>
-                </div>
+                </div> */}
             </div>
         </div>
     );

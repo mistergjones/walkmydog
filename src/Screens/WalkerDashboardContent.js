@@ -43,6 +43,11 @@ function WalkerDashboardContent(props) {
         request: cancelAssignedWalk,
     } = useApi(bookingsApi.cancelBooking);
 
+    // GJ: 29/09: Teh bleow is used to suppliy the handleCompletion() for a walker to complete a job.
+    const { request: updateBookingCompletedByWalker } = useApi(
+        bookingsApi.updateBookingCompletedByWalker
+    );
+
     // this function will run when a walker wants to cancel a ASSIGNED walk.
     // The function is passed to the child with this function receiving the "booking_id_value"
     const handleCancellation = async (booking_id_value) => {
@@ -54,6 +59,7 @@ function WalkerDashboardContent(props) {
             const bookingID = booking_id_value.target.value;
             walkerBookingIDObj.walker_id = upcomingWalks[0].walker_id;
             walkerBookingIDObj.booking_id = bookingID;
+            walkerBookingIDObj.type = user.type;
 
             // 2. Now pass the data through as a data object to the route and get result
             const result = await cancelAssignedWalk(
@@ -69,6 +75,29 @@ function WalkerDashboardContent(props) {
             }
         } catch (error) {
             console.log("WHA IS THE ERROR", error);
+        }
+    };
+
+    // GJ: pass this function to the children component and obtain the
+    // the booking_id value
+    const handleCompletion = async (booking_id_value) => {
+        try {
+            // obtain teh walkerid to pass through to the query
+            const infoObj = {};
+            infoObj.walker_id = upcomingWalks[0].walker_id;
+
+            //capture the booking_id value
+            const bookingId = booking_id_value.target.value;
+
+            // now the walker will update the job to be completed
+            updateBookingCompletedByWalker(bookingId, infoObj);
+            // reload the Assigned / Upcoming tables
+            setAssignedWalkDataLoaded(false);
+        } catch (error) {
+            console.log(
+                "WalkerDashboardContent -> Error in updateBookingCompletedByWalker: ",
+                error
+            );
         }
     };
 
@@ -124,6 +153,7 @@ function WalkerDashboardContent(props) {
                             <Upcoming
                                 data={upcomingWalks}
                                 handleCancel={handleCancellation}
+                                handleCompletion={handleCompletion}
                             />
                         </div>
                     </div>

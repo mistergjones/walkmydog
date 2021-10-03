@@ -7,9 +7,16 @@ import Helpers from "../../Helpers/convertDateTime";
 // GJ: 15/09:this function receives data from its parent (WalkerDashboardContent) to props
 // GJ: it will also pass back the "value" representing the booking_id that will be used
 // to delete a booking if need be.
-function Upcoming({ data, handleCancel }) {
+function Upcoming({ data, handleCancel, handleCompletion }) {
     // set the route for the Upcoming services to click on the row itself
     const { LISTINGS_DETAIL } = routes;
+    console.log("The ata is", data);
+    // obtain the current tiem in milleseconds.
+    // Will be used to determine if a job start time + duration is less than now. If so, the job can get completed. Future Dated jobs cannot be completed
+    const currentTimeMilliseconds = new Date().getTime();
+
+    // Used to cannot cancel within 4 hours
+    const FourHoursInMilliseconds = 14400;
 
     return (
         <div className="upcoming-container">
@@ -20,8 +27,8 @@ function Upcoming({ data, handleCancel }) {
                         <th>Start Time</th>
                         <th>Service</th>
                         <th>Suburb</th>
-                        <th></th>
-                        <th>Action</th>
+                        <th>Cancel?</th>
+                        <th>Completed?</th>
                     </tr>
                 </thead>
                 <tbody className="listings-table-data">
@@ -36,7 +43,6 @@ function Upcoming({ data, handleCancel }) {
                                     )}
                                 </NavLink>
                             </td>
-
                             <td>
                                 <NavLink
                                     to={`${LISTINGS_DETAIL}${assignedWalkItem.booking_id}`}
@@ -46,7 +52,6 @@ function Upcoming({ data, handleCancel }) {
                                     )}
                                 </NavLink>
                             </td>
-
                             <td>
                                 <NavLink
                                     to={`${LISTINGS_DETAIL}${assignedWalkItem.booking_id}`}
@@ -54,7 +59,6 @@ function Upcoming({ data, handleCancel }) {
                                     {assignedWalkItem.service_type}
                                 </NavLink>
                             </td>
-
                             <td>
                                 <NavLink
                                     to={`${LISTINGS_DETAIL}${assignedWalkItem.booking_id}`}
@@ -62,16 +66,58 @@ function Upcoming({ data, handleCancel }) {
                                     {assignedWalkItem.suburb}
                                 </NavLink>
                             </td>
-
-                            <td></td>
-                            <td>
-                                <button
-                                    onClick={handleCancel}
-                                    value={assignedWalkItem.booking_id}
-                                >
-                                    Cancel
-                                </button>
-                            </td>
+                            {currentTimeMilliseconds >
+                            parseInt(assignedWalkItem.start_time) -
+                                FourHoursInMilliseconds ? (
+                                <td>
+                                    {/* <button
+                                        onClick={handleCancel}
+                                        value={assignedWalkItem.booking_id}
+                                    >
+                                        No Can
+                                    </button> */}
+                                </td>
+                            ) : (
+                                <td>
+                                    <button
+                                        style={{
+                                            color: "black",
+                                            backgroundColor: "lightgreen",
+                                        }}
+                                        onClick={handleCancel}
+                                        value={assignedWalkItem.booking_id}
+                                    >
+                                        Cancel
+                                    </button>
+                                </td>
+                            )}
+                            {currentTimeMilliseconds >
+                            parseInt(assignedWalkItem.start_time) +
+                                assignedWalkItem.duration ? (
+                                <td>
+                                    <button
+                                        style={{
+                                            color: "black",
+                                            backgroundColor: "lightgreen",
+                                        }}
+                                        onClick={handleCompletion}
+                                        value={assignedWalkItem.booking_id}
+                                    >
+                                        Yes
+                                    </button>
+                                </td>
+                            ) : (
+                                <td>
+                                    {/* <button
+                                        style={{
+                                            color: "black",
+                                            backgroundColor: "lightgray",
+                                        }}
+                                    >
+                                        N/a
+                                    </button> */}
+                                </td>
+                            )}
                         </tr>
                     ))}
                 </tbody>

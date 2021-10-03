@@ -51,6 +51,15 @@ const updateBooking = (status) => {
     return client.put(endpoint, status);
 };
 
+const updateBookingCompletedByWalker = (bookingId, walkerID) => {
+    const bookingEndpoint = endpoint + "completedBywalker/" + bookingId;
+    console.log(
+        "api - bookings.js -> updateBookingCompletedByWalker:",
+        bookingId
+    );
+    return client.patch(bookingEndpoint, walkerID);
+};
+
 export default {
     getBookings,
     getBooking,
@@ -60,4 +69,5 @@ export default {
     getCompletedJobsForOwner,
     getAssignedJobsForOwner,
     updateBooking,
+    updateBookingCompletedByWalker,
 };

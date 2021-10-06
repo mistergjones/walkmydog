@@ -35,6 +35,8 @@ import BMapsDistance from "./maps/BMapsDistance";
 import CreateListingScreen from "./Screens/CreateListingScreen";
 import WalkerProfileEditScreen from "./Components/Profiles/WalkerProfileEditScreen";
 import OwnerProfileEditScreen from "./Components/Profiles/OwnerProfileEditScreen";
+import CalendarScreen from './Screens/CalendarScreen';
+
 
 function App() {
     const [user, setUser] = useState(null);
@@ -45,11 +47,14 @@ function App() {
         >
             <Router>
                 <Switch>
-                    <Route
+                    <ProtectedRoute
                         path={routes.CREATE_LISTING_OWNER}
                         component={CreateListingScreen}
                     />
-                    <Route path="/distance" component={BMapsDistance} />
+                    <ProtectedRoute path={routes.CALENDAR}
+                        component={CalendarScreen}
+                    />
+                    {/* <Route path="/distance" component={BMapsDistance} /> */}
                     <Route path={routes.ABOUT} component={AboutUsContent} />
                     <ProtectedRoute
                         path={routes.EDIT_PROFILE_WALKER}

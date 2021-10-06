@@ -3,7 +3,7 @@ import "./DogInfoCard.css"
 function DogInfoCard({ dog }) {
 
     return (
-        <div data-aos="flip-left" className="avatar-container mx-auto">
+        <div className="avatar-container mx-auto">
             <div className="left-side">
                 <div className="breed">
                     <h4>Breed</h4>
@@ -11,7 +11,7 @@ function DogInfoCard({ dog }) {
                 </div>
                 <div className="leashed">
                     <h4>Leashed</h4>
-                    <p>{dog.dogAlwaysLeashed ? "Yes" : "No"}</p>
+                    <p>{dog.dogAlwaysLeashed}</p>
                 </div>
             </div>
             <div className="avatar text-center center-side">

@@ -5,6 +5,7 @@ import routes from "../../routes/routes";
 import storageService from "../../storage/localStorage";
 
 import "./HeaderNavigation.css";
+import { Calendar } from 'react-big-calendar';
 
 // take the props from MAINHEADER and conditionally render the items if based on LOGGED IN.
 const HeaderNavigation = (props) => {
@@ -41,13 +42,19 @@ const HeaderNavigation = (props) => {
                         <NavLink to={routes.DASHBOARD_WALKER}>Dashboard</NavLink>
                     </li>
                 )}
-                {type === "W" && (
+                {user !== null && user.hasProfile && (
+                    <li>
+                        <NavLink to={routes.CALENDAR}>Calendar</NavLink>
+                    </li>
+                )
+                }
+                {/* {type === "W" && (
                     <li>
                         <NavLink to={routes.DASHBOARD_WALKER}>
                             Dashboard
                         </NavLink>
                     </li>
-                )}
+                )} */}
                 {/* {type === "O" && (
                     <li>
                         <NavLink to={routes.OWNERS}>Owners</NavLink>

@@ -1,1 +1,36 @@
 
+.calendar-screen-container {
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 5%;
+    /* width: 45%; */
+    gap: 5%;
+}
+
+.job-info-detail-container {
+    width: 50%;
+
+}
+.calendar-screen-container .jobinfo-container {
+    /* border-radius: 0; */
+}
+
+.calendar-screen-container .jobinfo-container .field {
+    padding: 0 10%;
+}
+
+.job-info-details {
+    width: 100%;
+}
+
+@media screen and (min-width:1024px) {
+    .calendar-screen-container {
+        flex-direction: row;
+    }
+    .job-info-details {
+        width: 50%;
+    }
+
+}

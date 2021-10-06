@@ -13,12 +13,13 @@ export const convertDateTime = (data) => {
 
 // Date stored in US format reverse the date to be AUS format
 export const formatAusDate = (date) => {
-    //console.log("date = " + date);
+    const newDate = new Date(date);
+
 
     let formattedDate = [];
-    formattedDate[0] = Number(date.slice(0, 10).split("-")[2]) + 1;
-    formattedDate[1] = date.slice(0, 10).split("-")[1];
-    formattedDate[2] = date.slice(0, 10).split("-")[0];
+    formattedDate[0] = newDate.getDate();
+    formattedDate[1] = newDate.getMonth() + 1;
+    formattedDate[2] = newDate.getFullYear();
     return formattedDate ? formattedDate.join("/") : "NA";
 };
 

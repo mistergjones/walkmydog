@@ -5,7 +5,7 @@ import BeautyStars from 'beauty-stars';
 
 function WalkerInfoCard({ walker }) {
     return (
-        <div data-aos="flip-left" className="avatar-container mx-auto">
+        <div className="avatar-container mx-auto">
             <div className="left-side">
                 <div className="suburb">
                     <h4>Suburb</h4>

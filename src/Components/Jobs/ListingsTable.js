@@ -172,7 +172,7 @@ function ListingsTable({ data, preferences }) {
                 </div>
             </div>
 
-            <table className="tbl tbl--block">
+            <table id="glen" className="tbl tbl--block">
                 <thead>
                     <tr>
                         <th>Date</th>
@@ -187,8 +187,8 @@ function ListingsTable({ data, preferences }) {
                     {finalisedData.map((booking, idx) => (
                         <tr key={idx}>
                             <td>
-                                {" "}
                                 <NavLink
+                                    name="listingData"
                                     to={`${LISTINGS_DETAIL}${booking.booking_id}`}
                                 >
                                     {booking.date}

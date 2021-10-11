@@ -43,7 +43,10 @@ function Profile(props) {
 
                             {!isWalker && (
                                 <td>
-                                    <NavLink to={routes.EDIT_PROFILE_OWNER}>
+                                    <NavLink
+                                        to={routes.EDIT_PROFILE_OWNER}
+                                        name="editProfileLink"
+                                    >
                                         Edit Profile
                                     </NavLink>
                                 </td>

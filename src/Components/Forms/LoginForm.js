@@ -72,6 +72,7 @@ const LoginForm = () => {
                                 type="password"
                             />
                             <button
+                                id="login"
                                 className="btn btn-dark mt-3"
                                 type="submit"
                                 disabled={formik.isSubmitting}

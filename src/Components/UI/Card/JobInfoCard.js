@@ -1,21 +1,21 @@
-import React from 'react';
-import "./JobInfoCard.css"
-import { formatTime12Hour, formatAusDate } from '../../../Helpers/convertDateTime';
-
-
-
+import React from "react";
+import "./JobInfoCard.css";
+import {
+    formatTime12Hour,
+    formatAusDate,
+} from "../../../Helpers/convertDateTime";
 
 function JobInfoCard({ job, type, handleSubmit }) {
     return (
         <>
             <div className="jobinfo-container mx-auto">
-                {type && <div className="left-side">
-                    <div className="title">
-                        <div>Job Details</div>
-
+                {type && (
+                    <div className="left-side">
+                        <div className="title">
+                            <div>Job Details</div>
+                        </div>
                     </div>
-                </div>
-                }
+                )}
                 <div className="center-side">
                     <div className="field">
                         <div className="field-heading">Date</div>
@@ -25,12 +25,12 @@ function JobInfoCard({ job, type, handleSubmit }) {
                         <div className="field-heading">Start Time</div>
                         <p>{formatTime12Hour(job.startTime)}</p>
                     </div>
-                    {job.endTime &&
+                    {job.endTime && (
                         <div className="field">
                             <div className="field-heading">End Time</div>
                             <p>{formatTime12Hour(job.endTime)}</p>
                         </div>
-                    }
+                    )}
                     <div className="field">
                         <div className="field-heading">Suburb</div>
                         <p>{job.suburb}</p>
@@ -44,14 +44,19 @@ function JobInfoCard({ job, type, handleSubmit }) {
                         <p>${job.serviceFee}</p>
                     </div>
                 </div>
-                {type &&
+                {type && (
                     <div className="right-side jobinfo-button-container">
                         <button
+                            name="submitBooking"
                             className={"btn btn-mt-3 btn-light"}
                             type="submit"
-                            onClick={handleSubmit}> {type === "O" ? "CANCEL" : "BOOK"}</button>
+                            onClick={handleSubmit}
+                        >
+                            {" "}
+                            {type === "O" ? "CANCEL" : "BOOK"}
+                        </button>
                     </div>
-                }
+                )}
             </div>
         </>
     );

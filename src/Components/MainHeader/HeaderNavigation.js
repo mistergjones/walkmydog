@@ -5,7 +5,7 @@ import routes from "../../routes/routes";
 import storageService from "../../storage/localStorage";
 
 import "./HeaderNavigation.css";
-import { Calendar } from 'react-big-calendar';
+import { Calendar } from "react-big-calendar";
 
 // take the props from MAINHEADER and conditionally render the items if based on LOGGED IN.
 const HeaderNavigation = (props) => {
@@ -24,7 +24,9 @@ const HeaderNavigation = (props) => {
                 )}
                 {type === "W" && user.hasProfile && (
                     <li>
-                        <NavLink to={routes.NEW_LISTINGS}>New Jobs</NavLink>
+                        <NavLink name="newjobs" to={routes.NEW_LISTINGS}>
+                            New Jobs
+                        </NavLink>
                     </li>
                 )}
                 {type === "O" && user.hasProfile && (
@@ -34,20 +36,26 @@ const HeaderNavigation = (props) => {
                 )}
                 {type === "O" && user.hasProfile && (
                     <li>
-                        <NavLink to={routes.CREATE_LISTING_OWNER}>Book Job</NavLink>
+                        <NavLink
+                            name="createListing"
+                            to={routes.CREATE_LISTING_OWNER}
+                        >
+                            Book Job
+                        </NavLink>
                     </li>
                 )}
                 {type === "W" && user.hasProfile && (
                     <li>
-                        <NavLink to={routes.DASHBOARD_WALKER}>Dashboard</NavLink>
+                        <NavLink to={routes.DASHBOARD_WALKER}>
+                            Dashboard
+                        </NavLink>
                     </li>
                 )}
                 {user !== null && user.hasProfile && (
                     <li>
                         <NavLink to={routes.CALENDAR}>Calendar</NavLink>
                     </li>
-                )
-                }
+                )}
                 {/* {type === "W" && (
                     <li>
                         <NavLink to={routes.DASHBOARD_WALKER}>

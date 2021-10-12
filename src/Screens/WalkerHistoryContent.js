@@ -6,7 +6,11 @@ import useApi from "../hooks/useApi";
 import walkersApi from "../api/walker";
 import AuthContext from "../context/authContext";
 
+import routes from "../routes/routes";
+import { NavLink } from "react-router-dom";
+
 function WalkerHistoryContent(props) {
+    const { CALENDAR } = routes;
     // use the AuthContext to obtain user.id (i.e. Credential_id) for DB queries below
     const { user, setUser } = useContext(AuthContext);
 
@@ -47,7 +51,10 @@ function WalkerHistoryContent(props) {
                     {isDataLoaded && (
                         <WalkerJobScroll data={walkerCompletedJobs} />
                     )}
-                    <button>Calendar</button>
+
+                    <NavLink to={`${CALENDAR}`}>
+                        <button>Calendar</button>
+                    </NavLink>
                 </div>
                 <div className="walker-history-container-col2">
                     <h1>Completed Walk Income</h1>

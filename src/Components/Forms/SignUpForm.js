@@ -67,7 +67,7 @@ const SignUpForm = (props) => {
             .email("Email is invalid")
             .required("Email is required"),
         password: Yup.string()
-            .min(3, "Password must be at least 3 characters or more")
+            .min(8, "Password must be at least 8 characters or more")
             .required("Password is required"),
         confirmPassword: Yup.string()
             // use oneOf Yup.ref to check if hte above password is the same

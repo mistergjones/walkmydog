@@ -6,20 +6,19 @@
     /* justify-items: stretch;
     align-items: stretch; */
     text-align: center;
-    border: 13px solid black;
     overflow: hidden;
     width: 100%;
     /* height: 75vh; */
 }
 
 .walker-history-container-col1 {
-    border: 3px solid red;
+    border: 3px solid #6610f2;
     margin-top: 30px;
     margin-bottom: 30px;
 }
 
 .walker-history-container-col2 {
-    border: 3px solid blue;
+    border: 3px solid #6610f2;
     margin-top: 30px;
     margin-bottom: 30px;
 }

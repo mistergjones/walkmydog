@@ -38,7 +38,7 @@ const LoginForm = () => {
             .email("Email is invalid")
             .required("Email is required"),
         password: Yup.string()
-            .min(3, "You password must be at least 3 character or more")
+            .min(8, "You password must be at least 8 character or more")
             .required("Password is required"),
     });
 

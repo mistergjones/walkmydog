@@ -10,7 +10,6 @@ import Helpers from "../../Helpers/convertDateTime";
 function Upcoming({ data, handleCancel, handleCompletion }) {
     // set the route for the Upcoming services to click on the row itself
     const { LISTINGS_DETAIL } = routes;
-    console.log("The ata is", data);
     // obtain the current tiem in milleseconds.
     // Will be used to determine if a job start time + duration is less than now. If so, the job can get completed. Future Dated jobs cannot be completed
     const currentTimeMilliseconds = new Date().getTime();
@@ -108,14 +107,14 @@ function Upcoming({ data, handleCancel, handleCompletion }) {
                                 </td>
                             ) : (
                                 <td>
-                                    {/* <button
+                                    <button
                                         style={{
                                             color: "black",
                                             backgroundColor: "lightgray",
                                         }}
                                     >
-                                        N/a
-                                    </button> */}
+                                        Unavailable
+                                    </button>
                                 </td>
                             )}
                         </tr>

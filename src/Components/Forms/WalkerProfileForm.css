@@ -1,14 +1,12 @@
 .walker-form-container {
     display: grid;
-    grid-template-columns: repeat(2,1fr);
+    grid-template-columns: repeat(2, 1fr);
     gap: 5%;
     /* background-color: wheat; */
- 
-
 }
 .walker-profile-form-container {
     display: grid;
-    grid-template-columns: repeat(2, 1fr) ;
+    grid-template-columns: repeat(2, 1fr);
     grid-auto-rows: min-content;
     gap: 5px;
     margin-top: 1rem;
@@ -18,23 +16,21 @@
 .walker-profile-form-field-col-1 {
     grid-column-start: 1;
     grid-column-end: 2;
-   /* background-color: red; */
+    /* background-color: red; */
 }
 .walker-profile-form-field-col-2 {
     grid-column-start: 2;
     grid-column-end: 3;
-   /* background-color: red; */
+    /* background-color: red; */
 }
 .walker-profile-form-field-col-3 {
     grid-column-start: 3;
     grid-column-end: 4;
-   /* background-color: red; */
+    /* background-color: red; */
 }
 .walker-profile-form-field-2-col-span {
-
-grid-column-start: 1;
-grid-column-end: 3;
-
+    grid-column-start: 1;
+    grid-column-end: 3;
 }
 .walker-profile-form-heading {
     grid-column-start: 1;
@@ -43,7 +39,8 @@ grid-column-end: 3;
     margin: 0;
     padding: 0;
     text-align: center;
-    margin-bottom: 5%;
+    margin-top: 3%;
+    margin-bottom: 3%;
     background-color: #741188;
     color: white;
 }
@@ -57,12 +54,11 @@ grid-column-end: 3;
     margin-top: 10px;
 }
 .walker-profile-form-field-2-col-span-checkbox {
-display: flex; 
-grid-column-start: 1;
-grid-column-end: 3;
-/* justify-content: space-evenly; */
-/* background-color: violet; */
-
+    display: flex;
+    grid-column-start: 1;
+    grid-column-end: 3;
+    /* justify-content: space-evenly; */
+    /* background-color: violet; */
 }
 
 .walker-profile-form-checkbox {
@@ -82,5 +78,4 @@ grid-column-end: 3;
     display: flex;
     align-items: center;
     justify-content: center;
-    
 }

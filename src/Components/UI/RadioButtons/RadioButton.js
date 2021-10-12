@@ -1,6 +1,6 @@
 import React from "react";
 import { ErrorMessage, useField } from "formik";
-import "./RadioButton.css"
+import "./RadioButton.css";
 const RadioButton = (props) => {
     return (
         <div className="radio-button-container">
@@ -14,8 +14,9 @@ const RadioButton = (props) => {
                     {...props}
                     className="button-color"
                 />
-                {props.label}</label>
-            <ErrorMessage component="p" name={props.name} className="error" />
+                {props.label}
+            </label>
+            {/* <ErrorMessage component="p" name={props.name} className="error" /> */}
         </div>
     );
 };

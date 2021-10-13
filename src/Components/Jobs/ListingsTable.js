@@ -3,6 +3,7 @@ import routes from "../../routes/routes";
 import { NavLink } from "react-router-dom";
 import { convertDateTime } from "../../Helpers/convertDateTime";
 import useApi from "../../hooks/useApi";
+import walkersApi from "../../api/walker";
 
 import AuthContext from "../../context/authContext";
 import * as geokit from "geokit";
@@ -11,6 +12,12 @@ import CheckBoxNoForm from "../UI/CheckBox/CheckBoxNoForm";
 
 // const distances = loc2.filter(loc => geokit.distance(loc1, loc) < 10);
 function ListingsTable({ data, preferences }) {
+    // GJ: 12/10 Added user context in order to then obtain assigned bookings for the walker
+    const { user, setUser } = useContext(AuthContext);
+    const { request: getAssignedWalks } = useApi(walkersApi.getAssignedWalks);
+    const [hasClashData, setHasClashData] = useState([]);
+    const [hasZeroWalksAssigned, setHasZeroWalksAssigned] = useState([]);
+
     const [finalisedData, setFinalisedData] = useState([]);
     const [distanceFromWalker, setDistanceFromWalker] = useState(20);
     const [dogSize, setDogSize] = useState(
@@ -54,9 +61,46 @@ function ListingsTable({ data, preferences }) {
         setFinalisedData(filteredData);
     };
 
+    // GJ: 12/10: This function obtains the currently assigned walks to the walker and determines if there is a timeslot clash. If no walks assigned, set a status to TRUE to aid in conditional render
+    const obtainWalkersAssignedBookings = async () => {
+        const results = await getAssignedWalks(user.id);
+        // outer loop is walks assinged to walker
+        if (results.data.length !== 0) {
+            for (var i = 0; i < results.data.length; i++) {
+                // inner loop is the data loaded within this page
+                for (var j = 0; j < data.length; j++) {
+                    // recreating startTime as data.start_time is already formatted to human readable format
+                    var recreatedStartTime =
+                        parseInt(data[j].end_time) - data[j].duration;
+                    // cater for the cartesian product.
+                    if (data[j].hasClash !== "Yes") {
+                        // check each row if there is a clash, add the value to the new key
+                        if (
+                            results.data[i].start_time <= data[j].end_time &&
+                            recreatedStartTime <= results.data[i].end_time
+                        ) {
+                            data[j].hasClash = "Yes";
+                        } else {
+                            data[j].hasClash = "No";
+                        }
+                        recreatedStartTime = null;
+                    }
+                    // update 'data' with the new clash data info
+                    setHasClashData(data);
+                    setHasZeroWalksAssigned(false);
+                }
+            }
+        } else {
+            // this is set to TRUE because if there are blank walks assigned, we need to make sure we can show records that can be clickable.
+            // setFinalisedData(data);
+            setHasZeroWalksAssigned(true);
+        }
+    };
+
     useEffect(() => {
+        obtainWalkersAssignedBookings();
         filterBookings();
-    }, [data, distanceFromWalker, dogSize, walks, homeVisit]);
+    }, [hasClashData, data, distanceFromWalker, dogSize, walks, homeVisit]);
     const { LISTINGS_DETAIL } = routes;
 
     const handleDogSizesClicked = (size) => {
@@ -181,50 +225,77 @@ function ListingsTable({ data, preferences }) {
                         <th>Service</th>
                         {/* <th>Dog Name</th> */}
                         <th>Service Fee</th>
+                        <th>Clashes</th>
                     </tr>
                 </thead>
                 <tbody className="listings-table-data">
-                    {finalisedData.map((booking, idx) => (
-                        <tr key={idx}>
-                            <td>
-                                <NavLink
-                                    name="listingData"
-                                    to={`${LISTINGS_DETAIL}${booking.booking_id}`}
-                                >
-                                    {booking.date}
-                                </NavLink>
-                            </td>
-                            <td>
-                                <NavLink
-                                    to={`${LISTINGS_DETAIL}${booking.booking_id}`}
-                                >
-                                    {booking.start_time}
-                                </NavLink>
-                            </td>
-                            <td>
-                                <NavLink
-                                    to={`${LISTINGS_DETAIL}${booking.booking_id}`}
-                                >
-                                    {booking.suburb}
-                                </NavLink>
-                            </td>
-                            <td>
-                                <NavLink
-                                    to={`${LISTINGS_DETAIL}${booking.booking_id}`}
-                                >
-                                    {booking.service_type}
-                                </NavLink>
-                            </td>
-                            {/* <td><NavLink to={`${LISTINGS_DETAIL}${booking.booking_id}`}>{booking.dog_firstname}</NavLink></td> */}
-                            <td>
-                                <NavLink
-                                    to={`${LISTINGS_DETAIL}${booking.booking_id}`}
-                                >
-                                    ${booking.service_fee}
-                                </NavLink>
-                            </td>
-                        </tr>
-                    ))}
+                    {finalisedData.map((booking, idx) =>
+                        // conditional render. If no clash, make link clickable to book....else, make row non-clickable
+                        hasZeroWalksAssigned || booking.hasClash === "No" ? (
+                            <tr key={idx}>
+                                <td>
+                                    <NavLink
+                                        name="listingData"
+                                        to={`${LISTINGS_DETAIL}${booking.booking_id}`}
+                                    >
+                                        {booking.date}
+                                    </NavLink>
+                                </td>
+                                <td>
+                                    <NavLink
+                                        to={`${LISTINGS_DETAIL}${booking.booking_id}`}
+                                    >
+                                        {booking.start_time}
+                                    </NavLink>
+                                </td>
+                                <td>
+                                    <NavLink
+                                        to={`${LISTINGS_DETAIL}${booking.booking_id}`}
+                                    >
+                                        {booking.suburb}
+                                    </NavLink>
+                                </td>
+                                <td>
+                                    <NavLink
+                                        to={`${LISTINGS_DETAIL}${booking.booking_id}`}
+                                    >
+                                        {booking.service_type}
+                                    </NavLink>
+                                </td>
+
+                                <td>
+                                    <NavLink
+                                        to={`${LISTINGS_DETAIL}${booking.booking_id}`}
+                                    >
+                                        ${booking.service_fee}
+                                    </NavLink>
+                                </td>
+
+                                <td>
+                                    <NavLink
+                                        to={`${LISTINGS_DETAIL}${booking.booking_id}`}
+                                    >
+                                        No
+                                    </NavLink>
+                                </td>
+                            </tr>
+                        ) : (
+                            <tr
+                                key={idx}
+                                style={{
+                                    color: "black",
+                                    backgroundColor: "rgb(206, 133, 237)",
+                                }}
+                            >
+                                <td>{booking.date}</td>
+                                <td>{booking.start_time}</td>
+                                <td>{booking.suburb}</td>
+                                <td>{booking.service_type}</td>
+                                <td>${booking.service_fee}</td>
+                                <td>Yes</td>
+                            </tr>
+                        )
+                    )}
                 </tbody>
             </table>
         </div>

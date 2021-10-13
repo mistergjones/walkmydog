@@ -29,10 +29,7 @@ const NewListingsContent = () => {
         // push item to array if booking array start time is > 30 Minutes from now.
         // Only then will these open bookings will be shown to the walker
         for (var i = 0; i < tempBookings.data.length; i++) {
-            if (
-                tempBookings.data[i].start_time >
-                currentTime + thirtyMinutesInMilliSeconds
-            ) {
+            if (tempBookings.data[i].start_time > currentTime) {
                 finalisedBookings.push(tempBookings.data[i]);
             }
         }

@@ -113,7 +113,7 @@ function Upcoming({ data, handleCancel, handleCompletion }) {
                                             backgroundColor: "lightgray",
                                         }}
                                     >
-                                        Unavailable
+                                        Scheduled
                                     </button>
                                 </td>
                             )}

@@ -69,35 +69,57 @@ function WalkerProfileEditForm(props) {
         const { data } = await getWalkerProfile(user.id);
 
         setWalker(data);
+        console.log("*******", data);
+        setProfileUrl(data.profileurl);
     };
+
     useEffect(() => {
         window.selectedSuggestion = function (result) {
             setAddress(result);
-            console.log("result = ", result);
+            //console.log("result = ", result);
         };
 
         loadBMaps(() => console.log("call back"));
         setWidget(
+            // window.cloudinary.createUploadWidget(
+            //     {
+            //         cloud_name: "dqnazdwqk",
+            //         upload_preset: "gr2bgrfy",
+            //         sources: ["local"],
+            //         multiple: false,
+            //     },
+            //     function (error, result) {
+            //         console.log("result = " + result + "error = " + error);
+            //         setError(error);
+            //         setResult(result);
+            //         if (result) setProfileUrl(result[0].url);
+            //     }
+            // )
+
             window.cloudinary.createUploadWidget(
                 {
-                    cloud_name: "dqnazdwqk",
-                    upload_preset: "gr2bgrfy",
-                    sources: ["local"],
+                    cloud_name: "dwndlszzc",
+                    upload_preset: "s2g31ynm",
+                    sources: ["url", "local"],
                     multiple: false,
                 },
-                function (error, result) {
-                    console.log("result = " + result + "error = " + error);
-                    setError(error);
-                    setResult(result);
-                    if (result) setProfileUrl(result[0].url);
+
+                function (err, info) {
+                    if (!err) {
+                        console.log(
+                            "Upload Widget event - ",
+                            info[0].secure_url
+                        );
+                        setError(error);
+                        setResult(info);
+                        setProfileUrl(info[0].secure_url);
+                    }
                 }
             )
         );
         loadWalker();
     }, []);
-    {
-        console.log("walker = ", walker);
-    }
+
     return (
         <>
             {walker && (
@@ -120,10 +142,12 @@ function WalkerProfileEditForm(props) {
                             walker.walker_30hv !== 1 ? "Home" : null,
                             walker.walker_30wo !== 1 ? "Walks" : "null",
                         ],
+                        profileUrl: walker.profileurl,
                     }}
                     // call the function to validate the inputed values
                     validationSchema={validate}
                     // need to do something e.g. check the info from the database
+
                     onSubmit={async (fields) => {
                         console.log("fields = ", fields);
                         console.log("user profile =", user);
@@ -534,6 +558,7 @@ function WalkerProfileEditForm(props) {
                                             <h2 className="walker-profile-form-heading">
                                                 Photo
                                             </h2>
+
                                             <div className="walker-profile-form-field-col-1 walker-profile-form-upload-container">
                                                 {
                                                     <img
@@ -542,8 +567,10 @@ function WalkerProfileEditForm(props) {
                                                     />
                                                 }
                                             </div>
+
                                             <div className="walker-profile-form-field-col-2 walker-profile-form-upload-container">
                                                 <button
+                                                    type="button" //GJ: needed to add this to ensure cloudinary button does not go back 1 page
                                                     className="btn btn-dark mt-2"
                                                     onClick={() =>
                                                         widget.open()

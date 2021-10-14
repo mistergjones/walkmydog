@@ -50,9 +50,11 @@ const validate = Yup.object().shape({
         .max(20, "Bank name must be <= 20 digits")
         .required("Bank Name is qequired"),
     bsb: Yup.string()
+        .min(6, "BSB must be <= 6 digits")
         .max(6, "BSB must be <= 6 digits")
         .required("6 Digit BSB is Required"),
     accountNumber: Yup.string()
+        .min(10, "Account Number must be <= 10 digits")
         .max(10, "Account Number must be <= 10 digits")
         .required("Account Number is Required"),
     acceptTerms: Yup.bool().oneOf([true], "Accept Terms and Conditions"),
@@ -417,6 +419,7 @@ function OwnerProfileForm(props) {
                                                 label="Bank Name"
                                                 name="bankName"
                                                 type="text"
+                                                maxLength={20}
                                                 placeholder="Bank Name"
                                                 value={formik.values.bankName}
                                                 onChange={formik.handleChange}
@@ -432,6 +435,7 @@ function OwnerProfileForm(props) {
                                                 label="BSB"
                                                 name="bsb"
                                                 type="text"
+                                                maxLength={6}
                                                 placeholder="BSB "
                                                 value={formik.values.bsb}
                                                 onChange={formik.handleChange}
@@ -447,6 +451,7 @@ function OwnerProfileForm(props) {
                                                 label="Account No:"
                                                 name="accountNumber"
                                                 type="text"
+                                                maxLength={10}
                                                 placeholder="Account Number"
                                                 value={
                                                     formik.values.accountNumber

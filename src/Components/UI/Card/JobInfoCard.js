@@ -1,11 +1,15 @@
-import React from "react";
+import React, { useState } from "react";
 import "./JobInfoCard.css";
 import {
     formatTime12Hour,
     formatAusDate,
 } from "../../../Helpers/convertDateTime";
+// GJ: Add modal for a prompt to confirm a booking
+import ConfirmationModal from "../Modal/ConfirmationModal.js";
 
 function JobInfoCard({ job, type, handleSubmit }) {
+    // GJ: handle to determine to show the modal or not
+    const [show, setShow] = useState(null);
     return (
         <>
             <div className="jobinfo-container mx-auto">
@@ -44,17 +48,30 @@ function JobInfoCard({ job, type, handleSubmit }) {
                         <p>${job.serviceFee}</p>
                     </div>
                 </div>
+
                 {type && (
                     <div className="right-side jobinfo-button-container">
-                        <button
+                        {/* <button
                             name="submitBooking"
                             className={"btn btn-mt-3 btn-light"}
                             type="submit"
                             onClick={handleSubmit}
                         >
-                            {" "}
+                            {type === "O" ? "CANCEL" : "BOOK"}
+                        </button> */}
+                        <button
+                            name="submitBooking"
+                            className={"btn btn-mt-3 btn-light"}
+                            type="submit"
+                            onClick={() => setShow(true)}
+                        >
                             {type === "O" ? "CANCEL" : "BOOK"}
                         </button>
+                        <ConfirmationModal
+                            onClose={() => setShow(false)}
+                            show={show}
+                            handleSubmit={handleSubmit}
+                        />
                     </div>
                 )}
             </div>

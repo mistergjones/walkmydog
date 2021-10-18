@@ -12,6 +12,9 @@ import routes from "./routes/routes";
 import WalkersScreen from "./Screens/HeaderPages/WalkersScreen";
 import WalkerHistoryScreen from "./Screens/WalkerHistoryScreen";
 import AuthContext from "./context/authContext";
+
+import SocialScreen from "./Screens/FooterPages/SocialScreen";
+
 import {
     Route,
     Switch,
@@ -35,12 +38,12 @@ import BMapsDistance from "./maps/BMapsDistance";
 import CreateListingScreen from "./Screens/CreateListingScreen";
 import WalkerProfileEditScreen from "./Components/Profiles/WalkerProfileEditScreen";
 import OwnerProfileEditScreen from "./Components/Profiles/OwnerProfileEditScreen";
-import CalendarScreen from './Screens/CalendarScreen';
-
+import CalendarScreen from "./Screens/CalendarScreen";
 
 function App() {
     const [user, setUser] = useState(null);
     const [errorMessage, setErrorMessage] = useState(null);
+
     return (
         <AuthContext.Provider
             value={{ user, setUser, errorMessage, setErrorMessage }}
@@ -51,7 +54,8 @@ function App() {
                         path={routes.CREATE_LISTING_OWNER}
                         component={CreateListingScreen}
                     />
-                    <ProtectedRoute path={routes.CALENDAR}
+                    <ProtectedRoute
+                        path={routes.CALENDAR}
                         component={CalendarScreen}
                     />
                     {/* <Route path="/distance" component={BMapsDistance} /> */}
@@ -94,6 +98,7 @@ function App() {
                     />
                     <Route path={routes.LOGIN} component={LoginScreen} />
                     <Route path={routes.SIGN_UP} component={SignUpScreen} />
+                    <Route path={routes.SOCIAL} component={SocialScreen} />
 
                     <ProtectedRoute
                         path={routes.NEW_LISTINGS}
@@ -104,6 +109,7 @@ function App() {
                         path={routes.LISTING_DETAIL_BY_ID}
                         component={ListingsDetailScreen}
                     />
+
                     <Route path={routes.NOT_FOUND} component={NotFoundScreen} />
                     <Route exact path={routes.HOME} component={HomeScreen} />
                     <Redirect to={routes.NOT_FOUND} />

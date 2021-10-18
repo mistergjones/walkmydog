@@ -21,5 +21,6 @@ export default {
     HOME: "/",
     NOT_FOUND: "/notfound",
     CREATE_LISTING_OWNER: "/listings/create",
-    CALENDAR: "/calendar"
+    CALENDAR: "/calendar",
+    SOCIAL: "/social",
 };

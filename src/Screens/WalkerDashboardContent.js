@@ -13,6 +13,8 @@ import Upcoming from "../Components/DashBoard/Upcoming";
 import NewListings from "../Components/DashBoard/NewListings";
 
 function WalkerDashboardContent(props) {
+    const [show, setShow] = useState(null);
+
     // required to obtain the credential id from the context
     const { user, setUser } = useContext(AuthContext);
 
@@ -80,7 +82,7 @@ function WalkerDashboardContent(props) {
 
     // GJ: pass this function to the children component and obtain the
     // the booking_id value
-    const handleCompletion = async (booking_id_value) => {
+    const handleCompletion = async (booking_id_value, walk_completed_proof) => {
         try {
             // obtain teh walkerid to pass through to the query
             const infoObj = {};
@@ -88,6 +90,9 @@ function WalkerDashboardContent(props) {
 
             //capture the booking_id value
             const bookingId = booking_id_value.target.value;
+
+            //
+            console.log("The walk compelted proof", walk_completed_proof);
 
             // now the walker will update the job to be completed
             updateBookingCompletedByWalker(bookingId, infoObj);

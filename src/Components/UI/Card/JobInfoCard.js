@@ -7,9 +7,10 @@ import {
 // GJ: Add modal for a prompt to confirm a booking
 import ConfirmationModal from "../Modal/ConfirmationModal.js";
 
-function JobInfoCard({ job, type, handleSubmit }) {
+function JobInfoCard({ job, type, handleSubmit, showButtonBook }) {
     // GJ: handle to determine to show the modal or not
     const [show, setShow] = useState(null);
+
     return (
         <>
             <div className="jobinfo-container mx-auto">
@@ -59,14 +60,16 @@ function JobInfoCard({ job, type, handleSubmit }) {
                         >
                             {type === "O" ? "CANCEL" : "BOOK"}
                         </button> */}
-                        <button
-                            name="submitBooking"
-                            className={"btn btn-mt-3 btn-light"}
-                            type="submit"
-                            onClick={() => setShow(true)}
-                        >
-                            {type === "O" ? "CANCEL" : "BOOK"}
-                        </button>
+                        {showButtonBook && (
+                            <button
+                                name="submitBooking"
+                                className={"btn btn-mt-3 btn-light"}
+                                type="submit"
+                                onClick={() => setShow(true)}
+                            >
+                                {type === "O" ? "CANCEL" : "BOOK"}
+                            </button>
+                        )}
                         <ConfirmationModal
                             onClose={() => setShow(false)}
                             show={show}

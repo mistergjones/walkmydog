@@ -29,7 +29,13 @@ function OwnerUpcoming({ data, handleCancel }) {
                         <tr key={index}>
                             <td>
                                 <NavLink
-                                    to={`${LISTINGS_DETAIL}${assignedWalkItem.booking_id}`}
+                                    // to={`${LISTINGS_DETAIL}${assignedWalkItem.booking_id}`}
+                                    to={{
+                                        pathname: `${LISTINGS_DETAIL}${assignedWalkItem.booking_id}`,
+                                        showBookButtonProp: {
+                                            showBookButton: true,
+                                        },
+                                    }}
                                 >
                                     {Helpers.formatAusDate(
                                         assignedWalkItem.date
@@ -39,7 +45,13 @@ function OwnerUpcoming({ data, handleCancel }) {
 
                             <td>
                                 <NavLink
-                                    to={`${LISTINGS_DETAIL}${assignedWalkItem.booking_id}`}
+                                    // to={`${LISTINGS_DETAIL}${assignedWalkItem.booking_id}`}
+                                    to={{
+                                        pathname: `${LISTINGS_DETAIL}${assignedWalkItem.booking_id}`,
+                                        showBookButtonProp: {
+                                            showBookButton: true,
+                                        },
+                                    }}
                                 >
                                     {Helpers.formatTime12Hour(
                                         assignedWalkItem.start_time
@@ -49,7 +61,13 @@ function OwnerUpcoming({ data, handleCancel }) {
 
                             <td>
                                 <NavLink
-                                    to={`${LISTINGS_DETAIL}${assignedWalkItem.booking_id}`}
+                                    // to={`${LISTINGS_DETAIL}${assignedWalkItem.booking_id}`}
+                                    to={{
+                                        pathname: `${LISTINGS_DETAIL}${assignedWalkItem.booking_id}`,
+                                        showBookButtonProp: {
+                                            showBookButton: true,
+                                        },
+                                    }}
                                 >
                                     {assignedWalkItem.service_type}
                                 </NavLink>
@@ -57,7 +75,13 @@ function OwnerUpcoming({ data, handleCancel }) {
 
                             <td>
                                 <NavLink
-                                    to={`${LISTINGS_DETAIL}${assignedWalkItem.booking_id}`}
+                                    // to={`${LISTINGS_DETAIL}${assignedWalkItem.booking_id}`}
+                                    to={{
+                                        pathname: `${LISTINGS_DETAIL}${assignedWalkItem.booking_id}`,
+                                        showBookButtonProp: {
+                                            showBookButton: true,
+                                        },
+                                    }}
                                 >
                                     {assignedWalkItem.firstname +
                                         " " +
@@ -81,7 +105,13 @@ function OwnerUpcoming({ data, handleCancel }) {
                         <tr key={index}>
                             <td>
                                 <NavLink
-                                    to={`${LISTINGS_DETAIL}${openWalkItem.booking_id}`}
+                                    // to={`${LISTINGS_DETAIL}${openWalkItem.booking_id}`}
+                                    to={{
+                                        pathname: `${LISTINGS_DETAIL}${openWalkItem.booking_id}`,
+                                        showBookButtonProp: {
+                                            showBookButton: true,
+                                        },
+                                    }}
                                 >
                                     {Helpers.formatAusDate(openWalkItem.date)}
                                 </NavLink>
@@ -89,7 +119,13 @@ function OwnerUpcoming({ data, handleCancel }) {
 
                             <td>
                                 <NavLink
-                                    to={`${LISTINGS_DETAIL}${openWalkItem.booking_id}`}
+                                    // to={`${LISTINGS_DETAIL}${openWalkItem.booking_id}`}
+                                    to={{
+                                        pathname: `${LISTINGS_DETAIL}${openWalkItem.booking_id}`,
+                                        showBookButtonProp: {
+                                            showBookButton: true,
+                                        },
+                                    }}
                                 >
                                     {Helpers.formatTime12Hour(
                                         openWalkItem.start_time
@@ -99,7 +135,13 @@ function OwnerUpcoming({ data, handleCancel }) {
 
                             <td>
                                 <NavLink
-                                    to={`${LISTINGS_DETAIL}${openWalkItem.booking_id}`}
+                                    // to={`${LISTINGS_DETAIL}${openWalkItem.booking_id}`}
+                                    to={{
+                                        pathname: `${LISTINGS_DETAIL}${openWalkItem.booking_id}`,
+                                        showBookButtonProp: {
+                                            showBookButton: true,
+                                        },
+                                    }}
                                 >
                                     {openWalkItem.service_type}
                                 </NavLink>
@@ -107,7 +149,13 @@ function OwnerUpcoming({ data, handleCancel }) {
 
                             <td>
                                 <NavLink
-                                    to={`${LISTINGS_DETAIL}${openWalkItem.booking_id}`}
+                                    // to={`${LISTINGS_DETAIL}${openWalkItem.booking_id}`}
+                                    to={{
+                                        pathname: `${LISTINGS_DETAIL}${openWalkItem.booking_id}`,
+                                        showBookButtonProp: {
+                                            showBookButton: true,
+                                        },
+                                    }}
                                 >
                                     Un-assigned
                                 </NavLink>

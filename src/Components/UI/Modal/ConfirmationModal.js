@@ -1,7 +1,14 @@
 import React, { useState, useEffect } from "react";
 import "./ConfirmationModal.css";
 
+// This modal actually receives a function from its parent and we also provide arguments to it so it can process data.
 const ConfirmationModal = (props) => {
+    // create a data object that contains booking_id and the URL of the walk map
+    const bookingIdWalkerProofDataObj = {};
+
+    bookingIdWalkerProofDataObj.booking_id = props.value;
+    bookingIdWalkerProofDataObj.walk_proof = props.value2;
+
     if (!props.show) {
         return null;
     } else {
@@ -19,8 +26,11 @@ const ConfirmationModal = (props) => {
                             Back
                         </button>
                         <button
-                            onClick={props.handleSubmit}
-                            value={props.value}
+                            onClick={() =>
+                                props.handleSubmit(bookingIdWalkerProofDataObj)
+                            }
+                            //value={props.value}
+                            value={bookingIdWalkerProofDataObj}
                             className="button"
                         >
                             OK

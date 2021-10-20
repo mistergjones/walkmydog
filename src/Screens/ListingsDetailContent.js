@@ -8,7 +8,7 @@ import WalkerInfoCard from "../Components/UI/Card/WalkerInfoCard";
 import JobInfoCard from "../Components/UI/Card/JobInfoCard";
 import DogInfoCard from "../Components/UI/Card/DogInfoCard";
 import AuthContext from "../context/authContext";
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 import routes from "../routes/routes";
 
 function ListingsDetailContent(props) {
@@ -60,6 +60,17 @@ function ListingsDetailContent(props) {
         } catch (error) {}
     };
 
+    // The purpose of the below is to use useLocation() to determien if the "BOOK" button should be showed based on where the user came from. If they came from WALKER HISTORY to then view a job, don't show "BOOK"
+    let location = useLocation();
+    // console.log("@#$@$@#@#@$#", location.showBookButtonProp.showBookButton);
+    // GJ: via the use of useLocation, we will disable the Book button if a user has come from the Walker History | Completed Historical Walks links....
+    var showButtonBook = true;
+    if (location.showBookButtonProp.showBookButton === false) {
+        showButtonBook = false;
+    } else {
+        showButtonBook = true;
+    }
+
     return (
         <>
             <div className="listings-deatail-container">
@@ -90,6 +101,7 @@ function ListingsDetailContent(props) {
                                 job={data.jobInfo}
                                 type={user.type}
                                 handleSubmit={handleSubmit}
+                                showButtonBook={showButtonBook}
                             />
                         ) : (
                             <h1>booking empty</h1>

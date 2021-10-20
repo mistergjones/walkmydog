@@ -51,6 +51,7 @@ const updateBooking = (status) => {
     return client.put(endpoint, status);
 };
 
+// GJ: this allows the walker to ocpmlete their walk
 const updateBookingCompletedByWalker = (bookingId, walkerID) => {
     const bookingEndpoint = endpoint + "completedBywalker/" + bookingId;
     console.log(

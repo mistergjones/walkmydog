@@ -236,28 +236,52 @@ function ListingsTable({ data, preferences }) {
                                 <td>
                                     <NavLink
                                         name="listingData"
-                                        to={`${LISTINGS_DETAIL}${booking.booking_id}`}
+                                        // to={`${LISTINGS_DETAIL}${booking.booking_id}`}
+                                        to={{
+                                            pathname: `${LISTINGS_DETAIL}${booking.booking_id}`,
+                                            showBookButtonProp: {
+                                                showBookButton: true,
+                                            },
+                                        }}
                                     >
                                         {booking.date}
                                     </NavLink>
                                 </td>
                                 <td>
                                     <NavLink
-                                        to={`${LISTINGS_DETAIL}${booking.booking_id}`}
+                                        // to={`${LISTINGS_DETAIL}${booking.booking_id}`}
+                                        to={{
+                                            pathname: `${LISTINGS_DETAIL}${booking.booking_id}`,
+                                            showBookButtonProp: {
+                                                showBookButton: true,
+                                            },
+                                        }}
                                     >
                                         {booking.start_time}
                                     </NavLink>
                                 </td>
                                 <td>
                                     <NavLink
-                                        to={`${LISTINGS_DETAIL}${booking.booking_id}`}
+                                        // to={`${LISTINGS_DETAIL}${booking.booking_id}`}
+                                        to={{
+                                            pathname: `${LISTINGS_DETAIL}${booking.booking_id}`,
+                                            showBookButtonProp: {
+                                                showBookButton: true,
+                                            },
+                                        }}
                                     >
                                         {booking.suburb}
                                     </NavLink>
                                 </td>
                                 <td>
                                     <NavLink
-                                        to={`${LISTINGS_DETAIL}${booking.booking_id}`}
+                                        // to={`${LISTINGS_DETAIL}${booking.booking_id}`}
+                                        to={{
+                                            pathname: `${LISTINGS_DETAIL}${booking.booking_id}`,
+                                            showBookButtonProp: {
+                                                showBookButton: true,
+                                            },
+                                        }}
                                     >
                                         {booking.service_type}
                                     </NavLink>
@@ -265,7 +289,13 @@ function ListingsTable({ data, preferences }) {
 
                                 <td>
                                     <NavLink
-                                        to={`${LISTINGS_DETAIL}${booking.booking_id}`}
+                                        // to={`${LISTINGS_DETAIL}${booking.booking_id}`}
+                                        to={{
+                                            pathname: `${LISTINGS_DETAIL}${booking.booking_id}`,
+                                            showBookButtonProp: {
+                                                showBookButton: true,
+                                            },
+                                        }}
                                     >
                                         ${booking.service_fee}
                                     </NavLink>
@@ -273,7 +303,13 @@ function ListingsTable({ data, preferences }) {
 
                                 <td>
                                     <NavLink
-                                        to={`${LISTINGS_DETAIL}${booking.booking_id}`}
+                                        // to={`${LISTINGS_DETAIL}${booking.booking_id}`}
+                                        to={{
+                                            pathname: `${LISTINGS_DETAIL}${booking.booking_id}`,
+                                            showBookButtonProp: {
+                                                showBookButton: true,
+                                            },
+                                        }}
                                     >
                                         No
                                     </NavLink>

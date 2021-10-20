@@ -56,9 +56,9 @@ function WalkerDashboardContent(props) {
         try {
             // 0. Establish a data object to capture the Booking ID and Walker ID to pass through to the DELETE booking route
             const walkerBookingIDObj = {};
-
             // 1. Obtain relevant data and place in data object
-            const bookingID = booking_id_value.target.value;
+            // const bookingID = booking_id_value.target.value;
+            const bookingID = booking_id_value.booking_id;
             walkerBookingIDObj.walker_id = upcomingWalks[0].walker_id;
             walkerBookingIDObj.booking_id = bookingID;
             walkerBookingIDObj.type = user.type;
@@ -76,29 +76,32 @@ function WalkerDashboardContent(props) {
                 setAssignedWalkDataLoaded(false);
             }
         } catch (error) {
-            console.log("WHA IS THE ERROR", error);
+            console.log("ERROR", booking_id_value);
+            console.log("WHA IS THE HANDLE CANCELATIN ERROR", error);
         }
     };
 
     // GJ: pass this function to the children component and obtain the
     // the booking_id value
-    const handleCompletion = async (booking_id_value, walk_completed_proof) => {
+    const handleCompletion = async (bookingIDWalkerMapProofDataObj) => {
         try {
-            // obtain teh walkerid to pass through to the query
+            // obtain teh walkerid and walker map url link to pass through to the query
             const infoObj = {};
             infoObj.walker_id = upcomingWalks[0].walker_id;
+            infoObj.walker_map_proof =
+                bookingIDWalkerMapProofDataObj.walk_proof;
 
             //capture the booking_id value
-            const bookingId = booking_id_value.target.value;
-
-            //
-            console.log("The walk compelted proof", walk_completed_proof);
+            //const bookingId = bookingIDWalkerMapProofDataObj.target.value;
+            const bookingId = bookingIDWalkerMapProofDataObj.booking_id;
+            // const walkerMapUrl = bookingIDWalkerMapProofDataObj.walkProof;
 
             // now the walker will update the job to be completed
             updateBookingCompletedByWalker(bookingId, infoObj);
             // reload the Assigned / Upcoming tables
             setAssignedWalkDataLoaded(false);
         } catch (error) {
+            console.log("GLEN: ", bookingIDWalkerMapProofDataObj);
             console.log(
                 "WalkerDashboardContent -> Error in updateBookingCompletedByWalker: ",
                 error

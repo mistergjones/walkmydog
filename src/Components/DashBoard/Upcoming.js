@@ -9,11 +9,14 @@ import ConfirmationModal from "../UI/Modal/ConfirmationModal";
 // GJ: it will also pass back the "value" representing the booking_id that will be used
 // to delete a booking if need be.
 function Upcoming({ data, handleCancel, handleCompletion }) {
+    const [showModal, setShowModal] = useState(null);
+
+    const [bookingID, setBookingID] = useState(null);
     // GJ: handle to determine to show the modal or not
     const [show, setShow] = useState(null);
     const [widget, setWidget] = useState(null);
     const [error, setError] = useState(null);
-    const [result, setResult] = useState(null);
+    const [walkerURL, setWalkerProofURL] = useState(null);
 
     // set the route for the Upcoming services to click on the row itself
     const { LISTINGS_DETAIL } = routes;
@@ -25,6 +28,7 @@ function Upcoming({ data, handleCancel, handleCompletion }) {
     const FourHoursInMilliseconds = 14400;
 
     // GJ: For some rason, need to follow the same pattern as Peter to make the cloudinaryAPI widget work.
+
     useEffect(() => {
         setWidget(
             window.cloudinary.createUploadWidget(
@@ -42,14 +46,31 @@ function Upcoming({ data, handleCancel, handleCompletion }) {
                             result[0].secure_url
                         );
                         setError(false);
-                        setResult(result[0].secure_url);
+                        setWalkerProofURL(result[0].secure_url);
                         // ensure to show the confirmation modal
                         setShow(true);
                     }
                 }
             )
         );
-    }, []);
+    }, [walkerURL]);
+
+    // GJ: The purpose is to obtain the Booking ID value when a walk is to be completed. It will then show the Confirmation modal for the user to uplaod their proof
+    const displayWidgetandConfirmationModal = (buttonBookingIDClickValue) => {
+        // open the cloudinary api widget
+        widget.open();
+        // set a flag to show the confirmation modal
+        setShowModal(true);
+        setBookingID(buttonBookingIDClickValue.target.value);
+    };
+
+    // GJ: the below is used to help handle when a walker wants to cancel a walk that they have booked
+    const displayConfirmationModal = (buttonBookingIDClickValue) => {
+        // set a flag to show the confirmation modal
+        setShow(true); // required for the modal to show. Required for props
+        setShowModal(true); // required for conditional rendering
+        setBookingID(buttonBookingIDClickValue.target.value);
+    };
 
     return (
         <div className="upcoming-container">
@@ -69,7 +90,13 @@ function Upcoming({ data, handleCancel, handleCompletion }) {
                         <tr key={index}>
                             <td>
                                 <NavLink
-                                    to={`${LISTINGS_DETAIL}${assignedWalkItem.booking_id}`}
+                                    // to={`${LISTINGS_DETAIL}${assignedWalkItem.booking_id}`}
+                                    to={{
+                                        pathname: `${LISTINGS_DETAIL}${assignedWalkItem.booking_id}`,
+                                        showBookButtonProp: {
+                                            showBookButton: false,
+                                        },
+                                    }}
                                 >
                                     {Helpers.formatAusDate(
                                         assignedWalkItem.date
@@ -78,7 +105,13 @@ function Upcoming({ data, handleCancel, handleCompletion }) {
                             </td>
                             <td>
                                 <NavLink
-                                    to={`${LISTINGS_DETAIL}${assignedWalkItem.booking_id}`}
+                                    // to={`${LISTINGS_DETAIL}${assignedWalkItem.booking_id}`}
+                                    to={{
+                                        pathname: `${LISTINGS_DETAIL}${assignedWalkItem.booking_id}`,
+                                        showBookButtonProp: {
+                                            showBookButton: false,
+                                        },
+                                    }}
                                 >
                                     {Helpers.formatTime12Hour(
                                         assignedWalkItem.start_time
@@ -87,14 +120,26 @@ function Upcoming({ data, handleCancel, handleCompletion }) {
                             </td>
                             <td>
                                 <NavLink
-                                    to={`${LISTINGS_DETAIL}${assignedWalkItem.booking_id}`}
+                                    // to={`${LISTINGS_DETAIL}${assignedWalkItem.booking_id}`}
+                                    to={{
+                                        pathname: `${LISTINGS_DETAIL}${assignedWalkItem.booking_id}`,
+                                        showBookButtonProp: {
+                                            showBookButton: false,
+                                        },
+                                    }}
                                 >
                                     {assignedWalkItem.service_type}
                                 </NavLink>
                             </td>
                             <td>
                                 <NavLink
-                                    to={`${LISTINGS_DETAIL}${assignedWalkItem.booking_id}`}
+                                    // to={`${LISTINGS_DETAIL}${assignedWalkItem.booking_id}`}
+                                    to={{
+                                        pathname: `${LISTINGS_DETAIL}${assignedWalkItem.booking_id}`,
+                                        showBookButtonProp: {
+                                            showBookButton: false,
+                                        },
+                                    }}
                                 >
                                     {assignedWalkItem.suburb}
                                 </NavLink>
@@ -135,17 +180,17 @@ function Upcoming({ data, handleCancel, handleCompletion }) {
                                             backgroundColor: "orange",
                                         }}
                                         type="submit"
-                                        onClick={() => setShow(true)}
-                                        // value={assignedWalkItem.booking_id}
+                                        onClick={displayConfirmationModal}
+                                        value={assignedWalkItem.booking_id}
                                     >
                                         Cancel
                                     </button>
-                                    {!error && (
+                                    {showModal && (
                                         <ConfirmationModal
                                             onClose={() => setShow(false)}
                                             show={show}
                                             handleSubmit={handleCancel}
-                                            value={assignedWalkItem.booking_id}
+                                            value={bookingID}
                                         />
                                     )}
                                 </td>
@@ -169,19 +214,25 @@ function Upcoming({ data, handleCancel, handleCompletion }) {
                                             color: "black",
                                             backgroundColor: "lightgreen",
                                         }}
-                                        // onClick={() => setShow(true)}
-                                        onClick={() => widget.open()}
+                                        //onClick={() => setShow(true)}
+                                        // onClick={() => widget.open()}
+                                        onClick={
+                                            displayWidgetandConfirmationModal
+                                        }
+                                        value={assignedWalkItem.booking_id}
                                     >
                                         Yes
                                     </button>
 
-                                    <ConfirmationModal
-                                        onClose={() => setShow(false)}
-                                        show={show}
-                                        handleSubmit={handleCompletion}
-                                        value={assignedWalkItem.booking_id}
-                                        value2={result}
-                                    />
+                                    {showModal && (
+                                        <ConfirmationModal
+                                            onClose={() => setShow(false)}
+                                            show={show}
+                                            handleSubmit={handleCompletion}
+                                            value={bookingID}
+                                            value2={walkerURL}
+                                        />
+                                    )}
                                 </td>
                             ) : (
                                 <td>

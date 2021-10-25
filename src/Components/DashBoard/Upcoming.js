@@ -6,8 +6,7 @@ import Helpers from "../../Helpers/convertDateTime";
 import ConfirmationModal from "../UI/Modal/ConfirmationModal";
 
 // GJ: 15/09:this function receives data from its parent (WalkerDashboardContent) to props
-// GJ: it will also pass back the "value" representing the booking_id that will be used
-// to delete a booking if need be.
+// GJ: it will also pass back the "value" representing the booking_id that will be used to delete a booking if need be.
 function Upcoming({ data, handleCancel, handleCompletion }) {
     const [showModal, setShowModal] = useState(null);
 

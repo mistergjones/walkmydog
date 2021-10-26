@@ -29,24 +29,24 @@ function HomeContent(props) {
             <h1>Homepage</h1>
 
             <div className="home-content-grid-container ">
-                <div className="Column1">
+                {/* <div className="Column1">
                     <div
                         id="dogLickLottie"
                         style={{ width: 250, height: 250 }}
                     ></div>
-                </div>
+                </div> */}
                 <div className="Column2">
                     <div
                         id="dogLottie"
                         style={{ width: 250, height: 250 }}
                     ></div>
                 </div>
-                <div className="Column3">
+                {/* <div className="Column3">
                     <div
                         id="dogWineLottie"
                         style={{ width: 250, height: 250 }}
                     ></div>
-                </div>
+                </div> */}
             </div>
         </div>
     );

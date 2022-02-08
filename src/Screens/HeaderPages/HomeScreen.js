@@ -8,7 +8,7 @@ function HomeScreen(props) {
         <div className="home-screen-container">
             <MasterScreen
                 ScreenComponent={HomeContent}
-                heading="27/10 Welcome to Walk My Dog (glen and peter)"
+                heading="08/02/21 Welcome to Walk My Dog (under development)"
             />
         </div>
     );

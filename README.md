@@ -1,80 +1,83 @@
-# OFFICIAL WALK MY DOG APP
+# Walk My dog - Connecting Dog Owners with Dog Walkers
 
-# OFFICIAL WALK MY DOG APP
+## Table of contents
 
-# OFFICIAL WALK MY DOG APP
+-   [Overview](#overview)
+    -   [The challenge](#the-challenge)
+    -   [Screenshot](#screenshot)
+    -   [Links](#links)
+-   [The process](#the-process)
+    -   [Built with](#built-with)
+    -   [What we learned](#what-we-learned)
+    -   [Continued development](#continued-development)
+    -   [Useful resources](#useful-resources)
+-   [Authors](#authors)
 
-# OFFICIAL WALK MY DOG APP
+## Overview
 
-# OFFICIAL WALK MY DOG APP
+### The challenge
 
-# Getting Started with Create React App
+The key challenge of this application was to incorporate a payment gateway & Single Sign On (SSO) allowing Dog Owners to book a dog walker and pay them on completion. Think Uber but for Dog Owners.
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+### Screenshot
 
-## Available Scripts
+-   Coming Soon
+<!-- ![Example screenshot](screenshot.png) -->
 
-In the project directory, you can run:
+### Links
 
-### `yarn start`
+-   Solution URL: []
+-   Solution Code Frontend: [https://github.com/mistergjones/walkmydog]
+-   Solution Code Backend: [https://github.com/mistergjones/walkmydogbackend]
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## The process
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+-   Establish the idea.
+-   whiteboard / develop UI flows.
+-   create database table structure (normalised).
+-   identify key technologies (i.e. Axios, Node.js, Cloudinary, Stripe) that will for part of the solution.
 
-### `yarn test`
+### Built with
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+-   Semantic HTML5 markup
+-   React (for Frontend)
+-   JavaScript / Node.js (for WAF)
+-   Database (Postgres for storing data)
+-   Axios / APIs (for GETing and POSTing data)
+-   Lottie (for animated pics)
+-   Custom functions
+-   Yup & Formik (for data validation)
+-   Bcrypt (for encryption)
+-   ReCharts (for charting)
+-   JWT (for website cookies)
+-   Cloudinary (for image storage)
+-   Stripe (for payments)
 
-### `yarn build`
+### What was learnt
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+-   To be documented
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+<!-- 1. Really enjoyed defining my own mathematical functions to calculate moving averages and RSI. The function below demonstrates the requirement to push a rolling 14 day average into an array for subsequent use.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+```js
+function calculateFirst14DayAverage(movingAverageDays, theDataArray) {
+    var tempArray = [];
+    var runningTotal = 0;
+    for (i = 0; i < movingAverageDays; i++) {
+        runningTotal = runningTotal + theDataArray[i];
+    }
 
-### `yarn eject`
+    tempArray.push(runningTotal / movingAverageDays);
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+    return tempArray;
+}
+``` -->
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### Continued development
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+-   To be documented
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+## Authors
 
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `yarn build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+-   Glen Jones - [https://www.glenjones.com.au]
+-   Peter Hristakos

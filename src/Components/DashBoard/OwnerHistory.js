@@ -9,6 +9,11 @@ import Helpers from "../../Helpers/convertDateTime";
 function OwnerHistory(props) {
     //const { HISTORY } = routes;
     // console.log("OWNER HISTORY", props.data);
+
+    const handlePayment = (e) => {
+        e.preventDefault();
+    };
+
     return (
         <div className="history-container">
             <table className="tbl tbl--block fixed_header">
@@ -19,6 +24,8 @@ function OwnerHistory(props) {
                         <th>Service</th>
                         <th>Service Fee</th>
                         <th>Walker Name</th>
+                        <th>Map Route</th>
+                        <th>Pay Walker</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -38,6 +45,14 @@ function OwnerHistory(props) {
                                 {historialRowItem.firstname +
                                     " " +
                                     historialRowItem.lastname}
+                            </td>
+                            <td>
+                                <button>View</button>
+                            </td>
+                            <td>
+                                <button type="submit" onClick={handlePayment}>
+                                    Pay
+                                </button>
                             </td>
                         </tr>
                     ))}

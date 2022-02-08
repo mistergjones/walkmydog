@@ -5,12 +5,12 @@ import storageService from "../storage/localStorage";
 
 // GJ: You create an api by calling .create() and passing in a configuration object.
 const apiClient = create({
-    // baseURL: "http://localhost:3000/api",
+    baseURL: "http://localhost:3000/api",
     // baseURL: "http://192.168.0.145:3000/api",
     // baseURL: "http://110.147.196.35:3000/api",
     // baseURL: "http://110.147.196.35/api",
     // URL required for server below
-    baseURL: "https://walkmd.ddns.net/api",
+    // baseURL: "https://walkmd.ddns.net/api",
 });
 
 // GJ: Establish a function???

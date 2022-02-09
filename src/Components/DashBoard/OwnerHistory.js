@@ -14,6 +14,14 @@ function OwnerHistory(props) {
         e.preventDefault();
     };
 
+    const viewMap = (e) => {
+        var urlToOpen = e.target.value;
+        console.log("asdf", e.target.value);
+        window.open(urlToOpen, "_blank");
+    };
+
+    console.log("The owner data is: ", props);
+
     return (
         <div className="history-container">
             <table className="tbl tbl--block fixed_header">
@@ -47,7 +55,14 @@ function OwnerHistory(props) {
                                     historialRowItem.lastname}
                             </td>
                             <td>
-                                <button>View</button>
+                                <button
+                                    value={
+                                        historialRowItem.walk_completed_proof
+                                    }
+                                    onClick={viewMap}
+                                >
+                                    View
+                                </button>
                             </td>
                             <td>
                                 <button type="submit" onClick={handlePayment}>

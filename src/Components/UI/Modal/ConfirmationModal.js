@@ -26,6 +26,7 @@ const ConfirmationModal = (props) => {
                             Back
                         </button>
                         <button
+                            id="okButton"
                             onClick={() =>
                                 props.handleSubmit(bookingIdWalkerProofDataObj)
                             }

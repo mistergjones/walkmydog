@@ -1,4 +1,5 @@
 export default {
+    PAYMENTS: "/owners/makestripepayment",
     ASSIGNED_WALKER: "/walkers/assignedwalks/:credential_id",
     HISTORY: "/history",
     DOGS: "/dogs",
@@ -23,4 +24,6 @@ export default {
     CREATE_LISTING_OWNER: "/listings/create",
     CALENDAR: "/calendar",
     SOCIAL: "/social",
+    SUCCESSFUL_PAYMENT: "/successful_payment",
+    UNSUCCESSFUL_PAYMENT: "/unsuccessful_payment",
 };

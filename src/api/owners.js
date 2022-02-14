@@ -1,3 +1,5 @@
+import axios from "axios";
+
 // 1. this actually queries the database via the url, params and axiosConfig and eventually returns the result
 import storageService from "../storage/localStorage";
 import client from "./client";
@@ -36,7 +38,12 @@ const updateOwnerProfile = (profile) => {
 const getOwnerProfile = (ownerId) => {
     const ownerProfileEndpoint = "/owners/profile/" + ownerId;
     return client.get(ownerProfileEndpoint);
-}
+};
+
+const ownerMakesPayment = async () => {
+    const gj = endpoint + "makestripepayment";
+    return client.post(gj);
+};
 
 export default {
     getOwners,
@@ -44,5 +51,6 @@ export default {
     getOwner,
     getOwnerFromCredentialByEmail,
     updateOwnerProfile,
-    getOwnerProfile
+    getOwnerProfile,
+    ownerMakesPayment,
 };

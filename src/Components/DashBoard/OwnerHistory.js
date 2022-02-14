@@ -1,7 +1,11 @@
-import React from "react";
+import React, { useState, useContext } from "react";
 import routes from "../../routes/routes";
-//import { NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import "./History.css";
+
+import AuthContext from "../../context/authContext";
+import useApi from "../../hooks/useApi";
+import ownersApi from "../../api/owners";
 
 import Helpers from "../../Helpers/convertDateTime";
 
@@ -9,18 +13,26 @@ import Helpers from "../../Helpers/convertDateTime";
 function OwnerHistory(props) {
     //const { HISTORY } = routes;
     // console.log("OWNER HISTORY", props.data);
+    const { setUser, user } = useContext(AuthContext);
+    const { request: ownermakespayment } = useApi(ownersApi.ownerMakesPayment);
 
-    const handlePayment = (e) => {
+    // 12/02/2022 - need to generate STRIPE payment for owner to pay walker
+    const handlePayment = async (e) => {
         e.preventDefault();
+        const stripeCheckoutSession = await ownermakespayment();
+
+        console.log("The FRONTEND route is", stripeCheckoutSession);
+
+        try {
+            window.open(stripeCheckoutSession.data.url, "_blank");
+        } catch (error) {}
     };
 
     const viewMap = (e) => {
+        // just open the IMAGE in a new TAB. Nothing secret about it.
         var urlToOpen = e.target.value;
-        console.log("asdf", e.target.value);
         window.open(urlToOpen, "_blank");
     };
-
-    console.log("The owner data is: ", props);
 
     return (
         <div className="history-container">

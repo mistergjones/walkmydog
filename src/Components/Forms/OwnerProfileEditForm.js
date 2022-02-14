@@ -93,7 +93,7 @@ function OwnerProfileEditForm(props) {
     const loadOwner = async () => {
         const { data } = await getOwnerProfile(user.id);
         setOwner(data);
-    }
+    };
 
     useEffect(() => {
         window.selectedSuggestion = function (result) {
@@ -116,7 +116,6 @@ function OwnerProfileEditForm(props) {
 
         // create an entire data object taht will be used to store both Owner and Dog Info Objects
         let ownerDataObject = {};
-
 
         try {
             // console.log("FORM DATA is:", formData);
@@ -143,104 +142,114 @@ function OwnerProfileEditForm(props) {
             });
 
             // GET JWT TOKEN FROM RESPONSE AND DECODE TO USER OBJECT. IF NO TOKEN RETURNS NULL;
-            setUser(jwtService.getUserFromResponseToken(response.headers["x-auth-token"]));
-
-
-
+            setUser(
+                jwtService.getUserFromResponseToken(
+                    response.headers["x-auth-token"]
+                )
+            );
         } catch (error) {
             console.log("ownerProfileForm -> UpdatedOwner()", error);
         }
     };
 
-
     return (
         <>
+            {owner ? (
+                <Formik
+                    initialValues={{
+                        firstname: owner.firstname,
+                        lastname: owner.lastname,
+                        streetAddress: owner.street_address,
+                        suburb: owner.suburb,
+                        state: owner.state,
+                        postcode: owner.postcode,
+                        mobile: owner.mobile,
+                        dob: owner.dob.slice(0, 10),
+                        driverLicence: owner.licence_num,
+                        bankName: owner.bank_name,
+                        bsb: owner.bank_bsb,
+                        accountNumber: owner.bank_acct_num,
+                        acceptTerms: false,
+                        dogName: owner.dog_firstname,
+                        dogBreed: owner.dog_breed,
+                        dogSize: owner.dog_size,
+                        requiresLeash: owner.dog_always_leashed,
+                    }}
+                    // validate the input fields to the schema above
+                    validationSchema={validate}
+                    // onSubmit={(values) => console.log(values)}
+                    // onSubmit={async () => {
+                    //     await getOwners();
+                    // }}
+                    onSubmit={async (fields) => {
+                        try {
+                            console.log("Fields are: ", fields);
+                            // need to update the owner table. NOTE: RATING and MEMBERHSIP_ACTIVE are hardcode in the SQL directly
+                            const response = await updatedOwner({
+                                ...fields,
+                                lat: address
+                                    ? address.location.latitude
+                                    : owner.lat,
+                                lng: address
+                                    ? address.location.longitude
+                                    : owner.lng,
+                            });
+                            history.push(routes.DASHBOARD_OWNER);
+                        } catch (error) {
+                            console.log("error = ", error);
+                        }
+                    }}
+                >
+                    {(formik) => (
+                        <div>
+                            <Form id="formikform" autoComplete="off">
+                                <div className="owner-form-container">
+                                    <section>
+                                        <div className="owner-profile-form-container">
+                                            <h1 className="owner-profile-form-heading">
+                                                Owner Details
+                                            </h1>
+                                            <div className="owner-profile-form-field-col-1">
+                                                <TextField
+                                                    label="First Name"
+                                                    name="firstname"
+                                                    type="text"
+                                                    placeholder="Firstname"
+                                                    value={
+                                                        formik.values.firstname
+                                                    }
+                                                    onChange={
+                                                        formik.handleChange
+                                                    }
+                                                    onKeyPress={(e) =>
+                                                        e.code === "Enter"
+                                                            ? e.preventDefault()
+                                                            : ""
+                                                    }
+                                                />
+                                            </div>
 
-            {owner ? <Formik
-                initialValues={{
-                    firstname: owner.firstname,
-                    lastname: owner.lastname,
-                    streetAddress: owner.street_address,
-                    suburb: owner.suburb,
-                    state: owner.state,
-                    postcode: owner.postcode,
-                    mobile: owner.mobile,
-                    dob: owner.dob.slice(0, 10),
-                    driverLicence: owner.licence_num,
-                    bankName: owner.bank_name,
-                    bsb: owner.bank_bsb,
-                    accountNumber: owner.bank_acct_num,
-                    acceptTerms: false,
-                    dogName: owner.dog_firstname,
-                    dogBreed: owner.dog_breed,
-                    dogSize: owner.dog_size,
-                    requiresLeash: owner.dog_always_leashed,
-                }}
-                // validate the input fields to the schema above
-                validationSchema={validate}
-                // onSubmit={(values) => console.log(values)}
-                // onSubmit={async () => {
-                //     await getOwners();
-                // }}
-                onSubmit={async (fields) => {
-                    try {
-                        console.log("Fields are: ", fields);
-                        // need to update the owner table. NOTE: RATING and MEMBERHSIP_ACTIVE are hardcode in the SQL directly
-                        const response = await updatedOwner({
-                            ...fields,
-                            lat: address ? address.location.latitude : owner.lat,
-                            lng: address ? address.location.longitude : owner.lng,
-                        });
-                        ;
+                                            <div className="owner-profile-form-field-col-2">
+                                                <TextField
+                                                    label="Last Name"
+                                                    name="lastname"
+                                                    type="text"
+                                                    placeholder="Lastname"
+                                                    value={
+                                                        formik.values.lastname
+                                                    }
+                                                    onChange={
+                                                        formik.handleChange
+                                                    }
+                                                    onKeyPress={(e) =>
+                                                        e.code === "Enter"
+                                                            ? e.preventDefault()
+                                                            : ""
+                                                    }
+                                                />
+                                            </div>
 
-                        history.push(routes.DASHBOARD_OWNER);
-                    } catch (error) {
-                        console.log("error = ", error)
-                    }
-                }}
-            >
-                {(formik) => (
-                    <div>
-                        <Form id="formikform" autoComplete="off">
-                            <div className="owner-form-container">
-                                <section>
-                                    <div className="owner-profile-form-container">
-                                        <h1 className="owner-profile-form-heading">
-                                            Owner Details
-                                        </h1>
-                                        <div className="owner-profile-form-field-col-1">
-                                            <TextField
-                                                label="First Name"
-                                                name="firstname"
-                                                type="text"
-                                                placeholder="Firstname"
-                                                value={formik.values.firstname}
-                                                onChange={formik.handleChange}
-                                                onKeyPress={(e) =>
-                                                    e.code === "Enter"
-                                                        ? e.preventDefault()
-                                                        : ""
-                                                }
-                                            />
-                                        </div>
-
-                                        <div className="owner-profile-form-field-col-2">
-                                            <TextField
-                                                label="Last Name"
-                                                name="lastname"
-                                                type="text"
-                                                placeholder="Lastname"
-                                                value={formik.values.lastname}
-                                                onChange={formik.handleChange}
-                                                onKeyPress={(e) =>
-                                                    e.code === "Enter"
-                                                        ? e.preventDefault()
-                                                        : ""
-                                                }
-                                            />
-                                        </div>
-
-                                        {/* <div className="owner-profile-form-field-2-col-span">
+                                            {/* <div className="owner-profile-form-field-2-col-span">
                                             <TextField
                                                 label="Street Address"
                                                 name="streetAddress"
@@ -248,30 +257,33 @@ function OwnerProfileEditForm(props) {
                                                 placeholder="Street Address"
                                             />
                                         </div> */}
-                                        <div
-                                            id="searchBoxContainer"
-                                            className="owner-profile-form-field-2-col-span"
-                                        >
-                                            <AddressTextField
-                                                label="Address"
-                                                id="searchBox"
-                                                name="streetAddress"
-                                                type="text"
-                                                placeholder="Street Address"
-                                                value={
-                                                    formik.values.streetAddress
-                                                }
-                                                onChange={formik.handleChange}
-                                                address={
-                                                    address
-                                                        ? address.address
-                                                            .addressLine
-                                                        : null
-                                                }
-                                            />
-                                        </div>
+                                            <div
+                                                id="searchBoxContainer"
+                                                className="owner-profile-form-field-2-col-span"
+                                            >
+                                                <AddressTextField
+                                                    label="Address"
+                                                    id="searchBox"
+                                                    name="streetAddress"
+                                                    type="text"
+                                                    placeholder="Street Address"
+                                                    value={
+                                                        formik.values
+                                                            .streetAddress
+                                                    }
+                                                    onChange={
+                                                        formik.handleChange
+                                                    }
+                                                    address={
+                                                        address
+                                                            ? address.address
+                                                                  .addressLine
+                                                            : null
+                                                    }
+                                                />
+                                            </div>
 
-                                        {/* <div className="owner-profile-form-field-col-1">
+                                            {/* <div className="owner-profile-form-field-col-1">
                                             <TextField
                                                 label="Suburb"
                                                 name="suburb"
@@ -279,26 +291,28 @@ function OwnerProfileEditForm(props) {
                                                 placeholder="Suburb"
                                             />
                                         </div> */}
-                                        <div className="owner-profile-form-field-col-1">
-                                            <AddressTextField
-                                                label="Suburb"
-                                                id="suburb"
-                                                name="suburb"
-                                                type="text"
-                                                placeholder="Suburb"
-                                                value={formik.values.suburb}
-                                                address={
-                                                    address
-                                                        ? address.address
-                                                            .locality
-                                                        : null
-                                                }
-                                                onChange={formik.handleChange}
-                                                disabled
-                                            />
-                                        </div>
+                                            <div className="owner-profile-form-field-col-1">
+                                                <AddressTextField
+                                                    label="Suburb"
+                                                    id="suburb"
+                                                    name="suburb"
+                                                    type="text"
+                                                    placeholder="Suburb"
+                                                    value={formik.values.suburb}
+                                                    address={
+                                                        address
+                                                            ? address.address
+                                                                  .locality
+                                                            : null
+                                                    }
+                                                    onChange={
+                                                        formik.handleChange
+                                                    }
+                                                    disabled
+                                                />
+                                            </div>
 
-                                        {/* <div className="owner-profile-form-field-col-2">
+                                            {/* <div className="owner-profile-form-field-col-2">
                                             <TextField
                                                 label="State"
                                                 name="state"
@@ -309,29 +323,34 @@ function OwnerProfileEditForm(props) {
                                             />
                                         </div> */}
 
-                                        <div className="owner-profile-form-field-col-2">
-                                            <AddressTextField
-                                                label="Post Code"
-                                                id="postcode"
-                                                name="postcode"
-                                                type="text"
-                                                placeholder="Post Code"
-                                                value={formik.values.postcode}
-                                                address={
-                                                    address
-                                                        ? address.address
-                                                            .postalCode
+                                            <div className="owner-profile-form-field-col-2">
+                                                <AddressTextField
+                                                    label="Post Code"
+                                                    id="postcode"
+                                                    name="postcode"
+                                                    type="text"
+                                                    placeholder="Post Code"
+                                                    value={
+                                                        formik.values.postcode
+                                                    }
+                                                    address={
+                                                        address
                                                             ? address.address
-                                                                .postalCode
-                                                            : "3000"
-                                                        : null
-                                                }
-                                                disabled
-                                                onChange={formik.handleChange}
-                                            />
-                                        </div>
+                                                                  .postalCode
+                                                                ? address
+                                                                      .address
+                                                                      .postalCode
+                                                                : "3000"
+                                                            : null
+                                                    }
+                                                    disabled
+                                                    onChange={
+                                                        formik.handleChange
+                                                    }
+                                                />
+                                            </div>
 
-                                        {/* <div className="owner-profile-form-field-col-1">
+                                            {/* <div className="owner-profile-form-field-col-1">
                                             <TextField
                                                 label="Postcode"
                                                 label="Postcode"
@@ -343,167 +362,193 @@ function OwnerProfileEditForm(props) {
                                             />
                                         </div> */}
 
-                                        <div className="owner-profile-form-field-col-1">
-                                            <AddressTextField
-                                                label="State"
-                                                name="state"
-                                                type="text"
-                                                placeholder="State"
-                                                value={formik.values.state}
-                                                disabled
-                                                onChange={formik.handleChange}
-                                                address={
-                                                    address
-                                                        ? address.address
-                                                            .adminDistrict
-                                                        : null
-                                                }
-                                                maxLength={20}
-                                                minLength={2}
-                                                onKeyPress={(e) =>
-                                                    e.code === "Enter"
-                                                        ? e.preventDefault()
-                                                        : ""
-                                                }
-                                            />
+                                            <div className="owner-profile-form-field-col-1">
+                                                <AddressTextField
+                                                    label="State"
+                                                    name="state"
+                                                    type="text"
+                                                    placeholder="State"
+                                                    value={formik.values.state}
+                                                    disabled
+                                                    onChange={
+                                                        formik.handleChange
+                                                    }
+                                                    address={
+                                                        address
+                                                            ? address.address
+                                                                  .adminDistrict
+                                                            : null
+                                                    }
+                                                    maxLength={20}
+                                                    minLength={2}
+                                                    onKeyPress={(e) =>
+                                                        e.code === "Enter"
+                                                            ? e.preventDefault()
+                                                            : ""
+                                                    }
+                                                />
+                                            </div>
+
+                                            <div className="owner-profile-form-field-col-2">
+                                                <TextField
+                                                    label="Mobile"
+                                                    name="mobile"
+                                                    type="text"
+                                                    placeholder="Mobile #"
+                                                    value={formik.values.mobile}
+                                                    onChange={
+                                                        formik.handleChange
+                                                    }
+                                                    maxLength={10}
+                                                    onKeyPress={(e) =>
+                                                        e.code === "Enter"
+                                                            ? e.preventDefault()
+                                                            : ""
+                                                    }
+                                                />
+                                            </div>
+
+                                            <div className="owner-profile-form-field-col-1">
+                                                <TextField
+                                                    label="DOB"
+                                                    name="dob"
+                                                    type="date"
+                                                    placeholder="Date of Birth"
+                                                    value={formik.values.dob}
+                                                    onChange={
+                                                        formik.handleChange
+                                                    }
+                                                    onKeyPress={(e) =>
+                                                        e.code === "Enter"
+                                                            ? e.preventDefault()
+                                                            : ""
+                                                    }
+                                                />
+                                            </div>
+
+                                            <div className="owner-profile-form-field-col-2">
+                                                <TextField
+                                                    label="Driver Licence No:"
+                                                    name="driverLicence"
+                                                    type="text"
+                                                    placeholder="Driver Licence #"
+                                                    value={
+                                                        formik.values
+                                                            .driverLicence
+                                                    }
+                                                    onChange={
+                                                        formik.handleChange
+                                                    }
+                                                    maxLength={10}
+                                                    onKeyPress={(e) =>
+                                                        e.code === "Enter"
+                                                            ? e.preventDefault()
+                                                            : ""
+                                                    }
+                                                />
+                                            </div>
                                         </div>
 
-                                        <div className="owner-profile-form-field-col-2">
-                                            <TextField
-                                                label="Mobile"
-                                                name="mobile"
-                                                type="text"
-                                                placeholder="Mobile #"
-                                                value={formik.values.mobile}
-                                                onChange={formik.handleChange}
-                                                maxLength={10}
-                                                onKeyPress={(e) =>
-                                                    e.code === "Enter"
-                                                        ? e.preventDefault()
-                                                        : ""
-                                                }
-                                            />
+                                        <div className="owner-profile-form-container">
+                                            <h1 className="owner-profile-form-heading">
+                                                Bank Details
+                                            </h1>
+                                            <div className="owner-profile-form-field-2-col-span">
+                                                <TextField
+                                                    label="Bank Name"
+                                                    name="bankName"
+                                                    type="text"
+                                                    placeholder="Bank Name"
+                                                    value={
+                                                        formik.values.bankName
+                                                    }
+                                                    onChange={
+                                                        formik.handleChange
+                                                    }
+                                                    onKeyPress={(e) =>
+                                                        e.code === "Enter"
+                                                            ? e.preventDefault()
+                                                            : ""
+                                                    }
+                                                />
+                                            </div>
+                                            <div className="owner-profile-form-field-col-1">
+                                                <TextField
+                                                    label="BSB"
+                                                    name="bsb"
+                                                    type="text"
+                                                    placeholder="BSB "
+                                                    value={formik.values.bsb}
+                                                    onChange={
+                                                        formik.handleChange
+                                                    }
+                                                    onKeyPress={(e) =>
+                                                        e.code === "Enter"
+                                                            ? e.preventDefault()
+                                                            : ""
+                                                    }
+                                                />
+                                            </div>
+                                            <div className="owner-profile-form-field-col-2">
+                                                <TextField
+                                                    label="Account No:"
+                                                    name="accountNumber"
+                                                    type="text"
+                                                    placeholder="Account Number"
+                                                    value={
+                                                        formik.values
+                                                            .accountNumber
+                                                    }
+                                                    onChange={
+                                                        formik.handleChange
+                                                    }
+                                                    onKeyPress={(e) =>
+                                                        e.code === "Enter"
+                                                            ? e.preventDefault()
+                                                            : ""
+                                                    }
+                                                />
+                                            </div>
                                         </div>
+                                    </section>
 
-                                        <div className="owner-profile-form-field-col-1">
-                                            <TextField
-                                                label="DOB"
-                                                name="dob"
-                                                type="date"
-                                                placeholder="Date of Birth"
-                                                value={formik.values.dob}
-                                                onChange={formik.handleChange}
-                                                onKeyPress={(e) =>
-                                                    e.code === "Enter"
-                                                        ? e.preventDefault()
-                                                        : ""
-                                                }
-                                            />
-                                        </div>
+                                    <section>
+                                        <div className="owner-profile-form-container">
+                                            <h1 className="owner-profile-form-heading">
+                                                Dog Details
+                                            </h1>
 
-                                        <div className="owner-profile-form-field-col-2">
-                                            <TextField
-                                                label="Driver Licence No:"
-                                                name="driverLicence"
-                                                type="text"
-                                                placeholder="Driver Licence #"
-                                                value={
-                                                    formik.values.driverLicence
-                                                }
-                                                onChange={formik.handleChange}
-                                                maxLength={10}
-                                                onKeyPress={(e) =>
-                                                    e.code === "Enter"
-                                                        ? e.preventDefault()
-                                                        : ""
-                                                }
-                                            />
-                                        </div>
-                                    </div>
+                                            <div className="owner-profile-form-field-col-1">
+                                                <TextField
+                                                    label="Dog Name"
+                                                    name="dogName"
+                                                    type="text"
+                                                    placeholder="Dog Name"
+                                                    value={
+                                                        formik.values.dogName
+                                                    }
+                                                    onChange={
+                                                        formik.handleChange
+                                                    }
+                                                />
+                                            </div>
 
-                                    <div className="owner-profile-form-container">
-                                        <h1 className="owner-profile-form-heading">
-                                            Bank Details
-                                        </h1>
-                                        <div className="owner-profile-form-field-2-col-span">
-                                            <TextField
-                                                label="Bank Name"
-                                                name="bankName"
-                                                type="text"
-                                                placeholder="Bank Name"
-                                                value={formik.values.bankName}
-                                                onChange={formik.handleChange}
-                                                onKeyPress={(e) =>
-                                                    e.code === "Enter"
-                                                        ? e.preventDefault()
-                                                        : ""
-                                                }
-                                            />
-                                        </div>
-                                        <div className="owner-profile-form-field-col-1">
-                                            <TextField
-                                                label="BSB"
-                                                name="bsb"
-                                                type="text"
-                                                placeholder="BSB "
-                                                value={formik.values.bsb}
-                                                onChange={formik.handleChange}
-                                                onKeyPress={(e) =>
-                                                    e.code === "Enter"
-                                                        ? e.preventDefault()
-                                                        : ""
-                                                }
-                                            />
-                                        </div>
-                                        <div className="owner-profile-form-field-col-2">
-                                            <TextField
-                                                label="Account No:"
-                                                name="accountNumber"
-                                                type="text"
-                                                placeholder="Account Number"
-                                                value={
-                                                    formik.values.accountNumber
-                                                }
-                                                onChange={formik.handleChange}
-                                                onKeyPress={(e) =>
-                                                    e.code === "Enter"
-                                                        ? e.preventDefault()
-                                                        : ""
-                                                }
-                                            />
-                                        </div>
-                                    </div>
-                                </section>
+                                            <div className="owner-profile-form-field-col-2">
+                                                <TextField
+                                                    label="Breed"
+                                                    name="dogBreed"
+                                                    type="text"
+                                                    placeholder=" Dog Breed"
+                                                    value={
+                                                        formik.values.dogBreed
+                                                    }
+                                                    onChange={
+                                                        formik.handleChange
+                                                    }
+                                                />
+                                            </div>
 
-                                <section>
-                                    <div className="owner-profile-form-container">
-                                        <h1 className="owner-profile-form-heading">
-                                            Dog Details
-                                        </h1>
-
-                                        <div className="owner-profile-form-field-col-1">
-                                            <TextField
-                                                label="Dog Name"
-                                                name="dogName"
-                                                type="text"
-                                                placeholder="Dog Name"
-                                                value={formik.values.dogName}
-                                                onChange={formik.handleChange}
-                                            />
-                                        </div>
-
-                                        <div className="owner-profile-form-field-col-2">
-                                            <TextField
-                                                label="Breed"
-                                                name="dogBreed"
-                                                type="text"
-                                                placeholder=" Dog Breed"
-                                                value={formik.values.dogBreed}
-                                                onChange={formik.handleChange}
-                                            />
-                                        </div>
-
-                                        {/* <div>
+                                            {/* <div>
                             <TextField
                                 // label="Dog Photo"
                                 name="dogPhoto"
@@ -512,79 +557,96 @@ function OwnerProfileEditForm(props) {
                             />
                             </div> */}
 
-                                        <div className="owner-profile-form-field-2-col-span">
-                                            <h1 className="owner-profile-form-heading">
-                                                Dog Size
-                                            </h1>
-                                            <div className="sign-up-form-radio-buttons">
-                                                <RadioButton
-                                                    label="Small Dog"
-                                                    id="smallDog"
-                                                    type="radio"
-                                                    name="dogSize"
-                                                    value="S"
-                                                    onChange={
-                                                        formik.handleChange
-                                                    }
-                                                    defaultChecked={formik.values.dogSize === "S"}
-                                                />
+                                            <div className="owner-profile-form-field-2-col-span">
+                                                <h1 className="owner-profile-form-heading">
+                                                    Dog Size
+                                                </h1>
+                                                <div className="sign-up-form-radio-buttons">
+                                                    <RadioButton
+                                                        label="Small Dog"
+                                                        id="smallDog"
+                                                        type="radio"
+                                                        name="dogSize"
+                                                        value="S"
+                                                        onChange={
+                                                            formik.handleChange
+                                                        }
+                                                        defaultChecked={
+                                                            formik.values
+                                                                .dogSize === "S"
+                                                        }
+                                                    />
 
-                                                <RadioButton
-                                                    label="Medium Dog"
-                                                    id="mediumDog"
-                                                    type="radio"
-                                                    name="dogSize"
-                                                    value="M"
-                                                    onChange={
-                                                        formik.handleChange
-                                                    }
-                                                    defaultChecked={formik.values.dogSize === "M"}
-                                                />
+                                                    <RadioButton
+                                                        label="Medium Dog"
+                                                        id="mediumDog"
+                                                        type="radio"
+                                                        name="dogSize"
+                                                        value="M"
+                                                        onChange={
+                                                            formik.handleChange
+                                                        }
+                                                        defaultChecked={
+                                                            formik.values
+                                                                .dogSize === "M"
+                                                        }
+                                                    />
 
-                                                <RadioButton
-                                                    label="Large Dog"
-                                                    id="largeDog"
-                                                    type="radio"
-                                                    name="dogSize"
-                                                    value="L"
-                                                    onChange={
-                                                        formik.handleChange
-                                                    }
-                                                    defaultChecked={formik.values.dogSize === "L"}
-                                                />
+                                                    <RadioButton
+                                                        label="Large Dog"
+                                                        id="largeDog"
+                                                        type="radio"
+                                                        name="dogSize"
+                                                        value="L"
+                                                        onChange={
+                                                            formik.handleChange
+                                                        }
+                                                        defaultChecked={
+                                                            formik.values
+                                                                .dogSize === "L"
+                                                        }
+                                                    />
+                                                </div>
                                             </div>
-                                        </div>
 
-                                        <div className="owner-profile-form-field-2-col-span">
-                                            <h1 className="owner-profile-form-heading">
-                                                Always Leashed?
-                                            </h1>
-                                            <div className="sign-up-form-radio-buttons">
-                                                <RadioButton
-                                                    label="Yes"
-                                                    id="requiresLeash"
-                                                    type="radio"
-                                                    name="requiresLeash"
-                                                    value="YES"
-                                                    onChange={
-                                                        formik.handleChange
-                                                    }
-                                                    defaultChecked={formik.values.requiresLeash === "YES"}
-                                                />
+                                            <div className="owner-profile-form-field-2-col-span">
+                                                <h1 className="owner-profile-form-heading">
+                                                    Always Leashed?
+                                                </h1>
+                                                <div className="sign-up-form-radio-buttons">
+                                                    <RadioButton
+                                                        label="Yes"
+                                                        id="requiresLeash"
+                                                        type="radio"
+                                                        name="requiresLeash"
+                                                        value="YES"
+                                                        onChange={
+                                                            formik.handleChange
+                                                        }
+                                                        defaultChecked={
+                                                            formik.values
+                                                                .requiresLeash ===
+                                                            "YES"
+                                                        }
+                                                    />
 
-                                                <RadioButton
-                                                    label="No"
-                                                    id="doesNotRequireLeash"
-                                                    type="radio"
-                                                    name="requiresLeash"
-                                                    value="NO"
-                                                    onChange={
-                                                        formik.handleChange
-                                                    }
-                                                    defaultChecked={formik.values.requiresLeash === "NO"}
-                                                />
-                                            </div>
-                                            {/* <Field
+                                                    <RadioButton
+                                                        label="No"
+                                                        id="doesNotRequireLeash"
+                                                        type="radio"
+                                                        name="requiresLeash"
+                                                        value="NO"
+                                                        onChange={
+                                                            formik.handleChange
+                                                        }
+                                                        defaultChecked={
+                                                            formik.values
+                                                                .requiresLeash ===
+                                                            "NO"
+                                                        }
+                                                    />
+                                                </div>
+                                                {/* <Field
                                 type="radio"
                                 name="requiresLeash"
                                 value="TRUE"
@@ -609,54 +671,55 @@ function OwnerProfileEditForm(props) {
                                 }
                             />
                             <label>No Leashed</label> */}
-                                        </div>
+                                            </div>
 
-                                        <div className="owner-profile-form-field-2-col-span">
-                                            <h1 className="owner-profile-form-heading">
-                                                Accept Terms?
-                                            </h1>
-                                            <label
-                                                htmlFor="acceptTerms"
-                                                className="accept_terms"
-                                            >
-                                                <Field
-                                                    id="acceptTerms"
-                                                    type="checkbox"
+                                            <div className="owner-profile-form-field-2-col-span">
+                                                <h1 className="owner-profile-form-heading">
+                                                    Accept Terms?
+                                                </h1>
+                                                <label
+                                                    htmlFor="acceptTerms"
+                                                    className="accept_terms"
+                                                >
+                                                    <Field
+                                                        id="acceptTerms"
+                                                        type="checkbox"
+                                                        name="acceptTerms"
+                                                    />
+                                                    Accept Terms and Conditions
+                                                </label>
+
+                                                <ErrorMessage
                                                     name="acceptTerms"
+                                                    className="error"
+                                                    component="p"
                                                 />
-                                                Accept Terms and Conditions
-                                            </label>
-
-                                            <ErrorMessage
-                                                name="acceptTerms"
-                                                className="error"
-                                                component="p"
-                                            />
+                                            </div>
                                         </div>
-                                    </div>
-                                </section>
-                            </div>
+                                    </section>
+                                </div>
 
-                            <div className="owner-profile-form-field-2-col-span">
-                                <button
-                                    id="submit"
-                                    className="btn btn-dark mt-3"
-                                    type="submit"
-                                >
-                                    Create Profile
-                                </button>
-                                <button
-                                    id="reset"
-                                    className="btn btn-danger mt-3 ms-3"
-                                    type="reset"
-                                >
-                                    Reset
-                                </button>
-                            </div>
-                        </Form>
-                    </div>
-                )}
-            </Formik> : null}
+                                <div className="owner-profile-form-field-2-col-span">
+                                    <button
+                                        id="submit"
+                                        className="btn btn-dark mt-3"
+                                        type="submit"
+                                    >
+                                        Create Profile
+                                    </button>
+                                    <button
+                                        id="reset"
+                                        className="btn btn-danger mt-3 ms-3"
+                                        type="reset"
+                                    >
+                                        Reset
+                                    </button>
+                                </div>
+                            </Form>
+                        </div>
+                    )}
+                </Formik>
+            ) : null}
         </>
     );
 }

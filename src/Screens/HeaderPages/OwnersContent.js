@@ -5,6 +5,8 @@ function OwnersContent(props) {
         <div>
             <center>
                 <h1>OWNERS CONTENT SCREEN</h1>
+
+                <h3>GLEN</h3>
             </center>
         </div>
     );

@@ -39,6 +39,7 @@ import CreateListingScreen from "./Screens/CreateListingScreen";
 import WalkerProfileEditScreen from "./Components/Profiles/WalkerProfileEditScreen";
 import OwnerProfileEditScreen from "./Components/Profiles/OwnerProfileEditScreen";
 import CalendarScreen from "./Screens/CalendarScreen";
+import SuccessfulPaymentScreen from "./Screens/Payments/SuccessfulPaymentScreen";
 
 function App() {
     const [user, setUser] = useState(null);
@@ -110,6 +111,10 @@ function App() {
                         component={ListingsDetailScreen}
                     />
 
+                    <Route
+                        path={routes.SUCCESSFUL_PAYMENT}
+                        component={SuccessfulPaymentScreen}
+                    />
                     <Route path={routes.NOT_FOUND} component={NotFoundScreen} />
                     <Route exact path={routes.HOME} component={HomeScreen} />
                     <Redirect to={routes.NOT_FOUND} />

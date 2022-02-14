@@ -11,7 +11,6 @@ const useApi = (apiFunc) => {
         try {
             setLoading(true);
             const response = await apiFunc(...args);
-            //console.log("useApi response", response)
             setLoading(false);
 
             setError(!response.ok);
@@ -23,7 +22,7 @@ const useApi = (apiFunc) => {
 
             return response;
         } catch (error) {
-            console.log("use api error = ", error);
+            console.log("Error in hooks/useApi.js = ", error);
         }
     };
 

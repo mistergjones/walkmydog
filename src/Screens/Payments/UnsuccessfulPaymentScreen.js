@@ -1,9 +1,14 @@
 import React from "react";
+import MasterScreen from "../Master/MasterScreen";
+import UnsuccessfulPaymentContent from "./UnsuccessfulPaymentContent";
 
 export default function UnsuccessfulPayment() {
     return (
         <div>
-            <h1>Uncessful Payment</h1>
+            <MasterScreen
+                ScreenComponent={UnsuccessfulPaymentContent}
+                heading="Unsuccessful Payment"
+            />
         </div>
     );
 }

@@ -42,7 +42,7 @@ const getOwnerProfile = (ownerId) => {
 
 const ownerMakesPayment = async () => {
     const gj = endpoint + "makestripepayment";
-    return client.post(gj);
+    return client.get(gj);
 };
 
 export default {

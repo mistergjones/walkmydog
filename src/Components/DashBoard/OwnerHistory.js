@@ -25,7 +25,9 @@ function OwnerHistory(props) {
 
         try {
             window.open(stripeCheckoutSession.data.url, "_blank");
-        } catch (error) {}
+        } catch (error) {
+            console.log("The rror in OnwerHistory is:", error);
+        }
     };
 
     const viewMap = (e) => {

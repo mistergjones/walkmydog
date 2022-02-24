@@ -41,6 +41,8 @@ const SignUpForm = (props) => {
             });
             console.log("After insertUser", response);
 
+            // here is where we shold attempt the STRIPE Acount stuff
+
             // console.log("SIGN UP - resonse data: ", response);
             // GET JWT TOKEN FROM RESPONSE AND DECODE TO USER OBJECT IF NO TOKEN RETURNS NULL;
             console.log(

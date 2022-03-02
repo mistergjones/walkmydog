@@ -4,6 +4,12 @@ import client from "./client";
 // 2. what is this? Does this refer to the backend/routes/users.js eventually
 const endpoint = "/walkers/";
 
+const createStripeAccount = (profile) => {
+    console.log("api => walker.js -> am in the STripe part");
+    const profileEndpoint = "profile/stripe/";
+    return client.post(endpoint + profileEndpoint, profile);
+};
+
 const updateProfile = (profile) => {
     // client.setHeaders({ "x-auth-token": storageService.getToken() })
     console.log("update profile token = ", storageService.getToken());
@@ -47,6 +53,7 @@ const cancelAssignedWalk = (credential_id, walkerBookingIDObj) => {
 };
 
 export default {
+    createStripeAccount,
     updateProfile,
     getWalkerHistoricalCompletions,
     getWalkerPreferences,

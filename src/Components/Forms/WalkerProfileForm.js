@@ -10,6 +10,8 @@ import jwtService from "../../storage/jwt";
 import ProfileRedirect from "./ProfileRedirect";
 import loadBMaps from "../../maps/bingMaps";
 import AddressTextField from "../UI/TextField/AddressTextField";
+import licenceFrontImage from "../../Images/DriversLicence/licenceFront.png";
+import licenceBackImage from "../../Images/DriversLicence/licenceBack.png";
 
 const validate = Yup.object({
     firstname: Yup.string()
@@ -57,6 +59,9 @@ function WalkerProfileForm(props) {
     const { user, setUser } = useContext(AuthContext);
     const [profileUrl, setProfileUrl] = useState("/Whippet.jpg");
     const { request: updateProfile } = useApi(walkersApi.updateProfile);
+    const { request: CreateStripeAccount } = useApi(
+        walkersApi.createStripeAccount
+    );
     const [address, setAddress] = useState(null);
 
     useEffect(() => {
@@ -68,21 +73,6 @@ function WalkerProfileForm(props) {
         loadBMaps(() => console.log("call back"));
 
         setWidget(
-            // window.cloudinary.createUploadWidget(
-            //     {
-            //         cloud_name: "dqnazdwqk",
-            //         upload_preset: "gr2bgrfy",
-            //         sources: ["local"],
-            //         multiple: false,
-            //     },
-            //     function (error, result) {
-            //         console.log("result = " + result + "error = " + error);
-            //         setError(error);
-            //         setResult(result);
-            //         if (result) setProfileUrl(result[0].url);
-            //     }
-            // )
-
             window.cloudinary.createUploadWidget(
                 {
                     cloud_name: "dwndlszzc",
@@ -135,6 +125,24 @@ function WalkerProfileForm(props) {
 
                     // send request.
                     try {
+                        // 1. call the stripe interface. Submit details and obtain account id
+                        const stripeResponse = await CreateStripeAccount({
+                            profile: {
+                                email: user.email,
+                                ...fields,
+                            },
+                        });
+                        console.log("*************************************");
+                        console.log("Stripe rsposne is :", stripeResponse.data);
+                        console.log("*************************************");
+                        var stripeWalkerAccountId = stripeResponse.data;
+                        console.log(
+                            "Stripe walker accour",
+                            stripeWalkerAccountId
+                        );
+
+                        // console.log(stripeResponse)
+                        // 2. Pass the Stripe Account ID below and store in database also.
                         const response = await updateProfile({
                             profile: {
                                 type: user.type,
@@ -144,6 +152,7 @@ function WalkerProfileForm(props) {
                                 profileUrl,
                                 lat: address.location.latitude,
                                 lng: address.location.longitude,
+                                stripeID: stripeWalkerAccountId,
                             },
                         });
                         // Get new token hasProfile = true
@@ -332,17 +341,73 @@ function WalkerProfileForm(props) {
                                                 }
                                             />
                                         </div>
+
+                                        {/* LICENSE SECIONT */}
+                                        <div className="walker-profile-form-field-col-1">
+                                            <h1 className="walker-profile-form-heading">
+                                                Front Licence
+                                            </h1>
+
+                                            <div className="walker-profile-form-licence-center">
+                                                <img
+                                                    className="walker-profile-form-upload-photo-licence"
+                                                    src={licenceFrontImage}
+                                                    alt=""
+                                                />
+                                            </div>
+                                            <div className="walker-profile-form-licence-center">
+                                                <button
+                                                    type="button" //GJ: needed to add this to ensure cloudinary button does not go back 1 page
+                                                    className="btn btn-dark mt-2"
+                                                    onClick={() =>
+                                                        widget.open()
+                                                    }
+                                                    disabled
+                                                >
+                                                    Disabled
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div className="walker-profile-form-field-col-2">
+                                            <h1 className="walker-profile-form-heading">
+                                                Back Licence
+                                            </h1>
+
+                                            <div className="walker-profile-form-licence-center">
+                                                <img
+                                                    className="walker-profile-form-upload-photo-licence"
+                                                    src={licenceBackImage}
+                                                />
+                                            </div>
+
+                                            <div className="walker-profile-form-licence-center">
+                                                <button
+                                                    type="button" //GJ: needed to add this to ensure cloudinary button does not go back 1 page
+                                                    className="btn btn-dark mt-2"
+                                                    onClick={() =>
+                                                        widget.open()
+                                                    }
+                                                    disabled
+                                                >
+                                                    Disabled
+                                                </button>
+                                            </div>
+                                        </div>
                                     </div>
+                                    <div className="walker-profile-form-container"></div>
+                                </section>
+
+                                <section>
                                     <div className="walker-profile-form-container">
                                         <h1 className="walker-profile-form-heading">
                                             Bank Details
                                         </h1>
                                         <div className="walker-profile-form-field-2-col-span">
                                             <TextField
-                                                label="Bank Name"
+                                                label="Test Bank Name"
                                                 name="bankName"
                                                 type="text"
-                                                placeholder="Bank name"
+                                                placeholder="Test Bank name"
                                                 value={formik.values.bankName}
                                                 onChange={formik.handleChange}
                                                 onKeyPress={(e) =>
@@ -357,7 +422,7 @@ function WalkerProfileForm(props) {
                                                 label="BSB"
                                                 name="bsb"
                                                 type="text"
-                                                placeholder="BSB"
+                                                placeholder="110000"
                                                 value={formik.values.bsb}
                                                 onChange={formik.handleChange}
                                                 onKeyPress={(e) =>
@@ -372,7 +437,7 @@ function WalkerProfileForm(props) {
                                                 label="Account Name"
                                                 name="accountNumber"
                                                 type="text"
-                                                placeholder="Account number"
+                                                placeholder="0000123456"
                                                 value={
                                                     formik.values.accountNumber
                                                 }
@@ -384,10 +449,7 @@ function WalkerProfileForm(props) {
                                                 }
                                             />
                                         </div>
-                                    </div>
-                                </section>
-                                <section>
-                                    <div className="walker-profile-form-container">
+
                                         <h2 className="walker-profile-form-heading">
                                             Dog Size
                                         </h2>
@@ -495,7 +557,7 @@ function WalkerProfileForm(props) {
                                         </div>
 
                                         <h2 className="walker-profile-form-heading">
-                                            Photo
+                                            ProfilePhoto
                                         </h2>
                                         <div className="walker-profile-form-field-col-1 walker-profile-form-upload-container">
                                             {
@@ -517,7 +579,8 @@ function WalkerProfileForm(props) {
                                     </div>
                                 </section>
                             </div>
-                            <div className="walker-profile-form-field-2-col-span">
+
+                            <div className="walker-profile-form-licence-center">
                                 <button
                                     id="submit"
                                     className="btn btn-dark mt-2"

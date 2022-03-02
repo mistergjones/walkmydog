@@ -11,22 +11,26 @@ import Helpers from "../../Helpers/convertDateTime";
 
 // GJ: 15/09: this function receives data from its parent (WalkerDashboardContent) to props
 function OwnerHistory(props) {
-    //const { HISTORY } = routes;
-    // console.log("OWNER HISTORY", props.data);
     const { setUser, user } = useContext(AuthContext);
     const { request: ownermakespayment } = useApi(ownersApi.ownerMakesPayment);
 
     // 12/02/2022 - need to generate STRIPE payment for owner to pay walker
     const handlePayment = async (e) => {
         e.preventDefault();
-        const stripeCheckoutSession = await ownermakespayment();
 
-        console.log("The FRONTEND route is", stripeCheckoutSession);
+        var paymentInfo = {
+            walkerid: e.target.id,
+            priceid: e.target.value,
+        };
+        const stripeCheckoutSession = await ownermakespayment(paymentInfo);
 
         try {
             window.open(stripeCheckoutSession.data.url, "_blank");
         } catch (error) {
-            console.log("The rror in OnwerHistory is:", error);
+            console.log(
+                "The Error in OwnerHisotry -> handlePayment is: ",
+                error
+            );
         }
     };
 
@@ -79,7 +83,13 @@ function OwnerHistory(props) {
                                 </button>
                             </td>
                             <td>
-                                <button type="submit" onClick={handlePayment}>
+                                <button
+                                    id={historialRowItem.stripeaccountid}
+                                    value={
+                                        historialRowItem.service_stripe_fee_id
+                                    }
+                                    onClick={handlePayment}
+                                >
                                     Pay
                                 </button>
                             </td>

@@ -4,6 +4,7 @@
     gap: 5%;
     /* background-color: wheat; */
 }
+
 .walker-profile-form-container {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -72,6 +73,21 @@
     height: 150px;
     border-radius: 75px;
 }
+
+.walker-profile-licence-section {
+    display: block;
+}
+
+.walker-profile-form-upload-photo-licence {
+    width: 150px;
+    height: 150px;
+    border-radius: 0px;
+}
+
+.walker-profile-form-licence-center {
+    text-align: center;
+}
+
 .walker-profile-form-upload-container {
     height: 100%;
     width: 100%;
